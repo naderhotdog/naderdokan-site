@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>منو و سفارش | دکان نادر</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌭</text></svg>">
+<link rel="icon" href="/img/logo.jpg">
 <link rel="stylesheet" href="/app.css">
 <style>
   .hero-build{display:flex;align-items:center;gap:14px;background:var(--ketchup);color:#fff;text-decoration:none;margin-top:6px}
@@ -29,7 +29,7 @@
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="/">🌭 دکان نادر</a>
+  <a class="brand" href="/"><img src="/img/logo.jpg" alt="">دکان هات‌داگ نادر</a>
   <span class="chip" id="tableChip" hidden></span>
 </header>
 
@@ -74,7 +74,7 @@
             <div class="qty">${q ? `<button data-add="${i.id}" data-d="-1" aria-label="کم کردن">−</button><span>${fa(q)}</span>` : ''}<button data-add="${i.id}" data-d="1" aria-label="اضافه کردن">+</button></div></div>`;
         }).join('') + '</div>';
       }).join('') +
-      `<footer><a class="btn" href="https://instagram.com/naderhotdog" target="_blank" rel="noopener">📸 ما رو در اینستاگرام دنبال کنید: naderhotdog@</a></footer>`;
+      `<footer><p class="muted">⏰ هر روز ۱۴:۰۰ تا ۰۰:۰۰ · ☎️ <a href="tel:02532903005" dir="ltr">025-3290-3005</a></p><a class="btn" style="margin-top:10px" href="https://instagram.com/naderhotdog" target="_blank" rel="noopener">📸 naderhotdog@</a></footer>`;
     updateBar();
   }
   app.addEventListener('click', e => {
