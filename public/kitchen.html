@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>آشپزخانه | دکان نادر</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍🍳</text></svg>">
+<link rel="icon" href="/img/logo.jpg">
 <link rel="stylesheet" href="/app.css">
 <style>
   .wrap{max-width:1200px}
@@ -40,7 +40,7 @@
 </head>
 <body>
 <header class="top">
-  <span class="brand">👨‍🍳 آشپزخانه‌ی دکان نادر</span>
+  <span class="brand"><img src="/img/logo.jpg" alt="">آشپزخانه‌ی دکان نادر</span>
   <span class="status" id="status"></span>
 </header>
 <main class="wrap" id="app"></main>
@@ -154,7 +154,7 @@
     if (printing || !printQueue.length) return;
     printing = true;
     const o = printQueue.shift();
-    document.getElementById('print').innerHTML = `<div class="t">میز ${fa(o.table_no)}</div><div class="m">سفارش #${fa(o.id)} · ${time(o.created)}</div>${linesHTML(o)}`;
+    document.getElementById('print').innerHTML = `<div class="m">دکان هات‌داگ نادر</div><div class="t">میز ${fa(o.table_no)}</div><div class="m">سفارش #${fa(o.id)} · ${time(o.created)}</div>${linesHTML(o)}`;
     setTimeout(() => { window.print(); printing = false; setTimeout(runPrint, 500); }, 150);
   }
 
