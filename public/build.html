@@ -3,47 +3,69 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>هات‌داگ خودتو بساز | دکان نادر</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌭</text></svg>">
+<title>هات‌داگ خودتو بساز | دکان هات‌داگ نادر</title>
+<link rel="icon" href="/img/logo.jpg">
 <link rel="stylesheet" href="/app.css">
 <style>
   body{overscroll-behavior:none}
-  .stage{position:relative;background:radial-gradient(circle at 50% 60%,#fff 0,#FFE9A8 70%);border:2px solid var(--ink);border-radius:22px;box-shadow:4px 4px 0 var(--ink);padding:8px;margin-top:6px;touch-action:none}
-  .stage.hot{outline:4px dashed var(--ketchup);outline-offset:-10px}
+  .wrap{padding-top:18px}
+  .stage{position:sticky;top:66px;z-index:10;background:
+      radial-gradient(ellipse at 50% 70%,rgba(255,255,255,.9) 0,rgba(255,255,255,0) 65%),
+      repeating-conic-gradient(#F3E2BC 0 25%,#F9F1DE 0 50%) 0 0/28px 28px;
+    border:2px solid var(--ink);border-radius:22px;box-shadow:4px 4px 0 var(--ink);padding:6px;touch-action:none;user-select:none}
+  .stage.hot{outline:4px dashed var(--ketchup);outline-offset:-8px}
   .stage svg{width:100%;height:auto;display:block}
-  .hint{position:absolute;top:10px;inset-inline:0;text-align:center;font-weight:800;font-size:.9rem;color:var(--muted);pointer-events:none}
-  .steps{display:flex;gap:6px;justify-content:center;margin:14px 0 4px}
-  .steps span{width:34px;height:6px;border-radius:9px;background:rgba(29,20,16,.15)}
-  .steps span.on{background:var(--ketchup)}
-  .opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-  .opt{border:2px solid var(--ink);border-radius:14px;background:#fff;padding:10px 14px;font-weight:800;box-shadow:3px 3px 0 var(--ink);display:flex;align-items:center;gap:8px;user-select:none;touch-action:none}
-  .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--ink)}
-  .opt.sel{background:var(--mustard)}
-  .opt .n{background:var(--ink);color:#fff;border-radius:999px;font-size:.75rem;padding:0 7px}
-  .ghost{position:fixed;z-index:60;pointer-events:none;transform:translate(-50%,-60%) scale(1.15);opacity:.95}
-  .layers{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;min-height:10px}
-  .layers button{border:2px solid var(--ink);border-radius:999px;background:#fff;padding:2px 10px;font-size:.85rem}
-  .nav{display:flex;gap:10px;margin-top:18px}
-  .nav .btn{flex:1}
-  .sum{line-height:2}
-  .pop{animation:pop .35s ease}
-  @keyframes pop{0%{transform:translateY(-30px);opacity:0}100%{transform:none;opacity:1}}
+  .hint{position:absolute;top:6px;inset-inline:0;text-align:center;font-weight:800;font-size:.85rem;color:var(--muted);pointer-events:none}
+  .tools{position:absolute;bottom:8px;inset-inline-start:8px;display:flex;gap:6px}
+  .tools button{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:2px 12px;font-weight:800;font-size:.85rem;box-shadow:2px 2px 0 var(--ink)}
+  .tools button[disabled]{opacity:.4}
+  .count{position:absolute;bottom:10px;inset-inline-end:12px;font-weight:800;font-size:.85rem;color:var(--muted)}
+  h2{margin:16px 0 8px;font-size:1.1rem}
+  .row{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+  .tile{position:relative;border:2px solid var(--ink);border-radius:16px;background:#fff;box-shadow:3px 3px 0 var(--ink);padding:4px 3px 6px;text-align:center;font-weight:800;font-size:.8rem;line-height:1.3;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+  .tile svg{width:100%;height:40px;display:block;pointer-events:none}
+  .tile.sel{background:var(--ketchup);color:#fff}
+  .tile .n{position:absolute;top:-8px;inset-inline-start:-8px;background:var(--ketchup);color:#fff;border:2px solid var(--ink);border-radius:999px;min-width:24px;height:24px;line-height:20px;font-size:.8rem}
+  .tile.full{opacity:.45}
+  .ghost{position:fixed;z-index:80;pointer-events:none;width:110px;transform:translate(-50%,-75%) scale(1.15);filter:drop-shadow(4px 6px 0 rgba(0,0,0,.25))}
+  .ghost svg{width:100%;height:auto}
+  .finish{display:flex;gap:10px;margin-top:22px}
+  .finish .btn{flex:1;font-size:1.05rem;padding:14px}
+  .drop{animation:drop .45s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes drop{0%{transform:translateY(-60px);opacity:0}100%{transform:none;opacity:1}}
+  .squeeze{stroke-dasharray:900;stroke-dashoffset:900;animation:sq .7s ease-out forwards}
+  @keyframes sq{to{stroke-dashoffset:0}}
+  .sum{line-height:2.1;font-size:1.02rem}
+  .sum ol{margin-right:22px;list-style:persian}
 </style>
 </head>
 <body>
 <header class="top">
-  <a class="brand" id="back" href="/menu">→ منو</a>
+  <a class="brand" id="back" href="/menu"><img src="/img/logo.jpg" alt="">→ منو</a>
   <span class="chip" id="tableChip" hidden></span>
 </header>
 
 <main class="wrap">
   <div class="stage" id="stage">
-    <div class="hint" id="hint"></div>
-    <svg id="dog" viewBox="0 0 340 190" aria-label="هات‌داگ شما"></svg>
+    <div class="hint" id="hint">مخلفات رو بکش و بنداز روی هات‌داگ 👇</div>
+    <svg id="dog" viewBox="0 44 400 182" aria-label="هات‌داگ شما"></svg>
+    <div class="tools"><button id="undo">↶ برگردون</button><button id="clear">پاک کن</button></div>
+    <div class="count" id="count"></div>
   </div>
-  <div class="steps" id="steps"><span></span><span></span><span></span><span></span></div>
-  <section id="step"></section>
+
+  <h2>🥖 نون</h2>
+  <div class="row" id="buns"></div>
+  <h2>🌭 سوسیس</h2>
+  <div class="row" id="sausages"></div>
+  <h2>🧅 مخلفات <span class="muted" style="font-size:.85rem;font-weight:600">(بکش روی هات‌داگ یا بزن روش)</span></h2>
+  <div class="row" id="toppings"></div>
+  <h2>🥫 سس‌ها</h2>
+  <div class="row" id="sauces"></div>
+
+  <div class="finish"><button class="btn red" id="done">تموم شد ✓</button></div>
 </main>
+
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
 
 <script src="/cart.js"></script>
 <script>
@@ -54,131 +76,166 @@
   const MENU = await (await fetch('/api/menu')).json();
   const C = MENU.custom;
   const ALL = Object.fromEntries(C.toppings.concat(C.sauces).map(t => [t.id, t]));
-  const isSauce = id => C.sauces.some(s => s.id === id);
+  const SAUCE = new Set(C.sauces.map(s => s.id));
+  const MAX_LAYERS = 12, MAX_EACH = 2;
 
-  const state = { step: 0, bun: null, sausage: null, layers: [] };
-  const MAX = 12;
+  const state = { bun: C.buns[0].id, sausage: C.sausages[0].id, layers: [] }; // layers: [{id, x}]
+  let lastAdded = -1;
 
-  // ---------- drawing ----------
-  const svg = document.getElementById('dog');
-  const SAUSAGE_COLOR = { regular: '#C1543A', smoked: '#8E3B26', spicy: '#D6402B' };
-  function layerSVG(id, i){
-    const t = ALL[id]; const y = 92 - i * 6; const c = t.color; let s = '';
-    const xs = [70, 100, 130, 160, 190, 220, 250];
+  // ================= artwork =================
+  const OUT = '#3A2418';
+  const BUN = { plain: ['#F2B66B', '#D9893E'], sesame: ['#EDB067', '#CF8238'] };
+  const SAUSAGE = { regular: ['#D8613F', '#A5381F'], smoked: ['#9C4A2C', '#6A2A16'], spicy: ['#E2462F', '#A8231A'] };
+  const rnd = s => { let t = s * 9301 + 49297; return () => ((t = (t * 9301 + 49297) % 233280) / 233280); };
+
+  function defs(){
+    const g = (id, a, b) => `<linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>`;
+    return `<defs>${g('bunG', ...BUN[state.bun])}${g('sauG', ...SAUSAGE[state.sausage])}
+      <radialGradient id="shine" cx=".35" cy=".25" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>`;
+  }
+  function bunBack(){ return `<path d="M34 128 C30 92 60 82 92 84 L308 84 C340 82 370 92 366 128 Z" fill="url(#bunG)" stroke="${OUT}" stroke-width="4"/>
+      <path d="M60 100 Q200 88 340 100" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="6" stroke-linecap="round"/>`; }
+  function sausage(){
+    return `<rect x="20" y="92" width="360" height="46" rx="23" fill="url(#sauG)" stroke="${OUT}" stroke-width="4"/>
+      <rect x="40" y="98" width="320" height="12" rx="6" fill="#fff" opacity=".28"/>
+      ${state.sausage === 'smoked' ? [90,150,210,270,330].map(x => `<path d="M${x} 96 l-14 38" stroke="#4A1C0C" stroke-width="4" opacity=".5"/>`).join('') : ''}
+      ${state.sausage === 'spicy' ? [70,120,175,230,285,335].map((x,i) => `<circle cx="${x}" cy="${120 + (i%2)*8}" r="2.5" fill="#FFD27A"/>`).join('') : ''}`;
+  }
+  function bunFront(){
+    const ses = state.bun === 'sesame' ? (() => { const r = rnd(7); return Array.from({length: 22}, (_, i) => {
+      const x = 62 + i * 13 + r() * 6, y = 176 + Math.sin(i * 1.3) * 12 + r() * 6;
+      return `<ellipse cx="${x}" cy="${y}" rx="4" ry="2.3" transform="rotate(${r()*60-30} ${x} ${y})" fill="#FFF4DA" stroke="#B9822F" stroke-width=".8"/>`; }).join(''); })() : '';
+    return `<path d="M28 122 Q22 206 96 212 L304 212 Q378 206 372 122 Q352 148 300 148 L100 148 Q48 148 28 122 Z" fill="url(#bunG)" stroke="${OUT}" stroke-width="4"/>
+      <path d="M60 184 Q200 204 340 184" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="8" stroke-linecap="round"/>${ses}`;
+  }
+
+  // One placed ingredient, drawn around x (centre) at height y.
+  function piece(id, x, y, seed){
+    const r = rnd(seed + 3); const c = ALL[id].color;
+    const spread = (n, w) => Array.from({length: n}, (_, i) => x - w / 2 + (w / (n - 1)) * i + (r() * 8 - 4));
     switch (id) {
-      case 'cheese':
-        s = `<path d="M58 ${y} L282 ${y} L270 ${y+16} L250 ${y+4} L232 ${y+18} L210 ${y+4} L190 ${y+16} L170 ${y+4} L150 ${y+18} L130 ${y+4} L110 ${y+16} L90 ${y+4} L70 ${y+16} Z" fill="${c}" stroke="#1D1410" stroke-width="2"/>`; break;
-      case 'pickles': case 'jalapeno':
-        s = xs.map(x => `<circle cx="${x+i%2*8}" cy="${y+2}" r="9" fill="${c}" stroke="#1D1410" stroke-width="2"/>` + (id==='jalapeno'?`<circle cx="${x+i%2*8}" cy="${y+2}" r="3.5" fill="#E8F5C8"/>`:`<circle cx="${x+i%2*8}" cy="${y+2}" r="4" fill="none" stroke="#C9DE8C" stroke-width="1.5"/>`)).join(''); break;
-      case 'onion':
-        s = xs.map(x => `<ellipse cx="${x+6}" cy="${y+2}" rx="11" ry="6" fill="none" stroke="#B48AC0" stroke-width="3"/>`).join(''); break;
-      case 'friedonion':
-        s = Array.from({length: 18}, (_, k) => `<path d="M${64+k*12} ${y+4} q4 -8 9 0" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/>`).join(''); break;
-      case 'tomato':
-        s = xs.map(x => `<path d="M${x-10} ${y+4} a11 11 0 0 1 22 0 Z" fill="${c}" stroke="#1D1410" stroke-width="2"/><circle cx="${x-3}" cy="${y}" r="1.6" fill="#FFE0A0"/><circle cx="${x+4}" cy="${y}" r="1.6" fill="#FFE0A0"/>`).join(''); break;
-      case 'mushroom':
-        s = xs.map(x => `<path d="M${x-9} ${y+4} a9 8 0 0 1 18 0 Z" fill="${c}" stroke="#1D1410" stroke-width="2"/><rect x="${x-3}" y="${y+3}" width="6" height="5" fill="#E9D8C2" stroke="#1D1410" stroke-width="1.5"/>`).join(''); break;
-      case 'lettuce':
-        s = `<path d="M58 ${y+8} q11 -14 22 0 t22 0 t22 0 t22 0 t22 0 t22 0 t22 0 t22 0 t22 0 t22 0" fill="none" stroke="${c}" stroke-width="9" stroke-linecap="round"/>`; break;
-      default: // sauces
-        s = `<path d="M62 ${y+2} l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8" fill="none" stroke="${c}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>` +
-            (id==='mayo' ? `<path d="M62 ${y+2} l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8" fill="none" stroke="#C9B98A" stroke-width="1"/>` : '');
+      case 'cheese': return `<path d="M${x-52} ${y-6} L${x+52} ${y-6} L${x+46} ${y+12} Q${x+30} ${y+4} ${x+24} ${y+18} Q${x+12} ${y+6} ${x+2} ${y+20} Q${x-10} ${y+6} ${x-20} ${y+16} Q${x-32} ${y+4} ${x-44} ${y+12} Z" fill="${c}" stroke="${OUT}" stroke-width="3" stroke-linejoin="round"/><circle cx="${x-18}" cy="${y}" r="3" fill="#E79A12"/><circle cx="${x+20}" cy="${y+2}" r="2.5" fill="#E79A12"/>`;
+      case 'pickles': return spread(3, 64).map(px => `<ellipse cx="${px}" cy="${y + r()*4}" rx="14" ry="10" fill="${c}" stroke="${OUT}" stroke-width="2.5"/><ellipse cx="${px}" cy="${y + 0}" rx="8" ry="5" fill="none" stroke="#C9DE8C" stroke-width="2"/><circle cx="${px-3}" cy="${y-1}" r="1.4" fill="#E8F2C0"/><circle cx="${px+3}" cy="${y+1}" r="1.4" fill="#E8F2C0"/>`).join('');
+      case 'tomato': return spread(3, 64).map(px => `<path d="M${px-15} ${y+6} A15 13 0 0 1 ${px+15} ${y+6} Z" fill="${c}" stroke="${OUT}" stroke-width="2.5"/><path d="M${px-9} ${y+5} A9 8 0 0 1 ${px+9} ${y+5}" fill="#F7836E" /><circle cx="${px-4}" cy="${y+1}" r="1.8" fill="#FFE4A6"/><circle cx="${px+4}" cy="${y+1}" r="1.8" fill="#FFE4A6"/>`).join('');
+      case 'onion': return spread(3, 60).map(px => `<ellipse cx="${px}" cy="${y+2}" rx="14" ry="8" fill="none" stroke="#B88CC6" stroke-width="5"/><ellipse cx="${px}" cy="${y+2}" rx="14" ry="8" fill="none" stroke="${OUT}" stroke-width="1.2"/>`).join('');
+      case 'friedonion': return Array.from({length: 11}, (_, i) => { const px = x - 44 + i * 9 + r()*4, py = y + r()*8 - 2; return `<path d="M${px} ${py+4} q4 -9 9 -2 q3 5 7 -1" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"/><path d="M${px} ${py+4} q4 -9 9 -2" fill="none" stroke="#6E3E12" stroke-width="1" stroke-linecap="round"/>`; }).join('');
+      case 'mushroom': return spread(3, 60).map(px => `<path d="M${px-13} ${y+4} Q${px-13} ${y-12} ${px} ${y-12} Q${px+13} ${y-12} ${px+13} ${y+4} Z" fill="${c}" stroke="${OUT}" stroke-width="2.5"/><path d="M${px-5} ${y+4} L${px-4} ${y+12} L${px+4} ${y+12} L${px+5} ${y+4}" fill="#EBDDCA" stroke="${OUT}" stroke-width="2"/><path d="M${px-8} ${y-3} q8 -6 16 0" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="2"/>`).join('');
+      case 'jalapeno': return spread(4, 72).map(px => `<circle cx="${px}" cy="${y + r()*4}" r="10" fill="${c}" stroke="${OUT}" stroke-width="2.5"/><circle cx="${px}" cy="${y}" r="5" fill="#E8F5C8"/><circle cx="${px-1.5}" cy="${y-1}" r="1.2" fill="#F7F3D0"/><circle cx="${px+1.8}" cy="${y+1}" r="1.2" fill="#F7F3D0"/>`).join('');
+      case 'lettuce': return `<path d="M${x-58} ${y+6} q10 -18 20 -4 q10 -18 20 -4 q10 -18 20 -4 q10 -18 20 -4 q10 -18 20 -4 q9 -14 16 4 Q${x} ${y+22} ${x-58} ${y+6} Z" fill="${c}" stroke="#4E7A1E" stroke-width="2.5" stroke-linejoin="round"/>`;
+      default: { // sauce: a squeezed zigzag along the hotdog
+        const pts = []; for (let k = 0, px = 44; px <= 356; px += 13, k++) pts.push(`${px},${y + (k % 2 ? -8 : 8)}`);
+        const p = 'M' + pts.join(' L');
+        return `<path class="${seed === -1 ? '' : 'squeeze'}" d="${p}" fill="none" stroke="${OUT}" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/>
+                <path class="${seed === -1 ? '' : 'squeeze'}" d="${p}" fill="none" stroke="${c}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>`;
+      }
     }
-    return `<g class="${i === state.layers.length - 1 && justAdded ? 'pop' : ''}">${s}</g>`;
   }
-  let justAdded = false;
+
+  // Small picture for each tray tile
+  function icon(id){
+    if (SAUCE.has(id)) {
+      const c = ALL[id].color;
+      return `<svg viewBox="0 0 100 70"><rect x="36" y="14" width="28" height="48" rx="9" fill="${c}" stroke="${OUT}" stroke-width="3"/><path d="M42 14 L46 4 L54 4 L58 14" fill="#fff" stroke="${OUT}" stroke-width="3"/><rect x="41" y="30" width="18" height="16" rx="3" fill="#fff" opacity=".8"/><path d="M44 38 h12" stroke="${c}" stroke-width="3"/></svg>`;
+    }
+    return `<svg viewBox="${id==='lettuce'||id==='cheese'?'138 -2 124 44':'150 -6 100 44'}">${piece(id, 200, 18, -1)}</svg>`;
+  }
+  function bunIcon(id){ return `<svg viewBox="0 0 100 60"><path d="M10 26 Q8 54 30 54 L70 54 Q92 54 90 26 Q84 36 70 36 L30 36 Q16 36 10 26 Z" fill="${BUN[id][0]}" stroke="${OUT}" stroke-width="3"/>${id==='sesame'?[24,38,52,66,76].map((x,i)=>`<ellipse cx="${x}" cy="${44+(i%2)*4}" rx="3" ry="1.7" fill="#FFF4DA"/>`).join(''):''}<path d="M12 24 Q10 12 26 12 L74 12 Q90 12 88 24 Z" fill="${BUN[id][1]}" stroke="${OUT}" stroke-width="3"/></svg>`; }
+  function sausageIcon(id){ return `<svg viewBox="0 0 100 60"><rect x="6" y="20" width="88" height="22" rx="11" fill="${SAUSAGE[id][0]}" stroke="${OUT}" stroke-width="3"/><rect x="14" y="23" width="70" height="5" rx="2.5" fill="#fff" opacity=".3"/>${id==='smoked'?[30,50,70].map(x=>`<path d="M${x} 22 l-6 18" stroke="#4A1C0C" stroke-width="3" opacity=".5"/>`).join(''):''}${id==='spicy'?[25,45,65,80].map(x=>`<circle cx="${x}" cy="34" r="2" fill="#FFD27A"/>`).join(''):''}</svg>`; }
+
+  // ================= render =================
+  const svg = document.getElementById('dog');
   function draw(){
-    const bunFill = '#E0A458';
-    const sesame = state.bun === 'sesame' ? Array.from({length: 14}, (_, k) => `<ellipse cx="${60+k*17}" cy="${150 + (k%2)*6}" rx="3" ry="1.8" fill="#FFF3D6" stroke="#9A6A2E" stroke-width=".8"/>`).join('') : '';
-    let out = '';
-    // back of bun
-    out += `<path d="M40 98 Q40 70 70 70 L270 70 Q300 70 300 98 Z" fill="#C98A3F" stroke="#1D1410" stroke-width="3"/>`;
-    if (state.sausage) out += `<rect x="22" y="72" width="296" height="38" rx="19" fill="${SAUSAGE_COLOR[state.sausage]}" stroke="#1D1410" stroke-width="3"/><path d="M50 84 h240" stroke="rgba(255,255,255,.35)" stroke-width="4" stroke-linecap="round"/>`;
-    state.layers.forEach((id, i) => out += layerSVG(id, i));
-    // front of bun
-    if (state.bun) out += `<path d="M34 104 Q30 168 90 172 L250 172 Q310 168 306 104 Q290 124 250 124 L90 124 Q50 124 34 104 Z" fill="${bunFill}" stroke="#1D1410" stroke-width="3"/>` + sesame;
-    else out += `<text x="170" y="150" text-anchor="middle" font-size="20" font-weight="800" fill="#6B5B50">نون رو انتخاب کن 👇</text>`;
+    let out = defs() + `<ellipse cx="200" cy="218" rx="170" ry="9" fill="#000" opacity=".15"/>` + bunBack() + sausage();
+    let ti = 0, si = 0;
+    state.layers.forEach((l, i) => {
+      const y = SAUCE.has(l.id) ? 112 - (si++) * 7 : 104 - (ti++) * 3.5;
+      out += `<g class="${i === lastAdded ? 'drop' : ''}" style="transform-box:fill-box">${piece(l.id, l.x, y, i * 17 + l.x)}</g>`;
+    });
+    out += bunFront();
     svg.innerHTML = out;
-    justAdded = false;
+    lastAdded = -1;
+    document.getElementById('undo').disabled = !state.layers.length;
+    document.getElementById('clear').disabled = !state.layers.length;
+    document.getElementById('count').textContent = state.layers.length ? fa(state.layers.length) + ' / ' + fa(MAX_LAYERS) : '';
+    document.getElementById('hint').style.display = state.layers.length ? 'none' : '';
+  }
+  const tile = (attrs, art, name, extra = '') => `<div class="tile ${extra}" ${attrs}>${art}<div>${name}</div></div>`;
+  function renderTray(){
+    document.getElementById('buns').innerHTML = C.buns.map(b => tile(`data-bun="${b.id}"`, bunIcon(b.id), b.name, state.bun === b.id ? 'sel' : '')).join('');
+    document.getElementById('sausages').innerHTML = C.sausages.map(s => tile(`data-sausage="${s.id}"`, sausageIcon(s.id), s.name, state.sausage === s.id ? 'sel' : '')).join('');
+    const n = id => state.layers.filter(l => l.id === id).length;
+    const t = list => list.map(x => tile(`data-drag="${x.id}"`, icon(x.id), x.name, n(x.id) >= MAX_EACH ? 'full' : '') .replace('</div></div>', `</div>${n(x.id) ? `<span class="n">${fa(n(x.id))}</span>` : ''}</div>`)).join('');
+    document.getElementById('toppings').innerHTML = t(C.toppings);
+    document.getElementById('sauces').innerHTML = t(C.sauces);
+  }
+  function render(){ draw(); renderTray(); }
+
+  function addLayer(id, x){
+    if (state.layers.length >= MAX_LAYERS) return Cart.toast('دیگه جا نداره! 😄');
+    if (state.layers.filter(l => l.id === id).length >= MAX_EACH) return Cart.toast('از هر کدوم حداکثر دو بار');
+    x = Math.max(80, Math.min(320, Math.round(x)));
+    state.layers.push({ id, x }); lastAdded = state.layers.length - 1; render();
+    try { navigator.vibrate && navigator.vibrate(15); } catch(e) {}
   }
 
-  // ---------- steps ----------
-  const step = document.getElementById('step'), hint = document.getElementById('hint');
-  function bars(){ [...document.querySelectorAll('#steps span')].forEach((s, i) => s.classList.toggle('on', i <= state.step)); }
-  const opt = (o, sel, extra = '') => `<button class="opt ${sel ? 'sel' : ''}" data-id="${o.id}">${extra}${o.name}</button>`;
-
-  function render(){
-    bars(); draw();
-    if (state.step === 0) {
-      hint.textContent = 'قدم ۱: نون';
-      step.innerHTML = `<h2>چه نونی؟</h2><div class="opts">${C.buns.map(b => opt(b, state.bun === b.id, '🥖 ')).join('')}</div>
-        <div class="nav"><button class="btn red" id="next" ${state.bun ? '' : 'disabled'}>بعدی ←</button></div>`;
-    } else if (state.step === 1) {
-      hint.textContent = 'قدم ۲: سوسیس';
-      step.innerHTML = `<h2>چه سوسیسی؟</h2><div class="opts">${C.sausages.map(s => opt(s, state.sausage === s.id, '🌭 ')).join('')}</div>
-        <div class="nav"><button class="btn" id="prev">→ قبلی</button><button class="btn red" id="next" ${state.sausage ? '' : 'disabled'}>بعدی ←</button></div>`;
-    } else if (state.step === 2) {
-      hint.textContent = 'مخلفات رو بکش و بنداز روی هات‌داگ (یا بزن روشون)';
-      const count = id => state.layers.filter(x => x === id).length;
-      const chip = t => `<div class="opt" data-drag="${t.id}"><span class="dot" style="background:${t.color}"></span>${t.name}${count(t.id) ? `<span class="n">${fa(count(t.id))}</span>` : ''}</div>`;
-      step.innerHTML = `<h2>مخلفات</h2><div class="opts">${C.toppings.map(chip).join('')}</div>
-        <h2>سس‌ها</h2><div class="opts">${C.sauces.map(chip).join('')}</div>
-        <div class="layers" id="layers">${state.layers.map((id, i) => `<button data-rm="${i}">✕ ${ALL[id].name}</button>`).join('')}</div>
-        <div class="nav"><button class="btn" id="prev">→ قبلی</button><button class="btn green" id="next">تموم شد ✓</button></div>`;
-    } else {
-      hint.textContent = 'هات‌داگ شما 😋';
-      const n = (list, id) => list.find(x => x.id === id).name;
-      step.innerHTML = `<h2>هات‌داگ شما آماده‌ست!</h2><div class="card sum">
-        <div>🥖 ${n(C.buns, state.bun)}</div><div>🌭 ${n(C.sausages, state.sausage)}</div>
-        <div>✨ ${state.layers.length ? state.layers.map(id => ALL[id].name).join('، ') : 'بدون مخلفات'}</div></div>
-        <div class="nav"><button class="btn" id="prev">→ ویرایش</button><button class="btn red" id="add">اضافه به سفارش 🛒</button></div>`;
-    }
-  }
-
-  step.addEventListener('click', e => {
-    const t = e.target.closest('button'); if (!t) return;
-    if (t.id === 'next') { state.step++; render(); return; }
-    if (t.id === 'prev') { state.step--; render(); return; }
-    if (t.dataset.rm != null) { state.layers.splice(+t.dataset.rm, 1); render(); return; }
-    if (t.id === 'add') {
-      Cart.addCustom({ bun: state.bun, sausage: state.sausage, layers: state.layers.slice() });
-      location.href = Cart.tableLink('/menu') + (Cart.table ? '&' : '?') + 'cart=1';
-      return;
-    }
-    if (t.dataset.id && state.step === 0) { state.bun = t.dataset.id; render(); }
-    else if (t.dataset.id && state.step === 1) { state.sausage = t.dataset.id; render(); }
-  });
-
-  function addLayer(id){
-    if (state.layers.length >= MAX) { Cart.toast('دیگه جا نداره! 😄'); return; }
-    if (state.layers.filter(x => x === id).length >= 2) { Cart.toast('حداکثر دو بار از هر کدوم'); return; }
-    state.layers.push(id); justAdded = true; render();
-    if (navigator.vibrate) try { navigator.vibrate(15); } catch(e) {}
-  }
-
-  // ---------- drag & drop (and tap) ----------
+  // ================= drag & drop =================
   const stage = document.getElementById('stage');
   let drag = null;
-  step.addEventListener('pointerdown', e => {
-    const chip = e.target.closest('[data-drag]'); if (!chip) return;
-    e.preventDefault();
-    const ghost = chip.cloneNode(true); ghost.classList.add('ghost'); document.body.appendChild(ghost);
-    drag = { id: chip.dataset.drag, ghost, x0: e.clientX, y0: e.clientY, moved: false };
-    moveGhost(e);
+  function svgX(clientX){
+    const pt = svg.createSVGPoint(); pt.x = clientX; pt.y = 0;
+    return pt.matrixTransform(svg.getScreenCTM().inverse()).x;
+  }
+  const over = e => { const r = stage.getBoundingClientRect(); return e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom; };
+  document.addEventListener('pointerdown', e => {
+    const t = e.target.closest('[data-drag]'); if (!t) return;
+    e.preventDefault(); t.setPointerCapture?.(e.pointerId);
+    const ghost = document.createElement('div'); ghost.className = 'ghost'; ghost.innerHTML = icon(t.dataset.drag);
+    document.body.appendChild(ghost);
+    drag = { id: t.dataset.drag, ghost, x0: e.clientX, y0: e.clientY, moved: false };
+    move(e);
   });
-  function moveGhost(e){ if (!drag) return; drag.ghost.style.left = e.clientX + 'px'; drag.ghost.style.top = e.clientY + 'px'; }
-  const overStage = e => { const r = stage.getBoundingClientRect(); return e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom; };
-  window.addEventListener('pointermove', e => {
-    if (!drag) return; moveGhost(e);
-    if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 8) drag.moved = true;
-    stage.classList.toggle('hot', overStage(e));
+  function move(e){ if (!drag) return; drag.ghost.style.left = e.clientX + 'px'; drag.ghost.style.top = e.clientY + 'px'; }
+  document.addEventListener('pointermove', e => {
+    if (!drag) return; move(e);
+    if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 10) drag.moved = true;
+    stage.classList.toggle('hot', over(e));
   });
-  window.addEventListener('pointerup', e => {
+  document.addEventListener('pointerup', e => {
     if (!drag) return;
     const d = drag; drag = null; d.ghost.remove(); stage.classList.remove('hot');
-    if (!d.moved || overStage(e)) addLayer(d.id);
+    if (!d.moved) addLayer(d.id, 200 + (Math.random() * 80 - 40));       // tap = drop in the middle
+    else if (over(e)) addLayer(d.id, svgX(e.clientX));                    // drop where released
   });
-  window.addEventListener('pointercancel', () => { if (drag) { drag.ghost.remove(); drag = null; stage.classList.remove('hot'); } });
+  document.addEventListener('pointercancel', () => { if (drag) { drag.ghost.remove(); drag = null; stage.classList.remove('hot'); } });
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-bun]'), s = e.target.closest('[data-sausage]');
+    if (b) { state.bun = b.dataset.bun; render(); }
+    if (s) { state.sausage = s.dataset.sausage; render(); }
+  });
+  document.getElementById('undo').onclick = () => { state.layers.pop(); render(); };
+  document.getElementById('clear').onclick = () => { state.layers = []; render(); };
+
+  // ================= finish =================
+  const sheet = document.getElementById('sheet'), panel = document.getElementById('panel');
+  const nm = (list, id) => list.find(x => x.id === id).name;
+  document.getElementById('done').onclick = () => {
+    panel.innerHTML = `<h2 style="margin-top:0">هات‌داگ شما 😋</h2>
+      <div style="background:var(--cream);border:2px solid var(--ink);border-radius:16px;padding:4px">${svg.outerHTML.replace('id="dog"', '')}</div>
+      <div class="card sum" style="margin-top:12px"><ol>
+        <li>${nm(C.buns, state.bun)}</li><li>${nm(C.sausages, state.sausage)}</li>
+        ${state.layers.map(l => `<li>${ALL[l.id].name}</li>`).join('')}
+      </ol>${state.layers.length ? '' : '<p class="muted">بدون مخلفات</p>'}</div>
+      <div class="finish"><button class="btn" id="edit">→ ویرایش</button><button class="btn red" id="add">اضافه به سفارش 🛒</button></div>`;
+    sheet.classList.add('open');
+  };
+  sheet.addEventListener('click', e => {
+    if (e.target === sheet || e.target.id === 'edit') sheet.classList.remove('open');
+    if (e.target.id === 'add') {
+      Cart.addCustom({ bun: state.bun, sausage: state.sausage, layers: state.layers.map(l => l.id) });
+      location.href = Cart.tableLink('/menu') + (Cart.table ? '&' : '?') + 'cart=1';
+    }
+  });
 
   render();
 })();
