@@ -74,7 +74,9 @@
   document.getElementById('back').href = Cart.tableLink('/menu');
   if (Cart.table) { const c = document.getElementById('tableChip'); c.textContent = 'میز ' + fa(Cart.table); c.hidden = false; }
   const MENU = await (await fetch('/api/menu')).json();
-  const C = MENU.custom;
+  const C = JSON.parse(JSON.stringify(MENU.custom));
+  ['buns', 'sausages', 'toppings', 'sauces'].forEach(k => C[k] = C[k].filter(x => x.available !== false));
+  const priceTxt = n => n ? Cart.fa(n.toLocaleString('en-US')).replace(/,/g, '٬') + ' ' + MENU.currency : '';
   const ALL = Object.fromEntries(C.toppings.concat(C.sauces).map(t => [t.id, t]));
   const SAUCE = new Set(C.sauces.map(s => s.id));
   const MAX_LAYERS = 12, MAX_EACH = 2;
@@ -164,7 +166,7 @@
     document.getElementById('buns').innerHTML = C.buns.map(b => tile(`data-bun="${b.id}"`, bunIcon(b.id), b.name, state.bun === b.id ? 'sel' : '')).join('');
     document.getElementById('sausages').innerHTML = C.sausages.map(s => tile(`data-sausage="${s.id}"`, sausageIcon(s.id), s.name, state.sausage === s.id ? 'sel' : '')).join('');
     const n = id => state.layers.filter(l => l.id === id).length;
-    const t = list => list.map(x => tile(`data-drag="${x.id}"`, icon(x.id), x.name, n(x.id) >= MAX_EACH ? 'full' : '') .replace('</div></div>', `</div>${n(x.id) ? `<span class="n">${fa(n(x.id))}</span>` : ''}</div>`)).join('');
+    const t = list => list.map(x => tile(`data-drag="${x.id}"`, icon(x.id), x.name + (x.price ? `<br><small>+${priceTxt(x.price)}</small>` : ''), n(x.id) >= MAX_EACH ? 'full' : '') .replace('</div></div>', `</div>${n(x.id) ? `<span class="n">${fa(n(x.id))}</span>` : ''}</div>`)).join('');
     document.getElementById('toppings').innerHTML = t(C.toppings);
     document.getElementById('sauces').innerHTML = t(C.sauces);
   }
@@ -225,7 +227,8 @@
       <div class="card sum" style="margin-top:12px"><ol>
         <li>${nm(C.buns, state.bun)}</li><li>${nm(C.sausages, state.sausage)}</li>
         ${state.layers.map(l => `<li>${ALL[l.id].name}</li>`).join('')}
-      </ol>${state.layers.length ? '' : '<p class="muted">بدون مخلفات</p>'}</div>
+      </ol>${state.layers.length ? '' : '<p class="muted">بدون مخلفات</p>'}
+      ${(() => { const p = (C.basePrice || 0) + state.layers.reduce((s, l) => s + (ALL[l.id].price || 0), 0); return p ? `<p style="font-weight:900;font-size:1.1rem;margin-top:6px">قیمت: ${priceTxt(p)}</p>` : ''; })()}</div>
       <div class="finish"><button class="btn" id="edit">→ ویرایش</button><button class="btn red" id="add">اضافه به سفارش 🛒</button></div>`;
     sheet.classList.add('open');
   };
