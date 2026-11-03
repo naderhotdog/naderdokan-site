@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>مدیر کل | دکان هات‌داگ نادر</title>
+<link rel="icon" href="/img/logo.jpg">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="top">
+  <span class="brand"><img src="/img/logo.jpg" alt="">👑 مدیر کل</span>
+  <span id="who" style="font-size:.85rem"></span>
+</header>
+<main class="panel-wrap" id="app"></main>
+
+<script src="/panel.js"></script>
+<script>
+(function(){
+  const { fa, money, time, faDate, dayKey, hourOf, dayStart, DAY, esc, api } = Panel;
+  const app = document.getElementById('app');
+  const ST = { new: 'در حال پخت', done: 'آماده', paid: 'پرداخت‌شده', cancelled: 'لغو شده' };
+  const CATS = { hotdog: '🌭 هات‌داگ', food: '🍔 خوراکی', drink: '🥤 نوشیدنی' };
+  let tab = 'dash', range = '7', from, to, orders = [], menu = null, tables = 5, auth = {};
+  let currency = 'تومان';
+  const amount = n => money(n) + ' ' + currency;
+
+  function setRange(r){
+    range = r; const now = Date.now(), today = dayStart(now);
+    if (r === 'today') { from = today; to = today + DAY; }
+    else if (r === 'yesterday') { from = today - DAY; to = today; }
+    else if (r === '7') { from = today - 6 * DAY; to = today + DAY; }
+    else if (r === '30') { from = today - 29 * DAY; to = today + DAY; }
+  }
+  const dateInput = ms => dayKey(ms);
+  const fromInput = s => dayStart(Date.parse(s + 'T12:00:00+03:30'));
+
+  function rangeBar(){
+    const b = (k, l) => `<button data-r="${k}" class="${range === k ? 'on' : ''}">${l}</button>`;
+    return `<div class="ranges">${b('today', 'امروز')}${b('yesterday', 'دیروز')}${b('7', '۷ روز اخیر')}${b('30', '۳۰ روز اخیر')}
+      <span class="muted">یا از</span><input type="date" id="d1" value="${dateInput(from)}"><span class="muted">تا</span><input type="date" id="d2" value="${dateInput(to - 1)}"><button data-r="custom" class="${range === 'custom' ? 'on' : ''}">نمایش</button></div>`;
+  }
+
+  // ---------- charts (single series → one colour; hover shows the value) ----------
+  function vbars(points, fmt){
+    const max = Math.max(1, ...points.map(p => p.v));
+    const every = Math.ceil(points.length / 12);
+    return `<div class="vbars">${points.map(p => `<div class="b" data-tip="${esc(p.tip || p.label)}: ${fmt(p.v)}"><span style="height:${p.v / max * 100}%"></span></div>`).join('')}</div>
+      <div class="vlabels">${points.map((p, i) => `<span>${i % every === 0 ? esc(p.label) : ''}</span>`).join('')}</div>`;
+  }
+  function hbars(pairs, fmt){
+    if (!pairs.length) return '<p class="empty">داده‌ای در این بازه نیست.</p>';
+    const max = Math.max(1, ...pairs.map(p => p[1]));
+    return `<div class="hbars">${pairs.map(([n, c]) => `<div class="hb" title="${esc(n)}: ${fmt(c)}"><span>${esc(n)}</span><div class="t"><span style="width:${c / max * 100}%"></span></div><span class="n">${fmt(c)}</span></div>`).join('')}</div>`;
+  }
+
+  function dashTab(){
+    const valid = orders.filter(o => o.status !== 'cancelled');
+    const paid = orders.filter(o => o.status === 'paid');
+    const open = orders.filter(o => o.status === 'new' || o.status === 'done');
+    const sum = a => a.reduce((s, o) => s + (o.total || 0), 0);
+    const custom = valid.reduce((s, o) => s + o.lines.filter(l => l.type === 'custom').reduce((a, l) => a + l.qty, 0), 0);
+    const units = valid.reduce((s, o) => s + o.lines.reduce((a, l) => a + l.qty, 0), 0);
+    // per day
+    const days = []; for (let t = from; t < to; t += DAY) days.push(t);
+    const perDay = Object.fromEntries(days.map(t => [dayKey(t + 3600000), { rev: 0, n: 0 }]));
+    for (const o of valid) { const k = dayKey(o.created); if (perDay[k]) { perDay[k].n++; perDay[k].rev += o.total || 0; } }
+    const dayPts = days.map(t => { const k = dayKey(t + 3600000); return { label: fa(new Date(t + 3600000).toLocaleDateString('fa-IR', { timeZone: 'Asia/Tehran', day: 'numeric' })), tip: faDate(t + 3600000), v: perDay[k].rev, n: perDay[k].n }; });
+    const anyRev = dayPts.some(p => p.v > 0);
+    // per hour (shop hours 14–24 plus anything else that happened)
+    const hours = Array.from({ length: 24 }, () => 0); for (const o of valid) hours[hourOf(o.created)]++;
+    let h0 = 14, h1 = 23; hours.forEach((c, h) => { if (c) { h0 = Math.min(h0, h); h1 = Math.max(h1, h); } });
+    const hourPts = []; for (let h = h0; h <= h1; h++) hourPts.push({ label: fa(h), tip: 'ساعت ' + fa(h) + ' تا ' + fa(h + 1), v: hours[h] });
+    // items, toppings, tables
+    const items = {}, tops = {}, tabs = {};
+    for (const o of valid) {
+      tabs['میز ' + fa(o.table_no)] = (tabs['میز ' + fa(o.table_no)] || 0) + 1;
+      for (const l of o.lines) {
+        const k = l.type === 'item' ? l.name : '🎮 هات‌داگ سفارشی'; items[k] = (items[k] || 0) + l.qty;
+        if (l.type === 'custom') for (const t of [l.bun, l.sausage, ...l.layers]) tops[t] = (tops[t] || 0) + l.qty;
+      }
+    }
+    const sorted = o => Object.entries(o).sort((a, b) => b[1] - a[1]);
+    const n = v => fa(v);
+    return rangeBar() + `<div class="kpis">
+        <div class="kpi"><div class="l">فروش (پرداخت‌شده)</div><div class="v">${money(sum(paid))}</div><div class="s">${currency}</div></div>
+        <div class="kpi"><div class="l">سفارش‌ها</div><div class="v">${fa(valid.length)}</div><div class="s">${fa(units)} آیتم · ${fa(orders.length - valid.length)} لغو</div></div>
+        <div class="kpi"><div class="l">میانگین هر سفارش</div><div class="v">${valid.length ? money(sum(valid) / valid.length) : '—'}</div><div class="s">${currency}</div></div>
+        <div class="kpi"><div class="l">پرداخت نشده (باز)</div><div class="v">${money(sum(open))}</div><div class="s">${currency} · ${fa(open.length)} سفارش</div></div>
+        <div class="kpi"><div class="l">هات‌داگ سفارشی 🎮</div><div class="v">${fa(custom)}</div><div class="s">${units ? fa(Math.round(custom / units * 100)) + '٪ از همه‌ی آیتم‌ها' : ''}</div></div>
+      </div>
+      <div class="charts">
+        <div class="card chart"><h3>${anyRev ? 'فروش روزانه (' + currency + ')' : 'تعداد سفارش روزانه'}</h3>${vbars(anyRev ? dayPts : dayPts.map(p => ({ ...p, v: p.n })), anyRev ? money : n)}</div>
+        <div class="card chart"><h3>شلوغ‌ترین ساعت‌ها (تعداد سفارش)</h3>${vbars(hourPts, n)}</div>
+        <div class="card chart"><h3>پرفروش‌ترین‌ها (تعداد)</h3>${hbars(sorted(items).slice(0, 10), n)}</div>
+        <div class="card chart"><h3>محبوب‌ترین مخلفات در هات‌داگ سفارشی</h3>${hbars(sorted(tops).slice(0, 10), n)}</div>
+        <div class="card chart"><h3>سفارش به تفکیک میز</h3>${hbars(sorted(tabs), n)}</div>
+      </div>
+      ${valid.some(o => !o.total) ? '<p class="muted" style="margin-top:14px">⚠️ برای بعضی سفارش‌ها قیمت ثبت نشده بود (قیمت‌ها هنوز تنظیم نشده). از تب «منو و قیمت‌ها» قیمت‌ها رو وارد کنید تا گزارش فروش کامل بشه.</p>' : ''}`;
+  }
+
+  function ordersTab(){
+    const rows = orders.map(o => `<tr><td>${fa(o.id)}</td><td>${faDate(o.created)} ${time(o.created)}</td><td>میز ${fa(o.table_no)}</td>
+      <td>${o.lines.map(l => fa(l.qty) + '× ' + esc(l.type === 'item' ? l.name : 'هات‌داگ سفارشی (' + [l.bun, l.sausage, ...l.layers].join('، ') + ')')).join('<br>')}${o.note ? '<br><small>📝 ' + esc(o.note) + '</small>' : ''}</td>
+      <td>${o.total ? money(o.total) : '—'}</td><td><span class="pill ${o.status}">${ST[o.status]}</span></td></tr>`).join('');
+    return rangeBar() + `<div class="ranges"><b>${fa(orders.length)} سفارش</b><button id="csv">⬇️ دانلود اکسل (CSV)</button></div>
+      <div class="scroll"><table class="data"><tr><th>#</th><th>زمان</th><th>میز</th><th>اقلام</th><th>مبلغ (${currency})</th><th>وضعیت</th></tr>${rows || '<tr><td colspan="6" class="empty">سفارشی در این بازه نیست.</td></tr>'}</table></div>`;
+  }
+
+  function menuTab(){
+    if (!menu) return '<p class="empty">در حال بارگذاری…</p>';
+    const C = menu.custom;
+    const item = (x, i) => `<div class="row-edit" data-i="${i}">
+      <input data-k="emoji" value="${esc(x.emoji)}" maxlength="4" title="ایموجی">
+      <input data-k="name" value="${esc(x.name)}" placeholder="نام">
+      <input data-k="desc" class="desc" value="${esc(x.desc)}" placeholder="توضیح کوتاه">
+      <select data-k="cat">${Object.entries(CATS).map(([k, l]) => `<option value="${k}" ${x.cat === k ? 'selected' : ''}>${l}</option>`).join('')}</select>
+      <input data-k="price" type="number" min="0" step="1000" value="${x.price ?? ''}" placeholder="قیمت">
+      <label class="switch" title="موجود"><input type="checkbox" data-k="available" ${x.available === false ? '' : 'checked'}><i></i></label>
+      <button class="x" data-del="${i}" title="حذف">🗑️</button></div>`;
+    const extra = (arr, key) => arr.map((x, i) => `<div class="tog ${x.available === false ? 'off' : ''}" data-g="${key}" data-i="${i}">
+      <input data-k="name" value="${esc(x.name)}" style="flex:1;font:inherit;border:1.5px solid rgba(26,20,18,.3);border-radius:8px;padding:5px">
+      ${key === 'toppings' || key === 'sauces' ? `<input data-k="price" type="number" min="0" step="1000" value="${x.price || 0}" style="width:100px;font:inherit;border:1.5px solid rgba(26,20,18,.3);border-radius:8px;padding:5px" title="قیمت اضافه">` : ''}
+      <label class="switch"><input type="checkbox" data-k="available" ${x.available === false ? '' : 'checked'}><i></i></label></div>`).join('');
+    return `<p class="muted">قیمت‌ها به ${currency}. قیمت خالی یعنی «قیمت در صندوق». بعد از تغییر، «ذخیره» رو بزنید تا روی سایت اعمال بشه.</p>
+      <h2>🍽️ آیتم‌های منو</h2><div id="items">${menu.items.map(item).join('')}</div>
+      <button class="btn" id="addItem">➕ آیتم جدید</button>
+      <h2>🎮 هات‌داگ سفارشی</h2>
+      <div class="field" style="max-width:320px">قیمت پایه (نون + سوسیس)<input id="basePrice" type="number" min="0" step="1000" value="${C.basePrice ?? ''}"></div>
+      <h3 style="margin:14px 0 8px">مخلفات <small class="muted">(قیمت اضافه برای هر کدوم)</small></h3><div class="toggles">${extra(C.toppings, 'toppings')}</div>
+      <h3 style="margin:14px 0 8px">سس‌ها</h3><div class="toggles">${extra(C.sauces, 'sauces')}</div>
+      <h3 style="margin:14px 0 8px">نون‌ها</h3><div class="toggles">${extra(C.buns, 'buns')}</div>
+      <h3 style="margin:14px 0 8px">سوسیس‌ها</h3><div class="toggles">${extra(C.sausages, 'sausages')}</div>
+      <div class="savebar"><button class="btn red" id="saveMenu">💾 ذخیره‌ی منو</button><span id="saved" class="muted"></span></div>`;
+  }
+
+  function accessTab(){
+    const row = (r, label, min, hint) => `<div class="card" style="margin-bottom:12px"><h3 style="margin-bottom:6px">${label} ${auth[r] ? '<span class="pill paid">فعال</span>' : '<span class="pill new">تنظیم نشده</span>'}</h3>
+      <p class="muted" style="margin-bottom:8px">${hint}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="password" id="code_${r}" placeholder="کد جدید (حداقل ${fa(min)} کاراکتر)" autocomplete="new-password" style="flex:1;min-width:200px;font:inherit;border:2px solid var(--ink);border-radius:12px;padding:8px">
+      <button class="btn red" data-code="${r}">ذخیره</button></div><p class="muted" id="msg_${r}" style="margin-top:6px"></p></div>`;
+    const base = location.origin;
+    return `${row('manager', '🧾 کد مدیر فروشگاه', 4, 'مدیر فروشگاه با این کد وارد <b>' + base + '/manager</b> میشه: سفارش‌های امروز، پرداخت، لغو و موجودی منو.')}
+      ${row('kitchen', '👨‍🍳 کد آشپزخانه', 4, 'آشپزها با این کد وارد <b>' + base + '/kitchen</b> میشن: فقط سفارش‌هایی که باید پخته بشن، بدون مبلغ.')}
+      ${row('owner', '👑 کد خودتون (مدیر کل)', 6, 'برای عوض کردن کد ورود به همین پنل.')}
+      <div class="card" style="margin-bottom:12px"><h3 style="margin-bottom:6px">🪑 تعداد میزها</h3><p class="muted" style="margin-bottom:8px">بعد از تغییر، برگه‌ی QR رو دوباره چاپ کنید.</p>
+      <div style="display:flex;gap:8px"><input type="number" id="tables" min="1" max="60" value="${tables}" style="width:120px;font:inherit;border:2px solid var(--ink);border-radius:12px;padding:8px"><button class="btn red" id="saveTables">ذخیره</button><a class="btn" href="/qr" target="_blank">🖨️ برگه‌ی QR</a></div><p class="muted" id="msg_tables" style="margin-top:6px"></p></div>`;
+  }
+
+  function render(){
+    if (!document.getElementById('tabs')) app.innerHTML = `<div class="tabs" id="tabs"><button data-t="dash">📊 گزارش فروش</button><button data-t="orders">🧾 همه‌ی سفارش‌ها</button><button data-t="menu">🍽️ منو و قیمت‌ها</button><button data-t="access">🔑 دسترسی‌ها و تنظیمات</button></div><div id="body"></div>`;
+    document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === tab));
+    document.getElementById('body').innerHTML = ({ dash: dashTab, orders: ordersTab, menu: menuTab, access: accessTab })[tab]();
+  }
+
+  async function loadOrders(){ orders = await api(`/api/orders?from=${from}&to=${to}`); }
+  async function loadMenu(){ const m = await api('/api/menu'); tables = m.tables; currency = m.currency || currency; delete m.tables; menu = m; }
+
+  function readMenu(){
+    document.querySelectorAll('#items .row-edit').forEach(row => {
+      const x = menu.items[row.dataset.i];
+      row.querySelectorAll('[data-k]').forEach(inp => {
+        const k = inp.dataset.k;
+        x[k] = k === 'available' ? inp.checked : k === 'price' ? (inp.value === '' ? null : Math.max(0, Math.round(+inp.value))) : inp.value.trim();
+      });
+    });
+    document.querySelectorAll('[data-g]').forEach(row => {
+      const x = menu.custom[row.dataset.g][row.dataset.i];
+      row.querySelectorAll('[data-k]').forEach(inp => {
+        const k = inp.dataset.k;
+        x[k] = k === 'available' ? inp.checked : k === 'price' ? Math.max(0, Math.round(+inp.value || 0)) : inp.value.trim();
+      });
+    });
+    const bp = document.getElementById('basePrice').value;
+    menu.custom.basePrice = bp === '' ? null : Math.max(0, Math.round(+bp));
+  }
+
+  app.addEventListener('click', async e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.t) { tab = b.dataset.t; if ((tab === 'menu' || tab === 'access') && !menu) await loadMenu(); if (tab === 'access') auth = await (await fetch('/api/auth/status')).json(); return render(); }
+    if (b.dataset.r) {
+      if (b.dataset.r === 'custom') { const a = document.getElementById('d1').value, z = document.getElementById('d2').value; if (!a || !z) return; from = fromInput(a); to = fromInput(z) + DAY; range = 'custom'; if (to <= from) return; }
+      else setRange(b.dataset.r);
+      b.disabled = true; await loadOrders(); return render();
+    }
+    if (b.id === 'csv') {
+      const head = ['شماره', 'تاریخ', 'ساعت', 'میز', 'اقلام', 'توضیحات', 'مبلغ', 'وضعیت'];
+      const rows = orders.map(o => [o.id, faDate(o.created), time(o.created), o.table_no, o.lines.map(l => l.qty + '× ' + (l.type === 'item' ? l.name : 'هات‌داگ سفارشی (' + [l.bun, l.sausage, ...l.layers].join('، ') + ')')).join(' | '), o.note || '', o.total || 0, ST[o.status]]);
+      const csv = '﻿' + [head, ...rows].map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+      a.download = 'naderdokan-orders-' + dayKey(from) + '_' + dayKey(to - 1) + '.csv'; a.click(); return;
+    }
+    if (b.id === 'addItem') { readMenu(); menu.items.push({ id: 'i' + Date.now().toString(36), cat: 'hotdog', emoji: '🌭', name: '', desc: '', price: null, available: true }); return render(); }
+    if (b.dataset.del != null) { readMenu(); if (!confirm('«' + (menu.items[b.dataset.del].name || 'این آیتم') + '» از منو حذف بشه؟')) return; menu.items.splice(+b.dataset.del, 1); return render(); }
+    if (b.id === 'saveMenu') {
+      readMenu(); const s = document.getElementById('saved');
+      if (menu.items.some(i => !i.name)) { s.textContent = '⚠️ همه‌ی آیتم‌ها باید اسم داشته باشن'; return; }
+      b.disabled = true;
+      try { await api('/api/admin/menu', { method: 'PUT', body: JSON.stringify(menu) }); s.textContent = '✓ ذخیره شد و روی سایت اعمال شد'; }
+      catch(err) { s.textContent = '⚠️ ذخیره نشد: ' + err.message; }
+      b.disabled = false; return;
+    }
+    if (b.dataset.code) {
+      const r = b.dataset.code, inp = document.getElementById('code_' + r), msg = document.getElementById('msg_' + r);
+      try {
+        await api('/api/admin/codes', { method: 'POST', body: JSON.stringify({ role: r, key: inp.value }) });
+        msg.textContent = '✓ ذخیره شد. کد جدید رو به ' + (r === 'owner' ? 'خودتون یادداشت کنید' : 'شخص مربوطه بدید') + '.'; inp.value = '';
+        if (r === 'owner') { Panel.store.set('nd_key_owner', ''); setTimeout(() => location.reload(), 1500); }
+        auth[r] = true;
+      } catch(err) { msg.textContent = err.message === 'duplicate' ? '⚠️ این کد برای نقش دیگه‌ای استفاده شده؛ یه کد متفاوت انتخاب کنید.' : err.message === 'short' ? '⚠️ کد خیلی کوتاهه' : '⚠️ ذخیره نشد'; }
+      return;
+    }
+    if (b.id === 'saveTables') {
+      const msg = document.getElementById('msg_tables');
+      try { await api('/api/admin/settings', { method: 'PUT', body: JSON.stringify({ tables: document.getElementById('tables').value }) }); tables = +document.getElementById('tables').value; msg.textContent = '✓ ذخیره شد'; }
+      catch(err) { msg.textContent = '⚠️ عدد بین ۱ تا ۶۰ وارد کنید'; }
+    }
+  });
+
+  Panel.start('owner', async () => {
+    setRange('7'); await loadMenu(); await loadOrders(); render();
+    setInterval(async () => { if (tab === 'dash' || tab === 'orders') { if (range === 'today' || range === '7' || range === '30') setRange(range); await loadOrders(); render(); } }, 30000);
+  });
+})();
+</script>
+</body>
+</html>
