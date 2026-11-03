@@ -33,13 +33,17 @@
   nav{display:flex;gap:22px;align-items:center}
   nav a{text-decoration:none;font-family:"Lalezar",sans-serif;font-size:1.15rem;color:var(--ink);transition:color .15s}
   nav a:hover,nav a.on{color:var(--red)}
-  @media (max-width:760px){nav a:not(.cta){display:none}.logo b{font-size:1.25rem}}
+  @media (max-width:760px){nav a:not(.cta):not(.signin){display:none}.logo b{font-size:1.25rem}}
 
   .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:"Lalezar",sans-serif;font-size:1.2rem;border-radius:999px;padding:9px 26px;border:3px solid var(--red);transition:transform .12s,box-shadow .12s}
   .btn:hover{transform:translateY(-2px);box-shadow:0 4px 0 var(--ink)}
   .btn.fill{background:var(--red);color:var(--cream)}
   .btn.line{border-color:var(--ink);color:var(--ink)}
   nav .cta{padding:5px 18px;font-size:1.05rem;color:var(--cream)}
+  nav .signin{padding:3px 14px;font-size:1rem;border-width:2px}
+  .logo b,nav a{white-space:nowrap}
+  @media (max-width:760px){nav{gap:8px} nav .signin{display:inline-flex;padding:4px 9px} nav .signin .t{display:none} .logo img{width:46px;height:46px}}
+  @media (max-width:360px){.logo b{font-size:1.05rem}}
 
   /* side "menu" tab */
   .side-tab{position:fixed;left:0;top:150px;z-index:40;background:var(--red);color:var(--cream);text-decoration:none;writing-mode:vertical-rl;font-family:"Lalezar",sans-serif;font-size:1.35rem;padding:22px 9px;border-radius:0 14px 14px 0;box-shadow:3px 3px 0 var(--ink)}
@@ -94,9 +98,6 @@
   .dog.build .tile .label{background:var(--red)}
   .dog.build .tile .q{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Lalezar",sans-serif;font-size:7rem;color:var(--red);z-index:1}
 
-  .more{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:38px}
-  .more span{background:var(--paper);border:2px solid var(--red);border-radius:999px;padding:7px 16px;font-weight:700}
-  .more small{color:var(--red);font-weight:900;margin-right:6px}
 
   .alt{background:var(--cream-2)}
   .visit{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
@@ -132,6 +133,7 @@
       <a href="/build">خودت بساز</a>
       <a href="#visit">تماس و آدرس</a>
       <a class="btn fill cta" href="/menu">سفارش</a>
+      <a class="btn line signin" href="/panel" title="ورود به پنل‌های مدیریت">🔐<span class="t"> ورود</span></a>
     </nav>
   </div>
   <div class="checker"></div>
@@ -143,7 +145,7 @@
   <div class="wrap">
     <div class="hero-art" aria-hidden="true"><div id="heroDog"></div><span class="sp" style="top:6%;right:10%">✦</span><span class="sp" style="bottom:10%;left:8%;font-size:1.4rem">✦</span></div>
     <div>
-      <span class="eyebrow">هات‌داگ دست‌ساز · سس دست‌ساز · قم</span>
+      <span class="eyebrow">هات‌داگ دست‌ساز · سس دست‌ساز</span>
       <h1 class="display">اونقدر خوشمزه‌ست<span>که باورت نمیشه!</span></h1>
       <p>فقط یه هات‌داگ نیست؛ یه تجربه‌ست. هات‌داگ اسپشیال گوشت ۷۰٪ و هات‌داگ‌های دست‌ساز گوشت و مرغ ۹۰٪، با سس‌های دست‌ساز خودمون. هر روز از ساعت ۱۴ تا ۲۳:۴۵.</p>
       <div class="btns">
@@ -162,7 +164,7 @@
       <p>هات‌داگ نباید یه غذای ساده و معمولی باشه. هر ساندویچ ما با سه چیز ساخته میشه که روشون کوتاه نمیایم — و همه‌شون با ۱۵۰ گرم سیب‌زمینی سرخ‌شده‌ی طعم‌دار سرو میشن.</p>
     </div>
     <div class="pillars">
-      <div class="tile" id="p1"><div class="label">نان هات‌داگ<br>و باگت تازه</div></div>
+      <div class="tile" id="p1"><div class="label">نان مخصوص<br>هات‌داگ تازه</div></div>
       <div class="tile" id="p2"><div class="label">هات‌داگ دست‌ساز<br>گوشت ۹۰٪</div></div>
       <div class="tile" id="p3"><div class="label">سس‌های<br>دست‌ساز</div></div>
     </div>
@@ -181,7 +183,6 @@
       <h2 class="display">هات‌داگ‌های <em>کلاسیک</em></h2>
     </div>
     <div class="dogs" id="classicGrid"></div>
-    <div class="more" id="more"></div>
   </div>
 </section>
 
@@ -259,8 +260,6 @@
   const classics = of('classic');
   document.getElementById('classicGrid').innerHTML = classics.map(card).join('');
   if (!classics.length) document.getElementById('classicGrid').previousElementSibling.remove();
-  const others = menu.items.filter(i => !['special', 'classic', 'hotdog'].includes(i.cat) && i.available !== false);
-  document.getElementById('more').innerHTML = others.length ? '<span style="background:none;border:0">سیب‌زمینی و نوشیدنی:</span>' + others.map(o => `<span>${o.emoji || ''} ${o.name}${o.price ? `<small>${money(o.price)}</small>` : ''}</span>`).join('') : '';
 })();
 </script>
 </body>
