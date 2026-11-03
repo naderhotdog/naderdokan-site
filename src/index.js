@@ -26,7 +26,8 @@ async function setSetting(db, k, v) {
 }
 async function getMenu(db) {
   const saved = await getSetting(db, "menu");
-  return saved ? JSON.parse(saved) : DEFAULT_MENU;
+  if (saved) { const m = JSON.parse(saved); if ((m.v || 0) >= DEFAULT_MENU.v) return m; }
+  return DEFAULT_MENU;
 }
 async function getTables(db) {
   return parseInt((await getSetting(db, "tables")) || DEFAULT_TABLES, 10);
@@ -66,7 +67,7 @@ function priceLines(raw, menu) {
       const bun = BUNS[l.bun], sausage = SAUSAGES[l.sausage];
       if (!isOn(bun) || !isOn(sausage)) return null;
       const layers = (Array.isArray(l.layers) ? l.layers : []).slice(0, 20);
-      const names = []; let price = C.basePrice || 0;
+      const names = []; let price = (C.basePrice || 0) + (bun.price || 0) + (sausage.price || 0);
       for (const id of layers) {
         const t = EXTRA[id];
         if (!isOn(t)) return null;
