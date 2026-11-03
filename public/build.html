@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>هات‌داگ خودتو بساز | دکان نادر</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌭</text></svg>">
+<link rel="stylesheet" href="/app.css">
+<style>
+  body{overscroll-behavior:none}
+  .stage{position:relative;background:radial-gradient(circle at 50% 60%,#fff 0,#FFE9A8 70%);border:2px solid var(--ink);border-radius:22px;box-shadow:4px 4px 0 var(--ink);padding:8px;margin-top:6px;touch-action:none}
+  .stage.hot{outline:4px dashed var(--ketchup);outline-offset:-10px}
+  .stage svg{width:100%;height:auto;display:block}
+  .hint{position:absolute;top:10px;inset-inline:0;text-align:center;font-weight:800;font-size:.9rem;color:var(--muted);pointer-events:none}
+  .steps{display:flex;gap:6px;justify-content:center;margin:14px 0 4px}
+  .steps span{width:34px;height:6px;border-radius:9px;background:rgba(29,20,16,.15)}
+  .steps span.on{background:var(--ketchup)}
+  .opts{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+  .opt{border:2px solid var(--ink);border-radius:14px;background:#fff;padding:10px 14px;font-weight:800;box-shadow:3px 3px 0 var(--ink);display:flex;align-items:center;gap:8px;user-select:none;touch-action:none}
+  .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--ink)}
+  .opt.sel{background:var(--mustard)}
+  .opt .n{background:var(--ink);color:#fff;border-radius:999px;font-size:.75rem;padding:0 7px}
+  .ghost{position:fixed;z-index:60;pointer-events:none;transform:translate(-50%,-60%) scale(1.15);opacity:.95}
+  .layers{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;min-height:10px}
+  .layers button{border:2px solid var(--ink);border-radius:999px;background:#fff;padding:2px 10px;font-size:.85rem}
+  .nav{display:flex;gap:10px;margin-top:18px}
+  .nav .btn{flex:1}
+  .sum{line-height:2}
+  .pop{animation:pop .35s ease}
+  @keyframes pop{0%{transform:translateY(-30px);opacity:0}100%{transform:none;opacity:1}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" id="back" href="/menu">→ منو</a>
+  <span class="chip" id="tableChip" hidden></span>
+</header>
+
+<main class="wrap">
+  <div class="stage" id="stage">
+    <div class="hint" id="hint"></div>
+    <svg id="dog" viewBox="0 0 340 190" aria-label="هات‌داگ شما"></svg>
+  </div>
+  <div class="steps" id="steps"><span></span><span></span><span></span><span></span></div>
+  <section id="step"></section>
+</main>
+
+<script src="/cart.js"></script>
+<script>
+(async function(){
+  const fa = Cart.fa;
+  document.getElementById('back').href = Cart.tableLink('/menu');
+  if (Cart.table) { const c = document.getElementById('tableChip'); c.textContent = 'میز ' + fa(Cart.table); c.hidden = false; }
+  const MENU = await (await fetch('/api/menu')).json();
+  const C = MENU.custom;
+  const ALL = Object.fromEntries(C.toppings.concat(C.sauces).map(t => [t.id, t]));
+  const isSauce = id => C.sauces.some(s => s.id === id);
+
+  const state = { step: 0, bun: null, sausage: null, layers: [] };
+  const MAX = 12;
+
+  // ---------- drawing ----------
+  const svg = document.getElementById('dog');
+  const SAUSAGE_COLOR = { regular: '#C1543A', smoked: '#8E3B26', spicy: '#D6402B' };
+  function layerSVG(id, i){
+    const t = ALL[id]; const y = 92 - i * 6; const c = t.color; let s = '';
+    const xs = [70, 100, 130, 160, 190, 220, 250];
+    switch (id) {
+      case 'cheese':
+        s = `<path d="M58 ${y} L282 ${y} L270 ${y+16} L250 ${y+4} L232 ${y+18} L210 ${y+4} L190 ${y+16} L170 ${y+4} L150 ${y+18} L130 ${y+4} L110 ${y+16} L90 ${y+4} L70 ${y+16} Z" fill="${c}" stroke="#1D1410" stroke-width="2"/>`; break;
+      case 'pickles': case 'jalapeno':
+        s = xs.map(x => `<circle cx="${x+i%2*8}" cy="${y+2}" r="9" fill="${c}" stroke="#1D1410" stroke-width="2"/>` + (id==='jalapeno'?`<circle cx="${x+i%2*8}" cy="${y+2}" r="3.5" fill="#E8F5C8"/>`:`<circle cx="${x+i%2*8}" cy="${y+2}" r="4" fill="none" stroke="#C9DE8C" stroke-width="1.5"/>`)).join(''); break;
+      case 'onion':
+        s = xs.map(x => `<ellipse cx="${x+6}" cy="${y+2}" rx="11" ry="6" fill="none" stroke="#B48AC0" stroke-width="3"/>`).join(''); break;
+      case 'friedonion':
+        s = Array.from({length: 18}, (_, k) => `<path d="M${64+k*12} ${y+4} q4 -8 9 0" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/>`).join(''); break;
+      case 'tomato':
+        s = xs.map(x => `<path d="M${x-10} ${y+4} a11 11 0 0 1 22 0 Z" fill="${c}" stroke="#1D1410" stroke-width="2"/><circle cx="${x-3}" cy="${y}" r="1.6" fill="#FFE0A0"/><circle cx="${x+4}" cy="${y}" r="1.6" fill="#FFE0A0"/>`).join(''); break;
+      case 'mushroom':
+        s = xs.map(x => `<path d="M${x-9} ${y+4} a9 8 0 0 1 18 0 Z" fill="${c}" stroke="#1D1410" stroke-width="2"/><rect x="${x-3}" y="${y+3}" width="6" height="5" fill="#E9D8C2" stroke="#1D1410" stroke-width="1.5"/>`).join(''); break;
+      case 'lettuce':
+        s = `<path d="M58 ${y+8} q11 -14 22 0 t22 0 t22 0 t22 0 t22 0 t22 0 t22 0 t22 0 t22 0 t22 0" fill="none" stroke="${c}" stroke-width="9" stroke-linecap="round"/>`; break;
+      default: // sauces
+        s = `<path d="M62 ${y+2} l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8" fill="none" stroke="${c}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>` +
+            (id==='mayo' ? `<path d="M62 ${y+2} l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8 l12 -8 l12 8" fill="none" stroke="#C9B98A" stroke-width="1"/>` : '');
+    }
+    return `<g class="${i === state.layers.length - 1 && justAdded ? 'pop' : ''}">${s}</g>`;
+  }
+  let justAdded = false;
+  function draw(){
+    const bunFill = '#E0A458';
+    const sesame = state.bun === 'sesame' ? Array.from({length: 14}, (_, k) => `<ellipse cx="${60+k*17}" cy="${150 + (k%2)*6}" rx="3" ry="1.8" fill="#FFF3D6" stroke="#9A6A2E" stroke-width=".8"/>`).join('') : '';
+    let out = '';
+    // back of bun
+    out += `<path d="M40 98 Q40 70 70 70 L270 70 Q300 70 300 98 Z" fill="#C98A3F" stroke="#1D1410" stroke-width="3"/>`;
+    if (state.sausage) out += `<rect x="22" y="72" width="296" height="38" rx="19" fill="${SAUSAGE_COLOR[state.sausage]}" stroke="#1D1410" stroke-width="3"/><path d="M50 84 h240" stroke="rgba(255,255,255,.35)" stroke-width="4" stroke-linecap="round"/>`;
+    state.layers.forEach((id, i) => out += layerSVG(id, i));
+    // front of bun
+    if (state.bun) out += `<path d="M34 104 Q30 168 90 172 L250 172 Q310 168 306 104 Q290 124 250 124 L90 124 Q50 124 34 104 Z" fill="${bunFill}" stroke="#1D1410" stroke-width="3"/>` + sesame;
+    else out += `<text x="170" y="150" text-anchor="middle" font-size="20" font-weight="800" fill="#6B5B50">نون رو انتخاب کن 👇</text>`;
+    svg.innerHTML = out;
+    justAdded = false;
+  }
+
+  // ---------- steps ----------
+  const step = document.getElementById('step'), hint = document.getElementById('hint');
+  function bars(){ [...document.querySelectorAll('#steps span')].forEach((s, i) => s.classList.toggle('on', i <= state.step)); }
+  const opt = (o, sel, extra = '') => `<button class="opt ${sel ? 'sel' : ''}" data-id="${o.id}">${extra}${o.name}</button>`;
+
+  function render(){
+    bars(); draw();
+    if (state.step === 0) {
+      hint.textContent = 'قدم ۱: نون';
+      step.innerHTML = `<h2>چه نونی؟</h2><div class="opts">${C.buns.map(b => opt(b, state.bun === b.id, '🥖 ')).join('')}</div>
+        <div class="nav"><button class="btn red" id="next" ${state.bun ? '' : 'disabled'}>بعدی ←</button></div>`;
+    } else if (state.step === 1) {
+      hint.textContent = 'قدم ۲: سوسیس';
+      step.innerHTML = `<h2>چه سوسیسی؟</h2><div class="opts">${C.sausages.map(s => opt(s, state.sausage === s.id, '🌭 ')).join('')}</div>
+        <div class="nav"><button class="btn" id="prev">→ قبلی</button><button class="btn red" id="next" ${state.sausage ? '' : 'disabled'}>بعدی ←</button></div>`;
+    } else if (state.step === 2) {
+      hint.textContent = 'مخلفات رو بکش و بنداز روی هات‌داگ (یا بزن روشون)';
+      const count = id => state.layers.filter(x => x === id).length;
+      const chip = t => `<div class="opt" data-drag="${t.id}"><span class="dot" style="background:${t.color}"></span>${t.name}${count(t.id) ? `<span class="n">${fa(count(t.id))}</span>` : ''}</div>`;
+      step.innerHTML = `<h2>مخلفات</h2><div class="opts">${C.toppings.map(chip).join('')}</div>
+        <h2>سس‌ها</h2><div class="opts">${C.sauces.map(chip).join('')}</div>
+        <div class="layers" id="layers">${state.layers.map((id, i) => `<button data-rm="${i}">✕ ${ALL[id].name}</button>`).join('')}</div>
+        <div class="nav"><button class="btn" id="prev">→ قبلی</button><button class="btn green" id="next">تموم شد ✓</button></div>`;
+    } else {
+      hint.textContent = 'هات‌داگ شما 😋';
+      const n = (list, id) => list.find(x => x.id === id).name;
+      step.innerHTML = `<h2>هات‌داگ شما آماده‌ست!</h2><div class="card sum">
+        <div>🥖 ${n(C.buns, state.bun)}</div><div>🌭 ${n(C.sausages, state.sausage)}</div>
+        <div>✨ ${state.layers.length ? state.layers.map(id => ALL[id].name).join('، ') : 'بدون مخلفات'}</div></div>
+        <div class="nav"><button class="btn" id="prev">→ ویرایش</button><button class="btn red" id="add">اضافه به سفارش 🛒</button></div>`;
+    }
+  }
+
+  step.addEventListener('click', e => {
+    const t = e.target.closest('button'); if (!t) return;
+    if (t.id === 'next') { state.step++; render(); return; }
+    if (t.id === 'prev') { state.step--; render(); return; }
+    if (t.dataset.rm != null) { state.layers.splice(+t.dataset.rm, 1); render(); return; }
+    if (t.id === 'add') {
+      Cart.addCustom({ bun: state.bun, sausage: state.sausage, layers: state.layers.slice() });
+      location.href = Cart.tableLink('/menu') + (Cart.table ? '&' : '?') + 'cart=1';
+      return;
+    }
+    if (t.dataset.id && state.step === 0) { state.bun = t.dataset.id; render(); }
+    else if (t.dataset.id && state.step === 1) { state.sausage = t.dataset.id; render(); }
+  });
+
+  function addLayer(id){
+    if (state.layers.length >= MAX) { Cart.toast('دیگه جا نداره! 😄'); return; }
+    if (state.layers.filter(x => x === id).length >= 2) { Cart.toast('حداکثر دو بار از هر کدوم'); return; }
+    state.layers.push(id); justAdded = true; render();
+    if (navigator.vibrate) try { navigator.vibrate(15); } catch(e) {}
+  }
+
+  // ---------- drag & drop (and tap) ----------
+  const stage = document.getElementById('stage');
+  let drag = null;
+  step.addEventListener('pointerdown', e => {
+    const chip = e.target.closest('[data-drag]'); if (!chip) return;
+    e.preventDefault();
+    const ghost = chip.cloneNode(true); ghost.classList.add('ghost'); document.body.appendChild(ghost);
+    drag = { id: chip.dataset.drag, ghost, x0: e.clientX, y0: e.clientY, moved: false };
+    moveGhost(e);
+  });
+  function moveGhost(e){ if (!drag) return; drag.ghost.style.left = e.clientX + 'px'; drag.ghost.style.top = e.clientY + 'px'; }
+  const overStage = e => { const r = stage.getBoundingClientRect(); return e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom; };
+  window.addEventListener('pointermove', e => {
+    if (!drag) return; moveGhost(e);
+    if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 8) drag.moved = true;
+    stage.classList.toggle('hot', overStage(e));
+  });
+  window.addEventListener('pointerup', e => {
+    if (!drag) return;
+    const d = drag; drag = null; d.ghost.remove(); stage.classList.remove('hot');
+    if (!d.moved || overStage(e)) addLayer(d.id);
+  });
+  window.addEventListener('pointercancel', () => { if (drag) { drag.ghost.remove(); drag = null; stage.classList.remove('hot'); } });
+
+  render();
+})();
+</script>
+</body>
+</html>
