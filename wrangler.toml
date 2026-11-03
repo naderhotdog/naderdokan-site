@@ -1,0 +1,14 @@
+name = "naderdokan"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "naderdokan-orders"
+database_id = "d49f8d46-63e2-4560-a341-a6df39a729f1"
+
+# The kitchen code is chosen by the owner on first visit to /kitchen (only a hash is stored).
