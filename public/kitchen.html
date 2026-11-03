@@ -4,27 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>آشپزخانه | دکان نادر</title>
+<title>آشپزخانه | دکان هات‌داگ نادر</title>
 <link rel="icon" href="/img/logo.jpg">
 <link rel="stylesheet" href="/app.css">
 <style>
-  .wrap{max-width:1200px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-  .order{position:relative}
-  .order.fresh{animation:flash 1s ease 3}
+  .fresh{animation:flash 1s ease 3}
   @keyframes flash{50%{background:#FFF1B8}}
-  .order .head{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:8px}
-  .tbl{font-size:1.6rem;font-weight:900}
-  .tbl small{font-size:.9rem;font-weight:600;color:var(--muted)}
-  .ln{padding:6px 0;border-bottom:1px dashed rgba(29,20,16,.2)}
-  .ln b{font-size:1.1rem}
-  .ln ol{margin:4px 22px 0 0;font-size:.98rem;list-style:persian}
-  .note{background:#FFF1B8;border-radius:8px;padding:6px 10px;margin-top:8px;font-weight:700}
-  .done{opacity:.55}
-  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .login{max-width:380px;margin:60px auto;text-align:center}
-  .login input{width:100%;font:inherit;font-size:1.2rem;text-align:center;border:2px solid var(--ink);border-radius:12px;padding:10px;margin:14px 0}
-  .status{font-weight:700}
+  .ocard .tbl{font-size:1.7rem}
+  .ocard .ln b{font-size:1.12rem}
   #print{display:none}
   @media print{
     @page{size:80mm auto;margin:3mm}
@@ -33,136 +20,81 @@
     #print{display:block;font-family:"Vazirmatn",sans-serif;color:#000;width:74mm;font-size:13pt;line-height:1.5}
     #print .t{font-size:22pt;font-weight:900;text-align:center;border-bottom:2px dashed #000;padding-bottom:4px;margin-bottom:6px}
     #print .m{text-align:center;font-size:10pt;margin-bottom:6px}
-    #print .ln{border-bottom:1px dashed #000}
-    #print .note{background:none;border:2px solid #000}
+    #print .ln{border-bottom:1px dashed #000;padding:3px 0}
+    #print ol{margin-right:20px;list-style:persian}
+    #print .note{border:2px solid #000;padding:4px;margin-top:6px;font-weight:700}
   }
 </style>
 </head>
 <body>
 <header class="top">
-  <span class="brand"><img src="/img/logo.jpg" alt="">آشپزخانه‌ی دکان نادر</span>
-  <span class="status" id="status"></span>
+  <span class="brand"><img src="/img/logo.jpg" alt="">👨‍🍳 آشپزخانه</span>
+  <span><span class="status" id="status"></span> <span id="who" style="font-size:.85rem"></span></span>
 </header>
-<main class="wrap" id="app"></main>
+<main class="panel-wrap" id="app"></main>
 <div id="print"></div>
 
+<script src="/panel.js"></script>
 <script>
 (function(){
-  const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-  const mem = {};
-  const st = { get: k => { try { return localStorage.getItem(k); } catch(e) { return mem[k] ?? null; } },
-               set: (k, v) => { try { localStorage.setItem(k, v); } catch(e) { mem[k] = v; } } };
+  const { fa, time, esc, api, store, beep } = Panel;
   const app = document.getElementById('app'), statusEl = document.getElementById('status');
-  let key = st.get('nd_kitchen_key');
-  let autoPrint = st.get('nd_autoprint') !== '0';
-  let lastSeen = parseInt(st.get('nd_last_seen') || '0', 10);
-  let started = false, orders = [], printQueue = [], printing = false, audio;
+  let autoPrint = store.get('nd_autoprint') !== '0';
+  let lastSeen = parseInt(store.get('nd_last_seen') || '0', 10);
+  let orders = [], queue = [], printing = false;
 
-  function beep(){
-    try {
-      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
-      [0, .18, .36].forEach(t => {
-        const o = audio.createOscillator(), g = audio.createGain();
-        o.frequency.value = 880; o.connect(g); g.connect(audio.destination);
-        g.gain.setValueAtTime(.3, audio.currentTime + t); g.gain.exponentialRampToValueAtTime(.001, audio.currentTime + t + .15);
-        o.start(audio.currentTime + t); o.stop(audio.currentTime + t + .16);
-      });
-    } catch(e) {}
-  }
-  const time = ms => fa(new Date(ms).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
-  function linesHTML(o){
-    return o.lines.map(l => l.type === 'item'
-      ? `<div class="ln"><b>${fa(l.qty)} × ${l.name}</b></div>`
-      : `<div class="ln"><b>${fa(l.qty)} × 🎮 هات‌داگ سفارشی</b><ol><li>${l.bun}</li><li>${l.sausage}</li>${l.layers.map(x => `<li>${x}</li>`).join('')}</ol></div>`
-    ).join('') + (o.note ? `<div class="note">📝 ${o.note.replace(/[<>&]/g, '')}</div>` : '');
-  }
+  const lines = o => o.lines.map(l => l.type === 'item'
+    ? `<div class="ln"><b>${fa(l.qty)} × ${esc(l.name)}</b></div>`
+    : `<div class="ln" style="display:block"><b>${fa(l.qty)} × 🎮 هات‌داگ سفارشی</b><ol><li>${esc(l.bun)}</li><li>${esc(l.sausage)}</li>${l.layers.map(x => `<li>${esc(x)}</li>`).join('')}</ol></div>`
+  ).join('') + (o.note ? `<div class="note">📝 ${esc(o.note)}</div>` : '');
 
-  async function showSetup(msg){
-    app.innerHTML = `<div class="card login"><h2 style="margin-top:0">راه‌اندازی آشپزخانه</h2>
-      <p class="muted">یک کد برای ورود به این صفحه انتخاب کنید (حداقل ۴ کاراکتر). این کد رو فقط به آشپزها بدید.</p>${msg ? `<p style="color:var(--ketchup);font-weight:700">${msg}</p>` : ''}
-      <input id="k1" type="password" autocomplete="new-password" placeholder="کد جدید"><input id="k2" type="password" autocomplete="new-password" placeholder="تکرار کد" style="margin-top:0">
-      <button class="btn red" id="save" style="width:100%">ذخیره و ورود</button></div>`;
-    document.getElementById('save').onclick = async () => {
-      const a = document.getElementById('k1').value.trim(), b = document.getElementById('k2').value.trim();
-      if (a.length < 4) return showSetup('کد باید حداقل ۴ کاراکتر باشه');
-      if (a !== b) return showSetup('دو کد یکی نیستن');
-      const r = await fetch('/api/kitchen/setup', { method: 'POST', headers: {'content-type': 'application/json'}, body: JSON.stringify({ key: a }) });
-      if (!r.ok) return showLogin('کد قبلاً تنظیم شده؛ وارد شوید');
-      key = a; start();
-    };
-  }
-
-  function showLogin(msg){
-    app.innerHTML = `<div class="card login"><h2 style="margin-top:0">ورود آشپزخانه</h2>
-      <p class="muted">کد آشپزخانه رو وارد کنید</p>${msg ? `<p style="color:var(--ketchup);font-weight:700">${msg}</p>` : ''}
-      <input id="k" type="password" autocomplete="current-password"><button class="btn red" id="go" style="width:100%">ورود</button></div>`;
-    document.getElementById('go').onclick = () => { key = document.getElementById('k').value.trim(); start(); };
-  }
-
-  async function api(path, opts = {}){
-    const r = await fetch(path, { ...opts, headers: { 'content-type': 'application/json', 'x-kitchen-key': key, ...(opts.headers || {}) } });
-    if (r.status === 401) throw new Error('auth');
-    return r.json();
-  }
-
-  async function start(){
-    try { orders = await api('/api/orders'); }
-    catch(e) { if (e.message === 'auth') { st.set('nd_kitchen_key', ''); return showLogin(key ? 'کد اشتباهه' : ''); } }
-    st.set('nd_kitchen_key', key);
-    if (!lastSeen) { lastSeen = orders.reduce((m, o) => Math.max(m, o.id), 0); st.set('nd_last_seen', String(lastSeen)); }
-    started = true;
-    render(); setInterval(poll, 4000); poll();
+  function render(fresh = []){
+    const cook = orders.filter(o => o.status === 'new').sort((a, b) => a.id - b.id);
+    const ready = orders.filter(o => o.status === 'done' || o.status === 'paid').slice(0, 8);
+    const card = (o, isReady) => `<div class="card ocard ${isReady ? 'paid' : ''} ${fresh.includes(o.id) ? 'fresh' : ''}">
+      <div class="head"><span class="tbl">میز ${fa(o.table_no)} <small>#${fa(o.id)} · ${time(o.created)}</small></span>
+      ${isReady ? `<button class="btn" data-undo="${o.id}" title="برگردون به در حال پخت">↩</button>` : `<button class="btn" data-print="${o.id}" title="چاپ">🖨️</button>`}</div>
+      ${lines(o)}${isReady ? '' : `<div class="acts"><button class="btn green" data-done="${o.id}">✓ آماده شد</button></div>`}</div>`;
+    app.innerHTML = `<div class="ranges"><label class="btn" style="padding:5px 14px"><input type="checkbox" id="ap" ${autoPrint ? 'checked' : ''}> چاپ خودکار</label>
+        <button class="btn" id="test" style="padding:5px 14px">🔔 تست صدا</button><b>${fa(cook.length)} سفارش در حال پخت</b></div>
+      <h2>🔥 در حال پخت</h2>${cook.length ? `<div class="grid-orders">${cook.map(o => card(o, false)).join('')}</div>` : '<p class="empty">فعلاً سفارشی نیست 😴</p>'}
+      ${ready.length ? `<h2>✅ آماده‌شده</h2><div class="grid-orders">${ready.map(o => card(o, true)).join('')}</div>` : ''}`;
   }
 
   async function poll(){
     try {
       orders = await api('/api/orders');
-      statusEl.textContent = '🟢 آنلاین';
-      const fresh = orders.filter(o => o.id > lastSeen).sort((a, b) => a.id - b.id);
+      statusEl.textContent = '🟢';
+      const fresh = orders.filter(o => o.id > lastSeen && o.status === 'new').sort((a, b) => a.id - b.id);
       if (fresh.length) {
-        lastSeen = fresh[fresh.length - 1].id; st.set('nd_last_seen', String(lastSeen));
-        beep();
-        if (autoPrint) fresh.forEach(o => printQueue.push(o));
+        lastSeen = Math.max(...orders.map(o => o.id)); store.set('nd_last_seen', String(lastSeen));
+        beep(); if (autoPrint) queue.push(...fresh);
         render(fresh.map(o => o.id)); runPrint();
       } else render();
     } catch(e) { statusEl.textContent = '🔴 قطع اتصال'; }
   }
 
-  function render(freshIds = []){
-    if (!started) return;
-    const active = orders.filter(o => o.status === 'new'), done = orders.filter(o => o.status === 'done').slice(0, 12);
-    const card = (o, isDone) => `<div class="card order ${isDone ? 'done' : ''} ${freshIds.includes(o.id) ? 'fresh' : ''}">
-      <div class="head"><span class="tbl">میز ${fa(o.table_no)} <small>#${fa(o.id)} · ${time(o.created)}</small></span>
-      <span>${isDone ? `<button class="btn" data-undo="${o.id}">↩</button>` : `<button class="btn" data-print="${o.id}">🖨️</button>`}</span></div>
-      ${linesHTML(o)}${isDone ? '' : `<button class="btn green" style="width:100%;margin-top:12px" data-done="${o.id}">✓ آماده شد</button>`}</div>`;
-    app.innerHTML = `<div class="controls"><label class="btn"><input type="checkbox" id="ap" ${autoPrint ? 'checked' : ''}> چاپ خودکار</label>
-        <button class="btn" id="test">🔔 تست صدا</button><span class="muted">${fa(active.length)} سفارش در انتظار</span></div>
-      <h2>در انتظار</h2>${active.length ? `<div class="grid">${active.slice().reverse().map(o => card(o, false)).join('')}</div>` : '<p class="muted">فعلاً سفارشی نیست 😴</p>'}
-      ${done.length ? `<h2>آماده‌شده</h2><div class="grid">${done.map(o => card(o, true)).join('')}</div>` : ''}`;
-  }
-
   app.addEventListener('click', async e => {
     const b = e.target.closest('button, input'); if (!b) return;
-    if (b.id === 'ap') { autoPrint = b.checked; st.set('nd_autoprint', autoPrint ? '1' : '0'); return; }
-    if (b.id === 'test') { beep(); return; }
-    if (b.dataset.print) { printQueue.push(orders.find(o => o.id == b.dataset.print)); runPrint(); return; }
+    if (b.id === 'ap') { autoPrint = b.checked; store.set('nd_autoprint', autoPrint ? '1' : '0'); return; }
+    if (b.id === 'test') return beep();
+    if (b.dataset.print) { queue.push(orders.find(o => o.id == b.dataset.print)); return runPrint(); }
     const id = b.dataset.done || b.dataset.undo;
     if (id) { b.disabled = true; await api(`/api/orders/${id}/status`, { method: 'POST', body: JSON.stringify({ status: b.dataset.done ? 'done' : 'new' }) }); poll(); }
   });
 
   function runPrint(){
-    if (printing || !printQueue.length) return;
-    printing = true;
-    const o = printQueue.shift();
-    document.getElementById('print').innerHTML = `<div class="m">دکان هات‌داگ نادر</div><div class="t">میز ${fa(o.table_no)}</div><div class="m">سفارش #${fa(o.id)} · ${time(o.created)}</div>${linesHTML(o)}`;
+    if (printing || !queue.length) return;
+    printing = true; const o = queue.shift();
+    document.getElementById('print').innerHTML = `<div class="m">دکان هات‌داگ نادر</div><div class="t">میز ${fa(o.table_no)}</div><div class="m">سفارش #${fa(o.id)} · ${time(o.created)}</div>${lines(o)}`;
     setTimeout(() => { window.print(); printing = false; setTimeout(runPrint, 500); }, 150);
   }
 
-  (async () => {
-    if (key) return start();
-    try { const s = await (await fetch('/api/kitchen/setup')).json(); s.configured ? showLogin() : showSetup(); }
-    catch(e) { showLogin(); }
-  })();
+  Panel.start('kitchen', async () => {
+    orders = await api('/api/orders');
+    if (!lastSeen) { lastSeen = orders.reduce((m, o) => Math.max(m, o.id), 0); store.set('nd_last_seen', String(lastSeen)); }
+    render(); setInterval(poll, 4000);
+  });
 })();
 </script>
 </body>
