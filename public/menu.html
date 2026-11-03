@@ -52,6 +52,14 @@
   catch(e){ app.innerHTML = '<p style="text-align:center;margin-top:40px">اتصال برقرار نشد. لطفاً دوباره امتحان کنید.</p>'; return; }
 
   const money = (p) => p == null ? 'قیمت در صندوق' : fa(p.toLocaleString('en-US')).replace(/,/g,'٬') + ' ' + MENU.currency;
+  const C0 = MENU.custom, EXTRA0 = Object.fromEntries(C0.toppings.concat(C0.sauces).map(t => [t.id, t]));
+  const customPrice = l => (C0.basePrice || 0) + l.layers.reduce((s, id) => s + ((EXTRA0[id] || {}).price || 0), 0);
+  const unitPrice = l => l.type === 'item' ? ((MENU.items.find(i => i.id === l.id) || {}).price || 0) : customPrice(l);
+  const cartTotal = () => Cart.items().reduce((s, l) => s + unitPrice(l) * l.qty, 0);
+  // Drop things from the saved cart that are no longer on the menu or sold out.
+  { const okItem = id => { const i = MENU.items.find(x => x.id === id); return i && i.available !== false; };
+    const c = Cart.items(), keep = c.filter(l => l.type === 'item' ? okItem(l.id) : true);
+    if (keep.length !== c.length) { Cart.clear(); keep.forEach(l => l.type === 'item' ? Cart.addItem(l.id, l.qty) : Cart.addCustom(l)); } }
 
   // No table in the link? Let the customer pick.
   if (!Cart.table) {
@@ -70,6 +78,7 @@
         const list = MENU.items.filter(i => i.cat === c);
         return `<h2>${title}</h2><div class="items">` + list.map(i => {
           const q = Cart.qtyOf(i.id);
+          if (i.available === false) return `<div class="card item" style="opacity:.5"><div class="em">${i.emoji}</div><div class="info"><h3>${i.name}</h3>${i.desc ? `<p class="muted">${i.desc}</p>` : ''}<span class="price">تموم شد 😔</span></div></div>`;
           return `<div class="card item"><div class="em">${i.emoji}</div><div class="info"><h3>${i.name}</h3>${i.desc ? `<p class="muted">${i.desc}</p>` : ''}<span class="price">${money(i.price)}</span></div>
             <div class="qty">${q ? `<button data-add="${i.id}" data-d="-1" aria-label="کم کردن">−</button><span>${fa(q)}</span>` : ''}<button data-add="${i.id}" data-d="1" aria-label="اضافه کردن">+</button></div></div>`;
         }).join('') + '</div>';
@@ -86,7 +95,8 @@
   function updateBar(){
     const n = Cart.count();
     bar.hidden = n === 0;
-    document.getElementById('barText').textContent = fa(n) + ' مورد در سفارش';
+    const t = cartTotal();
+    document.getElementById('barText').textContent = fa(n) + ' مورد' + (t ? ' · ' + money(t) : ' در سفارش');
   }
 
   const sheet = document.getElementById('sheet'), panel = document.getElementById('panel');
@@ -109,6 +119,7 @@
           <div class="qty"><button data-i="${i}" data-q="${l.qty-1}">−</button><span>${fa(l.qty)}</span><button data-i="${i}" data-q="${l.qty+1}">+</button></div></div>`;
       }).join('') +
       `<h2>توضیحات (اختیاری)</h2><textarea id="note" rows="2" maxlength="200" placeholder="مثلاً: بدون پیاز، سس جدا"></textarea>
+       ${cartTotal() ? `<div class="line" style="font-size:1.1rem"><b class="info">جمع</b><b>${money(cartTotal())}</b></div>` : ''}
        <p class="muted" style="margin:12px 0">💳 پرداخت در صندوق انجام میشه.</p>
        <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn red" id="send" style="flex:1">ثبت سفارش</button><button class="btn" id="close">ادامه‌ی انتخاب</button></div>`;
   }
@@ -128,7 +139,7 @@
         showDone(d.id);
       } catch(err) {
         btn.disabled = false; btn.textContent = 'ثبت سفارش';
-        Cart.toast('ارسال نشد، دوباره امتحان کنید');
+        Cart.toast(String(err.message) === 'lines' ? 'یکی از موارد سفارش تموم شده؛ لطفاً سفارش رو بررسی کنید' : 'ارسال نشد، دوباره امتحان کنید');
       }
     }
   });
