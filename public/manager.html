@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>مدیر فروشگاه | دکان هات‌داگ نادر</title>
+<link rel="icon" href="/img/logo.jpg">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="top">
+  <span class="brand"><img src="/img/logo.jpg" alt="">🧾 مدیر فروشگاه</span>
+  <span><span id="status"></span> <span id="who" style="font-size:.85rem"></span></span>
+</header>
+<main class="panel-wrap" id="app"></main>
+
+<script src="/panel.js"></script>
+<script>
+(function(){
+  const { fa, money, time, esc, api, beep, dayStart } = Panel;
+  const app = document.getElementById('app');
+  const ST = { new: 'در حال پخت', done: 'آماده، پرداخت نشده', paid: 'پرداخت‌شده', cancelled: 'لغو شده' };
+  let tab = 'orders', filter = 'open', orders = [], menu = null, lastMax = 0, currency = 'تومان';
+
+  const lineText = l => l.type === 'item' ? esc(l.name) : `🎮 هات‌داگ سفارشی <small class="muted">(${esc([l.bun, l.sausage, ...l.layers].join('، '))})</small>`;
+  const amount = n => n ? money(n) + ' ' + currency : '—';
+
+  function ordersTab(){
+    const today = orders;
+    const groups = { open: o => o.status === 'new' || o.status === 'done', new: o => o.status === 'new', done: o => o.status === 'done', paid: o => o.status === 'paid', cancelled: o => o.status === 'cancelled', all: () => true };
+    const labels = { open: 'باز (پرداخت نشده)', new: 'در حال پخت', done: 'آماده', paid: 'پرداخت‌شده', cancelled: 'لغو شده', all: 'همه' };
+    const list = today.filter(groups[filter]);
+    return `<div class="ranges">${Object.keys(labels).map(k => `<button data-f="${k}" class="${filter === k ? 'on' : ''}">${labels[k]} (${fa(today.filter(groups[k]).length)})</button>`).join('')}</div>
+      ${list.length ? `<div class="grid-orders">${list.map(o => `<div class="card ocard ${o.status}">
+        <div class="head"><span class="tbl">میز ${fa(o.table_no)} <small>#${fa(o.id)} · ${time(o.created)}</small></span><span class="pill ${o.status}">${ST[o.status]}</span></div>
+        ${o.lines.map(l => `<div class="ln"><span>${fa(l.qty)} × ${lineText(l)}</span><b>${l.price ? money(l.price * l.qty) : ''}</b></div>`).join('')}
+        ${o.note ? `<div class="note">📝 ${esc(o.note)}</div>` : ''}
+        <div class="ln" style="border:0;font-size:1.05rem"><b>جمع</b><b>${amount(o.total)}</b></div>
+        <div class="acts">
+          ${o.status === 'new' ? `<button class="btn" data-s="done" data-id="${o.id}">✓ آماده شد</button>` : ''}
+          ${o.status === 'new' || o.status === 'done' ? `<button class="btn green" data-s="paid" data-id="${o.id}">💳 پرداخت شد</button><button class="btn" data-s="cancelled" data-id="${o.id}">✕ لغو</button>` : ''}
+          ${o.status === 'paid' || o.status === 'cancelled' ? `<button class="btn" data-s="done" data-id="${o.id}">↩ برگردون</button>` : ''}
+        </div></div>`).join('')}</div>` : '<p class="empty">سفارشی در این بخش نیست.</p>'}`;
+  }
+
+  function summaryTab(){
+    const valid = orders.filter(o => o.status !== 'cancelled');
+    const paid = orders.filter(o => o.status === 'paid');
+    const open = orders.filter(o => o.status === 'new' || o.status === 'done');
+    const sum = a => a.reduce((s, o) => s + (o.total || 0), 0);
+    const items = {};
+    for (const o of valid) for (const l of o.lines) { const k = l.type === 'item' ? l.name : 'هات‌داگ سفارشی'; items[k] = (items[k] || 0) + l.qty; }
+    const top = Object.entries(items).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    const max = top[0]?.[1] || 1;
+    const tables = {};
+    for (const o of open) tables[o.table_no] = (tables[o.table_no] || 0) + (o.total || 0);
+    return `<div class="kpis">
+        <div class="kpi"><div class="l">سفارش‌های امروز</div><div class="v">${fa(valid.length)}</div><div class="s">${fa(orders.length - valid.length)} لغو شده</div></div>
+        <div class="kpi"><div class="l">دریافتی امروز</div><div class="v">${money(sum(paid))}</div><div class="s">${currency} · ${fa(paid.length)} سفارش پرداخت‌شده</div></div>
+        <div class="kpi"><div class="l">هنوز پرداخت نشده</div><div class="v">${money(sum(open))}</div><div class="s">${currency} · ${fa(open.length)} سفارش باز</div></div>
+        <div class="kpi"><div class="l">میانگین هر سفارش</div><div class="v">${valid.length ? money(sum(valid) / valid.length) : '—'}</div><div class="s">${currency}</div></div>
+      </div>
+      <div class="charts">
+        <div class="card chart"><h3>پرفروش‌های امروز (تعداد)</h3>${top.length ? `<div class="hbars">${top.map(([n, c]) => `<div class="hb"><span>${esc(n)}</span><div class="t"><span style="width:${c / max * 100}%"></span></div><span class="n">${fa(c)}</span></div>`).join('')}</div>` : '<p class="empty">هنوز سفارشی ثبت نشده.</p>'}</div>
+        <div class="card chart"><h3>میزهای باز (پرداخت نشده)</h3>${Object.keys(tables).length ? `<table class="data"><tr><th>میز</th><th>مبلغ</th></tr>${Object.entries(tables).map(([t, v]) => `<tr><td>میز ${fa(t)}</td><td>${amount(v)}</td></tr>`).join('')}</table>` : '<p class="empty">همه‌ی میزها تسویه شدن ✓</p>'}</div>
+      </div>
+      ${orders.some(o => o.status !== 'cancelled' && !o.total) ? '<p class="muted" style="margin-top:14px">⚠️ قیمت بعضی آیتم‌ها هنوز تنظیم نشده، برای همین جمع‌ها ممکنه کامل نباشن. مدیر کل می‌تونه قیمت‌ها رو از پنل خودش وارد کنه.</p>' : ''}`;
+  }
+
+  function stockTab(){
+    if (!menu) return '<p class="empty">در حال بارگذاری…</p>';
+    const tog = (path, x, label) => `<label class="tog ${x.available === false ? 'off' : ''}"><span>${label}</span><span class="switch"><input type="checkbox" data-path="${path}" ${x.available === false ? '' : 'checked'}><i></i></span></label>`;
+    const C = menu.custom;
+    const sec = (title, arr, path, lab) => `<h2>${title}</h2><div class="toggles">${arr.map((x, i) => tog(path + '.' + i, x, lab(x))).join('')}</div>`;
+    return `<p class="muted">چیزی تموم شده؟ خاموشش کنید تا مشتری‌ها نتونن سفارشش بدن. دوباره که موجود شد روشنش کنید.</p>
+      ${sec('🍽️ منو', menu.items, 'items', x => (x.emoji || '') + ' ' + esc(x.name))}
+      ${sec('🥖 نون‌ها', C.buns, 'custom.buns', x => esc(x.name))}
+      ${sec('🌭 سوسیس‌ها', C.sausages, 'custom.sausages', x => esc(x.name))}
+      ${sec('🧅 مخلفات', C.toppings, 'custom.toppings', x => esc(x.name))}
+      ${sec('🥫 سس‌ها', C.sauces, 'custom.sauces', x => esc(x.name))}
+      <div class="savebar"><span id="saved" class="muted">تغییرات خودکار ذخیره میشه.</span></div>`;
+  }
+
+  function render(){
+    if (!document.getElementById('tabs')) {
+      app.innerHTML = `<div class="tabs" id="tabs">
+        <button data-t="orders">🧾 سفارش‌های امروز</button><button data-t="summary">📊 خلاصه‌ی امروز</button><button data-t="stock">📦 موجودی منو</button></div><div id="body"></div>`;
+    }
+    document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === tab));
+    document.getElementById('body').innerHTML = tab === 'orders' ? ordersTab() : tab === 'summary' ? summaryTab() : stockTab();
+  }
+
+  async function load(){
+    try {
+      orders = await api('/api/orders?from=' + dayStart(Date.now()));
+      document.getElementById('status').textContent = '🟢';
+      const max = orders.reduce((m, o) => Math.max(m, o.id), 0);
+      if (lastMax && max > lastMax) beep();
+      lastMax = max;
+      if (tab !== 'stock') render();
+    } catch(e) { document.getElementById('status').textContent = '🔴'; }
+  }
+
+  app.addEventListener('click', async e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.t) { tab = b.dataset.t; if (tab === 'stock' && !menu) { menu = await api('/api/menu'); } return render(); }
+    if (b.dataset.f) { filter = b.dataset.f; return render(); }
+    if (b.dataset.s) {
+      if (b.dataset.s === 'cancelled' && !confirm('این سفارش لغو بشه؟')) return;
+      b.disabled = true;
+      await api(`/api/orders/${b.dataset.id}/status`, { method: 'POST', body: JSON.stringify({ status: b.dataset.s }) });
+      load();
+    }
+  });
+  app.addEventListener('change', async e => {
+    const inp = e.target.closest('[data-path]'); if (!inp) return;
+    const [a, b, c] = inp.dataset.path.split('.');
+    const x = c != null ? menu[a][b][c] : menu[a][b];
+    x.available = inp.checked;
+    inp.closest('.tog').classList.toggle('off', !inp.checked);
+    const s = document.getElementById('saved');
+    try { await api('/api/admin/menu', { method: 'PUT', body: JSON.stringify(menu) }); s.textContent = '✓ ذخیره شد'; }
+    catch(err) { s.textContent = '⚠️ ذخیره نشد، دوباره امتحان کنید'; }
+  });
+
+  Panel.start('manager', async () => {
+    const m = await api('/api/menu'); currency = m.currency || currency;
+    await load(); render(); setInterval(load, 5000);
+  });
+})();
+</script>
+</body>
+</html>
