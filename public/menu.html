@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>منو و سفارش | دکان نادر</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌭</text></svg>">
+<link rel="stylesheet" href="/app.css">
+<style>
+  .hero-build{display:flex;align-items:center;gap:14px;background:var(--ketchup);color:#fff;text-decoration:none;margin-top:6px}
+  .hero-build .big{font-size:3rem;line-height:1}
+  .hero-build b{font-size:1.15rem;display:block}
+  .items{display:grid;gap:12px}
+  .item{display:flex;align-items:center;gap:12px}
+  .item .em{font-size:2.2rem;width:48px;text-align:center}
+  .item .info{flex:1;min-width:0}
+  .item h3{font-size:1.05rem;font-weight:800}
+  .item p{font-size:.88rem}
+  .tables{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:12px;margin-top:16px}
+  .tables .btn{font-size:1.3rem;padding:18px 0}
+  .line{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed rgba(29,20,16,.25)}
+  .line .info{flex:1}
+  .line small{display:block;color:var(--muted)}
+  .done-box{text-align:center;padding:30px 10px}
+  .done-box .big{font-size:4rem}
+  .num{font-size:2.6rem;font-weight:900;color:var(--ketchup)}
+  footer{text-align:center;margin-top:36px}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/">🌭 دکان نادر</a>
+  <span class="chip" id="tableChip" hidden></span>
+</header>
+
+<main class="wrap" id="app"><p class="muted" style="text-align:center;margin-top:40px">در حال بارگذاری منو…</p></main>
+
+<div class="bar" id="bar" hidden>
+  <span id="barText"></span>
+  <button class="btn yellow" id="openCart">مشاهده سفارش</button>
+</div>
+
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
+
+<script src="/cart.js"></script>
+<script>
+(async function(){
+  const app = document.getElementById('app');
+  const fa = Cart.fa;
+  let MENU;
+  try { MENU = await (await fetch('/api/menu')).json(); }
+  catch(e){ app.innerHTML = '<p style="text-align:center;margin-top:40px">اتصال برقرار نشد. لطفاً دوباره امتحان کنید.</p>'; return; }
+
+  const money = (p) => p == null ? 'قیمت در صندوق' : fa(p.toLocaleString('en-US')).replace(/,/g,'٬') + ' ' + MENU.currency;
+
+  // No table in the link? Let the customer pick.
+  if (!Cart.table) {
+    app.innerHTML = '<h2 style="text-align:center">شماره‌ی میزتون رو انتخاب کنید</h2><div class="tables">' +
+      Array.from({length: MENU.tables}, (_, i) => `<a class="btn yellow" href="/menu?t=${i+1}">${fa(i+1)}</a>`).join('') + '</div>';
+    return;
+  }
+  const chip = document.getElementById('tableChip');
+  chip.textContent = 'میز ' + fa(Cart.table); chip.hidden = false;
+
+  const cats = [['hotdog','🌭 هات‌داگ‌ها'],['food','🍔 خوراکی‌ها'],['drink','🥤 نوشیدنی‌ها']];
+  function render(){
+    app.innerHTML =
+      `<a class="card hero-build" href="${Cart.tableLink('/build')}"><span class="big">🎮</span><span><b>هات‌داگ خودتو بساز!</b>نون، سوسیس و مخلفاتش رو خودت انتخاب کن</span></a>` +
+      cats.map(([c, title]) => {
+        const list = MENU.items.filter(i => i.cat === c);
+        return `<h2>${title}</h2><div class="items">` + list.map(i => {
+          const q = Cart.qtyOf(i.id);
+          return `<div class="card item"><div class="em">${i.emoji}</div><div class="info"><h3>${i.name}</h3>${i.desc ? `<p class="muted">${i.desc}</p>` : ''}<span class="price">${money(i.price)}</span></div>
+            <div class="qty">${q ? `<button data-add="${i.id}" data-d="-1" aria-label="کم کردن">−</button><span>${fa(q)}</span>` : ''}<button data-add="${i.id}" data-d="1" aria-label="اضافه کردن">+</button></div></div>`;
+        }).join('') + '</div>';
+      }).join('') +
+      `<footer><a class="btn" href="https://instagram.com/naderhotdog" target="_blank" rel="noopener">📸 ما رو در اینستاگرام دنبال کنید: naderhotdog@</a></footer>`;
+    updateBar();
+  }
+  app.addEventListener('click', e => {
+    const b = e.target.closest('[data-add]'); if (!b) return;
+    Cart.addItem(b.dataset.add, +b.dataset.d); render();
+  });
+
+  const bar = document.getElementById('bar');
+  function updateBar(){
+    const n = Cart.count();
+    bar.hidden = n === 0;
+    document.getElementById('barText').textContent = fa(n) + ' مورد در سفارش';
+  }
+
+  const sheet = document.getElementById('sheet'), panel = document.getElementById('panel');
+  const nameOf = id => (MENU.items.find(i => i.id === id) || {}).name || id;
+  const findName = (list, id) => (list.find(x => x.id === id) || {}).name || id;
+  function renderCart(){
+    const lines = Cart.items();
+    if (!lines.length) { sheet.classList.remove('open'); render(); return; }
+    panel.innerHTML = '<h2 style="margin-top:0">سفارش میز ' + fa(Cart.table) + '</h2>' +
+      lines.map((l, i) => {
+        let title, sub = '';
+        if (l.type === 'item') title = nameOf(l.id);
+        else {
+          title = '🎮 هات‌داگ سفارشی';
+          const C = MENU.custom;
+          sub = [findName(C.buns, l.bun), findName(C.sausages, l.sausage)]
+            .concat(l.layers.map(id => findName(C.toppings.concat(C.sauces), id))).join('، ');
+        }
+        return `<div class="line"><div class="info"><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</div>
+          <div class="qty"><button data-i="${i}" data-q="${l.qty-1}">−</button><span>${fa(l.qty)}</span><button data-i="${i}" data-q="${l.qty+1}">+</button></div></div>`;
+      }).join('') +
+      `<h2>توضیحات (اختیاری)</h2><textarea id="note" rows="2" maxlength="200" placeholder="مثلاً: بدون پیاز، سس جدا"></textarea>
+       <p class="muted" style="margin:12px 0">💳 پرداخت در صندوق انجام میشه.</p>
+       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn red" id="send" style="flex:1">ثبت سفارش</button><button class="btn" id="close">ادامه‌ی انتخاب</button></div>`;
+  }
+  document.getElementById('openCart').onclick = () => { renderCart(); sheet.classList.add('open'); };
+  sheet.addEventListener('click', async e => {
+    if (e.target === sheet || e.target.id === 'close') { sheet.classList.remove('open'); render(); return; }
+    const q = e.target.closest('[data-i]');
+    if (q) { Cart.setQtyAt(+q.dataset.i, Math.min(20, +q.dataset.q)); renderCart(); return; }
+    if (e.target.id === 'send') {
+      const btn = e.target; btn.disabled = true; btn.textContent = 'در حال ارسال…';
+      try {
+        const r = await fetch('/api/order', { method: 'POST', headers: {'content-type': 'application/json'},
+          body: JSON.stringify({ table: Cart.table, lines: Cart.items(), note: document.getElementById('note').value }) });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.error);
+        Cart.clear(); sheet.classList.remove('open'); bar.hidden = true;
+        showDone(d.id);
+      } catch(err) {
+        btn.disabled = false; btn.textContent = 'ثبت سفارش';
+        Cart.toast('ارسال نشد، دوباره امتحان کنید');
+      }
+    }
+  });
+
+  function showDone(id){
+    app.innerHTML = `<div class="card done-box"><div class="big">✅</div><h2>سفارش‌تون به آشپزخونه رسید!</h2>
+      <p>شماره‌ی سفارش</p><div class="num">${fa(id)}</div>
+      <p id="st" class="muted" style="margin-top:10px">⏳ در حال آماده‌سازی…</p>
+      <p class="muted" style="margin-top:6px">💳 لطفاً در صندوق پرداخت کنید.</p>
+      <a class="btn yellow" style="margin-top:18px" href="${Cart.tableLink('/menu')}">سفارش جدید</a></div>`;
+    const poll = setInterval(async () => {
+      try {
+        const s = await (await fetch('/api/order/' + id)).json();
+        if (s.status === 'done') { document.getElementById('st').innerHTML = '🎉 <b>سفارش‌تون آماده‌ست!</b>'; clearInterval(poll); }
+      } catch(e) {}
+    }, 6000);
+  }
+
+  render();
+  if (new URLSearchParams(location.search).get('cart') === '1') document.getElementById('openCart').click();
+})();
+</script>
+</body>
+</html>
