@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>مدیر کل | دکان هات‌داگ نادر</title>
-<link rel="icon" href="/img/logo.jpg">
+<link rel="icon" href="/img/logo.png">
 <link rel="stylesheet" href="/app.css">
 </head>
 <body>
 <header class="top">
-  <span class="brand"><img src="/img/logo.jpg" alt="">👑 مدیر کل</span>
+  <span class="brand"><img src="/img/logo.png" alt="">👑 مدیر کل</span>
   <span id="who" style="font-size:.85rem"></span>
 </header>
 <main class="panel-wrap" id="app"></main>
@@ -21,7 +21,7 @@
   const { fa, money, time, faDate, dayKey, hourOf, dayStart, DAY, esc, api } = Panel;
   const app = document.getElementById('app');
   const ST = { new: 'در حال پخت', done: 'آماده', paid: 'پرداخت‌شده', cancelled: 'لغو شده' };
-  const CATS = { hotdog: '🌭 هات‌داگ', food: '🍔 خوراکی', drink: '🥤 نوشیدنی' };
+  let CATS = { special: '⭐ مخصوص‌ها', classic: '🌭 کلاسیک‌ها', fries: '🍟 سیب‌زمینی', drink: '🥤 نوشیدنی' };
   let tab = 'dash', range = '7', from, to, orders = [], menu = null, tables = 5, auth = {};
   let currency = 'تومان';
   const amount = n => money(n) + ' ' + currency;
@@ -121,17 +121,17 @@
       <button class="x" data-del="${i}" title="حذف">🗑️</button></div>`;
     const extra = (arr, key) => arr.map((x, i) => `<div class="tog ${x.available === false ? 'off' : ''}" data-g="${key}" data-i="${i}">
       <input data-k="name" value="${esc(x.name)}" style="flex:1;font:inherit;border:1.5px solid rgba(26,20,18,.3);border-radius:8px;padding:5px">
-      ${key === 'toppings' || key === 'sauces' ? `<input data-k="price" type="number" min="0" step="1000" value="${x.price || 0}" style="width:100px;font:inherit;border:1.5px solid rgba(26,20,18,.3);border-radius:8px;padding:5px" title="قیمت اضافه">` : ''}
+      ${true ? `<input data-k="price" type="number" min="0" step="1000" value="${x.price || 0}" style="width:100px;font:inherit;border:1.5px solid rgba(26,20,18,.3);border-radius:8px;padding:5px" title="قیمت اضافه">` : ''}
       <label class="switch"><input type="checkbox" data-k="available" ${x.available === false ? '' : 'checked'}><i></i></label></div>`).join('');
     return `<p class="muted">قیمت‌ها به ${currency}. قیمت خالی یعنی «قیمت در صندوق». بعد از تغییر، «ذخیره» رو بزنید تا روی سایت اعمال بشه.</p>
       <h2>🍽️ آیتم‌های منو</h2><div id="items">${menu.items.map(item).join('')}</div>
       <button class="btn" id="addItem">➕ آیتم جدید</button>
       <h2>🎮 هات‌داگ سفارشی</h2>
-      <div class="field" style="max-width:320px">قیمت پایه (نون + سوسیس)<input id="basePrice" type="number" min="0" step="1000" value="${C.basePrice ?? ''}"></div>
+      <div class="field" style="max-width:320px">قیمت پایه (نون + سوسیس اسپشیال + سیب‌زمینی)<input id="basePrice" type="number" min="0" step="1000" value="${C.basePrice ?? ''}"></div>
       <h3 style="margin:14px 0 8px">مخلفات <small class="muted">(قیمت اضافه برای هر کدوم)</small></h3><div class="toggles">${extra(C.toppings, 'toppings')}</div>
       <h3 style="margin:14px 0 8px">سس‌ها</h3><div class="toggles">${extra(C.sauces, 'sauces')}</div>
-      <h3 style="margin:14px 0 8px">نون‌ها</h3><div class="toggles">${extra(C.buns, 'buns')}</div>
-      <h3 style="margin:14px 0 8px">سوسیس‌ها</h3><div class="toggles">${extra(C.sausages, 'sausages')}</div>
+      <h3 style="margin:14px 0 8px">نون‌ها <small class="muted">(قیمت اضافه)</small></h3><div class="toggles">${extra(C.buns, 'buns')}</div>
+      <h3 style="margin:14px 0 8px">سوسیس‌ها <small class="muted">(قیمت اضافه نسبت به اسپشیال)</small></h3><div class="toggles">${extra(C.sausages, 'sausages')}</div>
       <div class="savebar"><button class="btn red" id="saveMenu">💾 ذخیره‌ی منو</button><span id="saved" class="muted"></span></div>`;
   }
 
@@ -155,7 +155,7 @@
   }
 
   async function loadOrders(){ orders = await api(`/api/orders?from=${from}&to=${to}`); }
-  async function loadMenu(){ const m = await api('/api/menu'); tables = m.tables; currency = m.currency || currency; delete m.tables; menu = m; }
+  async function loadMenu(){ const m = await api('/api/menu'); tables = m.tables; currency = m.currency || currency; delete m.tables; menu = m; if (m.cats) CATS = Object.fromEntries(m.cats.map(c => [c.id, c.emoji + ' ' + c.short])); }
 
   function readMenu(){
     document.querySelectorAll('#items .row-edit').forEach(row => {
@@ -191,7 +191,7 @@
       const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
       a.download = 'naderdokan-orders-' + dayKey(from) + '_' + dayKey(to - 1) + '.csv'; a.click(); return;
     }
-    if (b.id === 'addItem') { readMenu(); menu.items.push({ id: 'i' + Date.now().toString(36), cat: 'hotdog', emoji: '🌭', name: '', desc: '', price: null, available: true }); return render(); }
+    if (b.id === 'addItem') { readMenu(); menu.items.push({ id: 'i' + Date.now().toString(36), cat: 'special', emoji: '🌭', name: '', desc: '', price: null, available: true }); return render(); }
     if (b.dataset.del != null) { readMenu(); if (!confirm('«' + (menu.items[b.dataset.del].name || 'این آیتم') + '» از منو حذف بشه؟')) return; menu.items.splice(+b.dataset.del, 1); return render(); }
     if (b.id === 'saveMenu') {
       readMenu(); const s = document.getElementById('saved');

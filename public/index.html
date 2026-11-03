@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>دکان هات‌داگ نادر | Nader Hotdog Shop — قم</title>
-<meta name="description" content="دکان هات‌داگ نادر، قم — هات‌داگ‌های داغ با نان تازه و سس‌های خانگی. منو و سفارش آنلاین، هر روز ۱۴ تا ۲۴.">
+<meta name="description" content="دکان هات‌داگ نادر، قم — اسموک داگ، چدار اسلم، مانستر بایت، لاوا داگ و هات‌داگ‌های دست‌ساز گوشت ۹۰٪. منو، قیمت‌ها و سفارش آنلاین؛ هر روز از ساعت ۱۴.">
 <link rel="icon" href="/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;600;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
@@ -73,14 +73,15 @@
   .head p{max-width:40em;margin:10px auto 0;color:#4a3c33}
 
   .tile{position:relative;background:var(--red) var(--spark);border-radius:22px;overflow:hidden;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink)}
-  .tile svg{width:128%;max-width:none;transform:rotate(-58deg);filter:drop-shadow(0 8px 0 rgba(20,16,16,.2))}
+  .tile svg{width:118%;max-width:none;transform:rotate(-50deg) translateY(-8%);filter:drop-shadow(0 8px 0 rgba(20,16,16,.2))}
   .tile .label{position:absolute;inset:auto 10px 12px 10px;z-index:2;text-align:center;font-family:"Lalezar",sans-serif;font-size:clamp(1.5rem,3vw,2rem);color:var(--cream);line-height:1.1;padding:6px 8px;background:var(--ink);border-radius:14px}
 
   .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:860px;margin:0 auto}
   .pillars .tile{aspect-ratio:4/5.2}
   @media (max-width:640px){.pillars{gap:10px}.pillars .tile{border-radius:14px;box-shadow:3px 3px 0 var(--ink);border-width:2px}.pillars .tile .label{font-size:1rem;inset:auto 5px 6px 5px;padding:3px 4px}}
 
-  .dogs{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;max-width:980px;margin:0 auto}
+  .dogs{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1040px;margin:0 auto}
+  @media (max-width:1000px){.dogs{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:820px){.dogs{grid-template-columns:repeat(2,1fr)}}
   @media (max-width:520px){.dogs{gap:14px}.dog .tops{font-size:.82rem}.tile .label{font-size:1.2rem}.dogs .tile{box-shadow:4px 4px 0 var(--ink)}}
   .dog{text-align:center;text-decoration:none}
@@ -142,9 +143,9 @@
   <div class="wrap">
     <div class="hero-art" aria-hidden="true"><div id="heroDog"></div><span class="sp" style="top:6%;right:10%">✦</span><span class="sp" style="bottom:10%;left:8%;font-size:1.4rem">✦</span></div>
     <div>
-      <span class="eyebrow">هات‌داگ داغ · نان تازه · قم</span>
+      <span class="eyebrow">هات‌داگ دست‌ساز · سس دست‌ساز · قم</span>
       <h1 class="display">اونقدر خوشمزه‌ست<span>که باورت نمیشه!</span></h1>
-      <p>فقط یه هات‌داگ نیست؛ یه تجربه‌ست. سوسیس گریل‌شده، نان تازه و سس‌های خانگی، هر روز از ساعت ۱۴ تا نیمه‌شب.</p>
+      <p>فقط یه هات‌داگ نیست؛ یه تجربه‌ست. هات‌داگ اسپشیال گوشت ۷۰٪ و هات‌داگ‌های دست‌ساز گوشت و مرغ ۹۰٪، با سس‌های دست‌ساز خودمون. هر روز از ساعت ۱۴ تا ۲۳:۴۵.</p>
       <div class="btns">
         <a class="btn fill" href="/menu">🌭 سفارش آنلاین</a>
         <a class="btn line" href="#visit">📍 آدرس ما</a>
@@ -158,12 +159,12 @@
     <div class="head">
       <span class="eyebrow">چی دکان نادر رو متفاوت می‌کنه؟</span>
       <h2 class="display">سه رکن <em>طعم</em></h2>
-      <p>ما فکر می‌کنیم هات‌داگ نباید یه غذای ساده و معمولی باشه. هر هات‌داگ ما با سه چیز ساخته میشه که روشون کوتاه نمیایم.</p>
+      <p>هات‌داگ نباید یه غذای ساده و معمولی باشه. هر ساندویچ ما با سه چیز ساخته میشه که روشون کوتاه نمیایم — و همه‌شون با ۱۵۰ گرم سیب‌زمینی سرخ‌شده‌ی طعم‌دار سرو میشن.</p>
     </div>
     <div class="pillars">
-      <div class="tile" id="p1"><div class="label">نان تازه<br>و نرم</div></div>
-      <div class="tile" id="p2"><div class="label">سوسیس<br>مرغوب</div></div>
-      <div class="tile" id="p3"><div class="label">مخلفات و<br>سس خانگی</div></div>
+      <div class="tile" id="p1"><div class="label">نان هات‌داگ<br>و باگت تازه</div></div>
+      <div class="tile" id="p2"><div class="label">هات‌داگ دست‌ساز<br>گوشت ۹۰٪</div></div>
+      <div class="tile" id="p3"><div class="label">سس‌های<br>دست‌ساز</div></div>
     </div>
   </div>
 </section>
@@ -172,10 +173,14 @@
   <div class="wrap">
     <div class="head">
       <span class="eyebrow">منوی ما</span>
-      <h2 class="display">هات‌داگ‌های <em>نادر</em></h2>
+      <h2 class="display">هات‌داگ‌های <em>مخصوص</em></h2>
       <p>یکی رو انتخاب کن، یا خودت از اول بسازش! 🎮</p>
     </div>
     <div class="dogs" id="dogGrid"></div>
+    <div class="head" style="margin-top:64px">
+      <h2 class="display">هات‌داگ‌های <em>کلاسیک</em></h2>
+    </div>
+    <div class="dogs" id="classicGrid"></div>
     <div class="more" id="more"></div>
   </div>
 </section>
@@ -187,6 +192,7 @@
     <div class="btns">
       <a class="btn fill" href="/menu">🌭 منو و سفارش آنلاین</a>
       <a class="btn line" href="/build">🎮 هات‌داگ خودتو بساز</a>
+      <a class="btn line" href="https://snappfood.ir/restaurant/menu/%D9%87%D8%A7%D8%AA_%D8%AF%D8%A7%DA%AF_%D9%86%D8%A7%D8%AF%D8%B1-r-xdw1n2/" target="_blank" rel="noopener">🛵 سفارش با پیک (اسنپ‌فود)</a>
     </div>
   </div>
 </div>
@@ -200,10 +206,11 @@
         <h2 class="display">منتظرت <em>هستیم</em></h2>
       </div>
       <div class="info">
-        <div><span class="ic">⏰</span><span><b>ساعت کاری</b>هر روز از ساعت ۱۴:۰۰ تا ۰۰:۰۰</span></div>
+        <div><span class="ic">⏰</span><span><b>ساعت کاری</b>شنبه تا پنجشنبه ۱۴:۰۰ تا ۲۳:۴۵<br>جمعه‌ها ۱۵:۰۰ تا ۲۳:۴۵</span></div>
         <div><span class="ic">☎️</span><span><b>سفارش تلفنی</b><a href="tel:02532903005" dir="ltr">025-3290-3005</a> · <a href="tel:09191549104" dir="ltr">0919-154-9104</a></span></div>
-        <div><span class="ic">📍</span><span><b>آدرس</b>قم، بلوار شهید صدوقی، ۳۰متری قائم، بین کوچه ۵ و ۷<br><a href="https://www.google.com/maps/search/?api=1&query=%D9%82%D9%85%D8%8C+%D8%A8%D9%84%D9%88%D8%A7%D8%B1+%D8%B4%D9%87%DB%8C%D8%AF+%D8%B5%D8%AF%D9%88%D9%82%DB%8C%D8%8C+%DB%B3%DB%B0%D9%85%D8%AA%D8%B1%DB%8C+%D9%82%D8%A7%D8%A6%D9%85" target="_blank" rel="noopener" style="color:var(--red-2)">مسیریابی روی نقشه ←</a></span></div>
+        <div><span class="ic">📍</span><span><b>آدرس</b>قم، زنبیل‌آباد (بلوار شهید صدوقی)، ۳۰متری قائم، بین کوچه ۵ و ۷، پلاک ۱۹۹<br><a href="https://www.google.com/maps/search/?api=1&query=%D9%82%D9%85%D8%8C+%D8%A8%D9%84%D9%88%D8%A7%D8%B1+%D8%B4%D9%87%DB%8C%D8%AF+%D8%B5%D8%AF%D9%88%D9%82%DB%8C%D8%8C+%DB%B3%DB%B0%D9%85%D8%AA%D8%B1%DB%8C+%D9%82%D8%A7%D8%A6%D9%85" target="_blank" rel="noopener" style="color:var(--red)">مسیریابی روی نقشه ←</a></span></div>
         <div><span class="ic">📸</span><span><b>اینستاگرام</b><a href="https://instagram.com/naderhotdog" target="_blank" rel="noopener" dir="ltr">@naderhotdog</a></span></div>
+        <div><span class="ic">🛵</span><span><b>سفارش با پیک</b>ما رو توی اسنپ‌فود هم پیدا می‌کنید — ⭐ ۴٫۵ از ۵ با بیش از ۲۴۰ نظر<br><a href="https://snappfood.ir/restaurant/menu/%D9%87%D8%A7%D8%AA_%D8%AF%D8%A7%DA%AF_%D9%86%D8%A7%D8%AF%D8%B1-r-xdw1n2/" target="_blank" rel="noopener" style="color:var(--red)">سفارش از اسنپ‌فود ←</a></span></div>
       </div>
     </div>
     <div class="badge">
@@ -226,30 +233,34 @@
 <script>
 (async function(){
   const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-  document.getElementById('heroDog').innerHTML = DogArt.svg({ bun: 'sesame', sausage: 'smoked', layers: ['lettuce', 'cheese', 'tomato', 'friedonion', 'pickles', 'mayo', 'ketchup'] });
-  // the three pillars: the bun, the sausage, everything on top
-  const bunOnly = DogArt.svg({ bun: 'plain', sausage: 'regular', layers: [] });
-  document.getElementById('p1').insertAdjacentHTML('afterbegin', bunOnly.replace(/<rect x="20" y="92"[^>]*\/><rect x="40"[^>]*\/>/, ''));
-  document.getElementById('p2').insertAdjacentHTML('afterbegin', DogArt.svg({ bun: 'plain', sausage: 'smoked', layers: [] }));
-  document.getElementById('p3').insertAdjacentHTML('afterbegin', DogArt.svg({ bun: 'sesame', sausage: 'regular', layers: ['cheese', 'jalapeno', 'friedonion', 'special', 'mustard'] }));
+  const D = DogArt;
+  document.getElementById('heroDog').innerHTML = D.svg(D.look('monsterbite'));
+  // the three pillars: the bread, the handmade sausage, the sauces
+  const part = (inner) => `<svg viewBox="0 40 400 192" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  document.getElementById('p1').insertAdjacentHTML('afterbegin', part(D.defs('baguette', 'regular', 'p1') + D.bunBack('baguette', 'p1') + D.bunFront('baguette', 'p1')));
+  document.getElementById('p2').insertAdjacentHTML('afterbegin', D.svg({ bun: 'plain', sausage: 'beef', layers: [] }));
+  document.getElementById('p3').insertAdjacentHTML('afterbegin', D.svg({ bun: 'plain', sausage: 'regular', layers: ['house', 'cheddar', 'bbq'] }));
 
   let menu;
   try { menu = await (await fetch('/api/menu')).json(); } catch(e) { return; }
   const money = p => fa(p.toLocaleString('en-US')).replace(/,/g, '٬') + ' ' + (menu.currency || 'تومان');
-  const dogs = menu.items.filter(i => i.cat === 'hotdog');
-  const looks = Object.values(DogArt.LOOKS);
-  const grid = document.getElementById('dogGrid');
-  grid.innerHTML = dogs.map((d, i) => {
-    const look = DogArt.LOOKS[d.id] || looks[i % looks.length];
-    const off = d.available === false;
-    return `<a class="dog ${off ? 'soldout' : ''}" href="${off ? '#dogs' : '/menu'}">
-      <div class="tile">${DogArt.svg(look)}<div class="label">${d.name.replace('هات‌داگ ', 'هات‌داگ<br>')}</div></div>
-      <div class="tops">${d.desc ? d.desc.split('،').map(s => s.trim()).join(' · ') : ''}</div>
-      <div class="price">${off ? 'فعلاً تموم شده' : d.price ? money(d.price) : ''}</div></a>`;
-  }).join('') + `<a class="dog build" href="/build"><div class="tile"><span class="q">?</span><div class="label">خودت<br>بسازش!</div></div>
-      <div class="tops">نون، سوسیس و مخلفاتش رو خودت انتخاب کن</div><div class="price">🎮 بازی ساخت هات‌داگ</div></a>`;
-  const others = menu.items.filter(i => i.cat !== 'hotdog' && i.available !== false);
-  document.getElementById('more').innerHTML = others.length ? '<span style="background:none;border:0">بقیه‌ی منو:</span>' + others.map(o => `<span>${o.emoji || ''} ${o.name}${o.price ? `<small>${money(o.price)}</small>` : ''}</span>`).join('') : '';
+  // Short topping list: drop the parts every sandwich has (bun, fries, the base hotdog).
+  const tops = d => (d.desc || '').split('،').map(x => x.trim().replace(/^[۰-۹0-9]+ ?گرم /, '').replace(/^یک عدد /, ''))
+    .filter(x => x && !/^(نان|سیب|هات[‌ ]?داگ اسپشیال|هات[‌ ]?داگ سرخ|سوسیس هات)/.test(x)).join(' · ');
+  const card = (d) => { const off = d.available === false;
+    return `<a class="dog ${off ? 'soldout' : ''}" href="${off ? '#dogs' : '/menu?view=1#c-' + d.cat}">
+      <div class="tile">${D.svg(D.look(d.id))}<div class="label">${d.name}</div></div>
+      <div class="tops">${tops(d)}</div>
+      <div class="price">${off ? 'فعلاً تموم شده' : d.price ? money(d.price) : ''}</div></a>`; };
+  const of = c => menu.items.filter(i => i.cat === c);
+  const specials = of('special').length ? of('special') : menu.items.filter(i => i.cat === 'hotdog');
+  document.getElementById('dogGrid').innerHTML = specials.map(card).join('') + `<a class="dog build" href="/build"><div class="tile"><span class="q">?</span><div class="label">خودت بسازش!</div></div>
+      <div class="tops">نون، سوسیس، مخلفات و سس رو خودت انتخاب کن</div><div class="price">🎮 بازی ساخت هات‌داگ</div></a>`;
+  const classics = of('classic');
+  document.getElementById('classicGrid').innerHTML = classics.map(card).join('');
+  if (!classics.length) document.getElementById('classicGrid').previousElementSibling.remove();
+  const others = menu.items.filter(i => !['special', 'classic', 'hotdog'].includes(i.cat) && i.available !== false);
+  document.getElementById('more').innerHTML = others.length ? '<span style="background:none;border:0">سیب‌زمینی و نوشیدنی:</span>' + others.map(o => `<span>${o.emoji || ''} ${o.name}${o.price ? `<small>${money(o.price)}</small>` : ''}</span>`).join('') : '';
 })();
 </script>
 </body>

@@ -4,32 +4,44 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>منو و سفارش | دکان نادر</title>
-<link rel="icon" href="/img/logo.jpg">
+<link rel="icon" href="/img/logo.png">
 <link rel="stylesheet" href="/app.css">
 <style>
-  .hero-build{display:flex;align-items:center;gap:14px;background:var(--ketchup);color:#fff;text-decoration:none;margin-top:6px}
+  .hero-build{display:flex;align-items:center;gap:14px;background:var(--red) ;color:var(--cream);text-decoration:none;margin-top:6px}
   .hero-build .big{font-size:3rem;line-height:1}
-  .hero-build b{font-size:1.15rem;display:block}
-  .items{display:grid;gap:12px}
-  .item{display:flex;align-items:center;gap:12px}
-  .item .em{font-size:2.2rem;width:48px;text-align:center}
-  .item .info{flex:1;min-width:0}
-  .item h3{font-size:1.05rem;font-weight:800}
-  .item p{font-size:.88rem}
+  .hero-build b{font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.45rem;display:block;line-height:1.3}
+  .catnav{position:sticky;top:75px;z-index:15;display:flex;gap:8px;overflow-x:auto;padding:12px 0 8px;margin:0 -16px;padding-inline:16px;background:var(--cream);scrollbar-width:none}
+  .catnav::-webkit-scrollbar{display:none}
+  .catnav a{flex:none;text-decoration:none;border:2px solid var(--ink);border-radius:999px;padding:4px 14px;font-weight:800;background:var(--paper);font-size:.92rem}
+  .catnav a.on{background:var(--red);color:var(--cream)}
+  .items{display:grid;gap:14px}
+  .item{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center}
+  .item .pic{background:var(--red);border:2px solid var(--ink);border-radius:14px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .item .pic svg{width:135%;max-width:none;transform:rotate(-28deg)}
+  .item .pic.em{background:var(--mustard);font-size:3.2rem}
+  .item:nth-child(even) .pic:not(.em){background:var(--mustard)}
+  .item .info{min-width:0}
+  .item h3{font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.35rem;line-height:1.3}
+  .item p{font-size:.84rem;line-height:1.7}
+  .item .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;flex-wrap:wrap}
+  .item .price{color:var(--red);font-weight:900}
+  .item.off{opacity:.5}
+  @media (max-width:420px){.item{grid-template-columns:86px 1fr}.item h3{font-size:1.2rem}}
   .tables{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:12px;margin-top:16px}
-  .tables .btn{font-size:1.3rem;padding:18px 0}
+  .tables .btn{font-size:1.4rem;padding:18px 0;font-family:"Lalezar",sans-serif;font-weight:400}
+  .alt{display:grid;gap:10px;margin-top:26px}
+  .note{background:var(--paper);border:2px dashed var(--red);border-radius:14px;padding:10px 14px;margin-top:12px;font-size:.92rem}
   .line{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed rgba(29,20,16,.25)}
   .line .info{flex:1}
   .line small{display:block;color:var(--muted)}
   .done-box{text-align:center;padding:30px 10px}
   .done-box .big{font-size:4rem}
-  .num{font-size:2.6rem;font-weight:900;color:var(--ketchup)}
-  footer{text-align:center;margin-top:36px}
+  .num{font-family:"Lalezar",sans-serif;font-size:3rem;color:var(--red)}
 </style>
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="/"><img src="/img/logo.jpg" alt="">دکان هات‌داگ نادر</a>
+  <a class="brand" href="/"><img src="/img/logo.png" alt="">دکان هات‌داگ نادر</a>
   <span class="chip" id="tableChip" hidden></span>
 </header>
 
@@ -43,6 +55,7 @@
 <div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
 
 <script src="/cart.js"></script>
+<script src="/dogart.js"></script>
 <script>
 (async function(){
   const app = document.getElementById('app');
@@ -51,40 +64,58 @@
   try { MENU = await (await fetch('/api/menu')).json(); }
   catch(e){ app.innerHTML = '<p style="text-align:center;margin-top:40px">اتصال برقرار نشد. لطفاً دوباره امتحان کنید.</p>'; return; }
 
+  const SNAPP = 'https://snappfood.ir/restaurant/menu/%D9%87%D8%A7%D8%AA_%D8%AF%D8%A7%DA%AF_%D9%86%D8%A7%D8%AF%D8%B1-r-xdw1n2/';
   const money = (p) => p == null ? 'قیمت در صندوق' : fa(p.toLocaleString('en-US')).replace(/,/g,'٬') + ' ' + MENU.currency;
   const C0 = MENU.custom, EXTRA0 = Object.fromEntries(C0.toppings.concat(C0.sauces).map(t => [t.id, t]));
-  const customPrice = l => (C0.basePrice || 0) + l.layers.reduce((s, id) => s + ((EXTRA0[id] || {}).price || 0), 0);
+  const pick = (list, id) => list.find(x => x.id === id);
+  const customOk = l => pick(C0.buns, l.bun) && pick(C0.sausages, l.sausage) && (l.layers || []).every(id => EXTRA0[id]);
+  const customPrice = l => (C0.basePrice || 0) + ((pick(C0.buns, l.bun) || {}).price || 0) + ((pick(C0.sausages, l.sausage) || {}).price || 0) + l.layers.reduce((s, id) => s + ((EXTRA0[id] || {}).price || 0), 0);
   const unitPrice = l => l.type === 'item' ? ((MENU.items.find(i => i.id === l.id) || {}).price || 0) : customPrice(l);
   const cartTotal = () => Cart.items().reduce((s, l) => s + unitPrice(l) * l.qty, 0);
   // Drop things from the saved cart that are no longer on the menu or sold out.
   { const okItem = id => { const i = MENU.items.find(x => x.id === id); return i && i.available !== false; };
-    const c = Cart.items(), keep = c.filter(l => l.type === 'item' ? okItem(l.id) : true);
+    const c = Cart.items(), keep = c.filter(l => l.type === 'item' ? okItem(l.id) : customOk(l));
     if (keep.length !== c.length) { Cart.clear(); keep.forEach(l => l.type === 'item' ? Cart.addItem(l.id, l.qty) : Cart.addCustom(l)); } }
 
-  // No table in the link? Let the customer pick.
-  if (!Cart.table) {
-    app.innerHTML = '<h2 style="text-align:center">شماره‌ی میزتون رو انتخاب کنید</h2><div class="tables">' +
-      Array.from({length: MENU.tables}, (_, i) => `<a class="btn yellow" href="/menu?t=${i+1}">${fa(i+1)}</a>`).join('') + '</div>';
+  const cats = (MENU.cats && MENU.cats.length ? MENU.cats : [{ id: 'hotdog', name: 'هات‌داگ‌ها', short: 'هات‌داگ', emoji: '🌭' }, { id: 'food', name: 'خوراکی‌ها', short: 'خوراکی', emoji: '🍟' }, { id: 'drink', name: 'نوشیدنی‌ها', short: 'نوشیدنی', emoji: '🥤' }])
+    .filter(c => MENU.items.some(i => i.cat === c.id));
+  const isDog = i => /^(special|classic|hotdog)$/.test(i.cat) || DogArt.LOOKS[i.id];
+  const view = new URLSearchParams(location.search).get('view') === '1';
+  const foot = `<footer class="site-foot"><div class="checker" style="margin:0 -16px 18px"></div><img class="mascot" src="/img/mascot.png" alt="">
+      <div class="en">NADER HOTDOG SHOP</div>
+      <p>⏰ هر روز ۱۴:۰۰ تا ۲۳:۴۵ (جمعه‌ها از ۱۵:۰۰) · ☎️ <a href="tel:02532903005" dir="ltr">025-3290-3005</a></p>
+      <p>📍 قم، زنبیل‌آباد، ۳۰متری قائم، بین کوچه ۵ و ۷، پلاک ۱۹۹</p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px"><a class="btn" href="https://instagram.com/naderhotdog" target="_blank" rel="noopener">📸 naderhotdog@</a><a class="btn snapp" href="${SNAPP}" target="_blank" rel="noopener">🛵 اسنپ‌فود</a></div></footer>`;
+
+  // No table in the link? Let the customer pick (or just look at the menu / order delivery).
+  if (!Cart.table && !view) {
+    app.innerHTML = '<h2 style="text-align:center">شماره‌ی میزتون رو انتخاب کنید</h2><p class="muted" style="text-align:center">شماره روی کد QR میز نوشته شده</p><div class="tables">' +
+      Array.from({length: MENU.tables}, (_, i) => `<a class="btn yellow" href="/menu?t=${i+1}">${fa(i+1)}</a>`).join('') + '</div>' +
+      `<div class="alt"><a class="btn" href="/menu?view=1">📖 فقط می‌خوام منو رو ببینم</a><a class="btn snapp" href="${SNAPP}" target="_blank" rel="noopener">🛵 سفارش با پیک از اسنپ‌فود</a></div>` + foot;
     return;
   }
-  const chip = document.getElementById('tableChip');
-  chip.textContent = 'میز ' + fa(Cart.table); chip.hidden = false;
+  if (Cart.table) { const chip = document.getElementById('tableChip'); chip.textContent = 'میز ' + fa(Cart.table); chip.hidden = false; }
 
-  const cats = [['hotdog','🌭 هات‌داگ‌ها'],['food','🍔 خوراکی‌ها'],['drink','🥤 نوشیدنی‌ها']];
+  const pic = i => isDog(i) ? `<div class="pic">${DogArt.svg(DogArt.look(i.id))}</div>` : `<div class="pic em">${i.emoji || '🍽️'}</div>`;
   function render(){
     app.innerHTML =
-      `<a class="card hero-build" href="${Cart.tableLink('/build')}"><span class="big">🎮</span><span><b>هات‌داگ خودتو بساز!</b>نون، سوسیس و مخلفاتش رو خودت انتخاب کن</span></a>` +
-      cats.map(([c, title]) => {
-        const list = MENU.items.filter(i => i.cat === c);
-        return `<h2>${title}</h2><div class="items">` + list.map(i => {
-          const q = Cart.qtyOf(i.id);
-          if (i.available === false) return `<div class="card item" style="opacity:.5"><div class="em">${i.emoji}</div><div class="info"><h3>${i.name}</h3>${i.desc ? `<p class="muted">${i.desc}</p>` : ''}<span class="price">تموم شد 😔</span></div></div>`;
-          return `<div class="card item"><div class="em">${i.emoji}</div><div class="info"><h3>${i.name}</h3>${i.desc ? `<p class="muted">${i.desc}</p>` : ''}<span class="price">${money(i.price)}</span></div>
-            <div class="qty">${q ? `<button data-add="${i.id}" data-d="-1" aria-label="کم کردن">−</button><span>${fa(q)}</span>` : ''}<button data-add="${i.id}" data-d="1" aria-label="اضافه کردن">+</button></div></div>`;
+      (view ? `<div class="note">📖 این منوی ماست. برای سفارش سر میز، کد QR روی میز رو اسکن کنید؛ برای سفارش با پیک: <a href="${SNAPP}" target="_blank" rel="noopener"><b>اسنپ‌فود</b></a></div>`
+            : `<a class="card hero-build" href="${Cart.tableLink('/build')}"><span class="big">🎮</span><span><b>هات‌داگ خودتو بساز!</b>نون، سوسیس، مخلفات و سس رو خودت انتخاب کن</span></a>`) +
+      `<nav class="catnav">${cats.map((c, k) => `<a href="#c-${c.id}" class="${k ? '' : 'on'}">${c.emoji || ''} ${c.short || c.name}</a>`).join('')}</nav>` +
+      cats.map(c => {
+        const list = MENU.items.filter(i => i.cat === c.id);
+        return `<h2 id="c-${c.id}" style="scroll-margin-top:130px">${c.emoji || ''} ${c.name}</h2><div class="items">` + list.map(i => {
+          const q = Cart.qtyOf(i.id), off = i.available === false;
+          const ctl = off ? '<span class="price">تموم شد 😔</span>' : view ? '' :
+            `<div class="qty">${q ? `<button data-add="${i.id}" data-d="-1" aria-label="کم کردن">−</button><span>${fa(q)}</span>` : ''}<button data-add="${i.id}" data-d="1" aria-label="اضافه کردن">+</button></div>`;
+          return `<div class="card item ${off ? 'off' : ''}">${pic(i)}<div class="info"><h3>${i.name}</h3>${i.desc ? `<p class="muted">${i.desc}</p>` : ''}
+            <div class="foot"><span class="price">${off ? '' : money(i.price)}</span>${ctl}</div></div></div>`;
         }).join('') + '</div>';
-      }).join('') +
-      `<footer><p class="muted">⏰ هر روز ۱۴:۰۰ تا ۰۰:۰۰ · ☎️ <a href="tel:02532903005" dir="ltr">025-3290-3005</a></p><a class="btn" style="margin-top:10px" href="https://instagram.com/naderhotdog" target="_blank" rel="noopener">📸 naderhotdog@</a></footer>`;
+      }).join('') + foot;
     updateBar();
+    const links = [...app.querySelectorAll('.catnav a')];
+    const spy = () => { let cur = links[0]; links.forEach(a => { const h = document.querySelector(a.getAttribute('href')); if (h && h.getBoundingClientRect().top < 160) cur = a; }); links.forEach(a => a.classList.toggle('on', a === cur)); };
+    window.onscroll = spy;
   }
   app.addEventListener('click', e => {
     const b = e.target.closest('[data-add]'); if (!b) return;
@@ -94,7 +125,7 @@
   const bar = document.getElementById('bar');
   function updateBar(){
     const n = Cart.count();
-    bar.hidden = n === 0;
+    bar.hidden = n === 0 || view;
     const t = cartTotal();
     document.getElementById('barText').textContent = fa(n) + ' مورد' + (t ? ' · ' + money(t) : ' در سفارش');
   }
