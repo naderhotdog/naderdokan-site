@@ -34,7 +34,7 @@
     const list = today.filter(groups[filter]);
     return `<div class="ranges">${Object.keys(labels).map(k => `<button data-f="${k}" class="${filter === k ? 'on' : ''}">${labels[k]} (${fa(today.filter(groups[k]).length)})</button>`).join('')}</div>
       ${list.length ? `<div class="grid-orders">${list.map(o => `<div class="card ocard ${o.status}">
-        <div class="head"><span class="tbl">میز ${fa(o.table_no)} <small>#${fa(o.id)} · ${time(o.created)}</small></span><span class="pill ${o.status}">${ST[o.status]}</span></div>
+        <div class="head"><span class="tbl">${o.table_no ? 'میز ' + fa(o.table_no) : 'سفارش'} <small>#${fa(o.id)} · ${time(o.created)}</small></span><span class="pill ${o.status}">${ST[o.status]}</span></div>
         ${o.lines.map(l => `<div class="ln"><span>${fa(l.qty)} × ${lineText(l)}</span><b>${l.price ? money(l.price * l.qty) : ''}</b></div>`).join('')}
         ${o.note ? `<div class="note">📝 ${esc(o.note)}</div>` : ''}
         <div class="ln" style="border:0;font-size:1.05rem"><b>جمع</b><b>${amount(o.total)}</b></div>
@@ -64,7 +64,7 @@
       </div>
       <div class="charts">
         <div class="card chart"><h3>پرفروش‌های امروز (تعداد)</h3>${top.length ? `<div class="hbars">${top.map(([n, c]) => `<div class="hb"><span>${esc(n)}</span><div class="t"><span style="width:${c / max * 100}%"></span></div><span class="n">${fa(c)}</span></div>`).join('')}</div>` : '<p class="empty">هنوز سفارشی ثبت نشده.</p>'}</div>
-        <div class="card chart"><h3>میزهای باز (پرداخت نشده)</h3>${Object.keys(tables).length ? `<table class="data"><tr><th>میز</th><th>مبلغ</th></tr>${Object.entries(tables).map(([t, v]) => `<tr><td>میز ${fa(t)}</td><td>${amount(v)}</td></tr>`).join('')}</table>` : '<p class="empty">همه‌ی میزها تسویه شدن ✓</p>'}</div>
+        <div class="card chart"><h3>میزهای باز (پرداخت نشده)</h3>${Object.keys(tables).length ? `<table class="data"><tr><th>میز</th><th>مبلغ</th></tr>${Object.entries(tables).map(([t, v]) => `<tr><td>${+t ? 'میز ' + fa(t) : 'بدون میز'}</td><td>${amount(v)}</td></tr>`).join('')}</table>` : '<p class="empty">همه‌ی میزها تسویه شدن ✓</p>'}</div>
       </div>
       ${orders.some(o => o.status !== 'cancelled' && !o.total) ? '<p class="muted" style="margin-top:14px">⚠️ قیمت بعضی آیتم‌ها هنوز تنظیم نشده، برای همین جمع‌ها ممکنه کامل نباشن. مدیر کل می‌تونه قیمت‌ها رو از پنل خودش وارد کنه.</p>' : ''}`;
   }
