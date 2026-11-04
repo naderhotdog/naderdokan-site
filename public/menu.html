@@ -19,6 +19,12 @@
   .catnav a.on{background:var(--ink);color:#fff}
   .items{display:grid;gap:0}
   .item{display:grid;grid-template-columns:1fr 104px;gap:14px;align-items:center;border:0;background:transparent;border-bottom:1px solid var(--line);border-radius:0;padding:16px 0}
+  .item .order,.item .order-q{grid-column:1/-1;order:3}
+  .item .btn.order{width:100%;min-height:46px;font-size:1rem}
+  .item .btn.order[aria-disabled]{opacity:.55;pointer-events:none}
+  .order-q{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border-radius:12px;padding:4px;min-height:46px}
+  .order-q span{font-weight:700}
+  .order-q button{width:38px;height:38px;border-radius:10px;border:0;background:var(--red);color:#fff;font-size:1.3rem;font-weight:700;line-height:1}
   .item .pic{order:2;background:var(--surface);border-radius:14px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
   .item .pic svg{width:135%;max-width:none;transform:rotate(-24deg)}
   .item .pic.em{font-size:2.8rem}
@@ -45,7 +51,7 @@
 <body>
 <header class="top">
   <a class="brand" href="/"><img src="/img/logo.png" alt="">دکان هات‌داگ نادر</a>
-  <span class="chip" id="tableChip" hidden></span>
+  
 </header>
 
 <main class="wrap" id="app"><p class="muted" style="text-align:center;margin-top:40px">در حال بارگذاری منو…</p></main>
@@ -83,20 +89,11 @@
   const cats = (MENU.cats && MENU.cats.length ? MENU.cats : [{ id: 'hotdog', name: 'هات‌داگ‌ها', short: 'هات‌داگ', emoji: '🌭' }, { id: 'food', name: 'خوراکی‌ها', short: 'خوراکی', emoji: '🍟' }, { id: 'drink', name: 'نوشیدنی‌ها', short: 'نوشیدنی', emoji: '🥤' }])
     .filter(c => MENU.items.some(i => i.cat === c.id));
   const isDog = i => /^(special|classic|hotdog)$/.test(i.cat) || DogArt.LOOKS[i.id];
-  const view = new URLSearchParams(location.search).get('view') === '1';
+  const view = false; // ordering is open to everyone now (no table numbers)
   const foot = `<footer class="site-foot"><div class="en">دکان هات‌داگ نادر</div>
       <p>شنبه تا پنجشنبه ۱۴:۰۰ تا ۲۳:۴۵، جمعه ۱۵:۰۰ تا ۲۳:۴۵</p>
       <p>قم، زنبیل‌آباد، ۳۰متری قائم، بین کوچه ۵ و ۷، پلاک ۱۹۹</p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px"><a class="btn" href="tel:02532903005" dir="ltr">025-3290-3005</a><a class="btn" href="https://instagram.com/naderhotdog" target="_blank" rel="noopener" dir="ltr">@naderhotdog</a><a class="btn snapp" href="${SNAPP}" target="_blank" rel="noopener">اسنپ‌فود</a></div></footer>`;
-
-  // No table in the link? Let the customer pick (or just look at the menu / order delivery).
-  if (!Cart.table && !view) {
-    app.innerHTML = '<h2 style="text-align:center">شماره‌ی میزتون رو انتخاب کنید</h2><p class="muted" style="text-align:center">شماره روی کد QR میز نوشته شده</p><div class="tables">' +
-      Array.from({length: MENU.tables}, (_, i) => `<a class="btn yellow" href="/menu?t=${i+1}">${fa(i+1)}</a>`).join('') + '</div>' +
-      `<div class="alt"><a class="btn" href="/menu?view=1">فقط می‌خوام منو رو ببینم</a><a class="btn snapp" href="${SNAPP}" target="_blank" rel="noopener">سفارش با پیک از اسنپ‌فود</a></div>` + foot;
-    return;
-  }
-  if (Cart.table) { const chip = document.getElementById('tableChip'); chip.textContent = 'میز ' + fa(Cart.table); chip.hidden = false; }
 
   const pic = i => isDog(i) ? `<div class="pic">${DogArt.svg(DogArt.look(i.id))}</div>` : `<div class="pic em">${i.emoji || '🍽️'}</div>`;
   function render(){
@@ -108,10 +105,11 @@
         const list = MENU.items.filter(i => i.cat === c.id);
         return `<h2 id="c-${c.id}">${c.name}</h2><div class="items">` + list.map(i => {
           const q = Cart.qtyOf(i.id), off = i.available === false;
-          const ctl = off ? '<span class="price muted">تموم شده</span>' : view ? '' :
-            `<div class="qty">${q ? `<button data-add="${i.id}" data-d="-1" aria-label="کم کردن">−</button><span>${fa(q)}</span>` : ''}<button data-add="${i.id}" data-d="1" aria-label="اضافه کردن">+</button></div>`;
+          const ctl = off ? '<span class="btn order" aria-disabled="true">فعلاً تموم شده</span>'
+            : q ? `<div class="order-q"><button data-add="${i.id}" data-d="-1" aria-label="کم کردن">−</button><span>${fa(q)} عدد در سفارش</span><button data-add="${i.id}" data-d="1" aria-label="اضافه کردن">+</button></div>`
+            : `<button class="btn red order" data-add="${i.id}" data-d="1">سفارش</button>`;
           return `<div class="card item ${off ? 'off' : ''}">${pic(i)}<div class="info"><h3>${i.name}</h3>${i.desc ? `<p class="muted">${i.desc}</p>` : ''}
-            <div class="foot"><span class="price">${off ? '' : money(i.price)}</span>${ctl}</div></div></div>`;
+            <div class="foot"><span class="price">${off ? '' : money(i.price)}</span></div></div>${ctl}</div>`;
         }).join('') + '</div>';
       }).join('') + foot;
     updateBar();
@@ -138,7 +136,7 @@
   function renderCart(){
     const lines = Cart.items();
     if (!lines.length) { sheet.classList.remove('open'); render(); return; }
-    panel.innerHTML = '<h2 style="margin-top:0">سفارش میز ' + fa(Cart.table) + '</h2>' +
+    panel.innerHTML = '<h2 style="margin-top:0">سفارش شما</h2>' +
       lines.map((l, i) => {
         let title, sub = '';
         if (l.type === 'item') title = nameOf(l.id);
