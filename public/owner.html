@@ -76,7 +76,7 @@
     // items, toppings, tables
     const items = {}, tops = {}, tabs = {};
     for (const o of valid) {
-      tabs['میز ' + fa(o.table_no)] = (tabs['میز ' + fa(o.table_no)] || 0) + 1;
+      { const tk = o.table_no ? 'میز ' + fa(o.table_no) : 'بدون میز'; tabs[tk] = (tabs[tk] || 0) + 1; }
       for (const l of o.lines) {
         const k = l.type === 'item' ? l.name : '👨‍🍳 هات‌داگ سفارشی'; items[k] = (items[k] || 0) + l.qty;
         if (l.type === 'custom') for (const t of [l.bun, l.sausage, ...l.layers]) tops[t] = (tops[t] || 0) + l.qty;
@@ -102,7 +102,7 @@
   }
 
   function ordersTab(){
-    const rows = orders.map(o => `<tr><td>${fa(o.id)}</td><td>${faDate(o.created)} ${time(o.created)}</td><td>میز ${fa(o.table_no)}</td>
+    const rows = orders.map(o => `<tr><td>${fa(o.id)}</td><td>${faDate(o.created)} ${time(o.created)}</td><td>${o.table_no ? 'میز ' + fa(o.table_no) : '—'}</td>
       <td>${o.lines.map(l => fa(l.qty) + '× ' + esc(l.type === 'item' ? l.name : 'هات‌داگ سفارشی (' + [l.bun, l.sausage, ...l.layers].join('، ') + ')')).join('<br>')}${o.note ? '<br><small>📝 ' + esc(o.note) + '</small>' : ''}</td>
       <td>${o.total ? money(o.total) : '—'}</td><td><span class="pill ${o.status}">${ST[o.status]}</span></td></tr>`).join('');
     return rangeBar() + `<div class="ranges"><b>${fa(orders.length)} سفارش</b><button id="csv">⬇️ دانلود اکسل (CSV)</button></div>
