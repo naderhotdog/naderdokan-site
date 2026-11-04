@@ -53,7 +53,7 @@
     const cook = orders.filter(o => o.status === 'new').sort((a, b) => a.id - b.id);
     const ready = orders.filter(o => o.status === 'done' || o.status === 'paid').slice(0, 8);
     const card = (o, isReady) => `<div class="card ocard ${isReady ? 'paid' : ''} ${fresh.includes(o.id) ? 'fresh' : ''}">
-      <div class="head"><span class="tbl">میز ${fa(o.table_no)} <small>#${fa(o.id)} · ${time(o.created)}</small></span>
+      <div class="head"><span class="tbl">${o.table_no ? 'میز ' + fa(o.table_no) : 'سفارش'} <small>#${fa(o.id)} · ${time(o.created)}</small></span>
       ${isReady ? `<button class="btn" data-undo="${o.id}" title="برگردون به در حال پخت">↩</button>` : `<button class="btn" data-print="${o.id}" title="چاپ">🖨️</button>`}</div>
       ${lines(o)}${isReady ? '' : `<div class="acts"><button class="btn green" data-done="${o.id}">✓ آماده شد</button></div>`}</div>`;
     app.innerHTML = `<div class="ranges"><label class="btn" style="padding:5px 14px"><input type="checkbox" id="ap" ${autoPrint ? 'checked' : ''}> چاپ خودکار</label>
@@ -87,7 +87,7 @@
   function runPrint(){
     if (printing || !queue.length) return;
     printing = true; const o = queue.shift();
-    document.getElementById('print').innerHTML = `<div class="m">دکان هات‌داگ نادر</div><div class="t">میز ${fa(o.table_no)}</div><div class="m">سفارش #${fa(o.id)} · ${time(o.created)}</div>${lines(o)}`;
+    document.getElementById('print').innerHTML = `<div class="m">دکان هات‌داگ نادر</div><div class="t">${o.table_no ? 'میز ' + fa(o.table_no) : 'سفارش #' + fa(o.id)}</div><div class="m">سفارش #${fa(o.id)} · ${time(o.created)}</div>${lines(o)}`;
     setTimeout(() => { window.print(); printing = false; setTimeout(runPrint, 500); }, 150);
   }
 
