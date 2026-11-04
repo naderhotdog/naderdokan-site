@@ -1,7 +1,7 @@
 // Free-license Unsplash photos (unsplash.com/license) used on the homepage.
 // The Worker fetches each one once and serves it from naderdokan.com/img/w/<name>, cached at the edge.
 export const PHOTOS = {
-  "hero.jpg": "https://images.unsplash.com/photo-1773447593730-fff2262487f4?w=2000&h=1250&fit=crop&q=70&fm=jpg",
+  "hero.jpg": "https://images.unsplash.com/photo-1773447593730-fff2262487f4?w=1600&h=1000&fit=crop&q=62&fm=jpg",
   "flames.jpg": "https://images.unsplash.com/photo-1505405241694-58823de133e1?w=1800&h=900&fit=crop&q=66&fm=jpg",
   "embers.jpg": "https://images.unsplash.com/photo-1564346208985-535ced1a3e70?w=1600&h=1000&fit=crop&q=62&fm=jpg",
   "grill.jpg": "https://images.unsplash.com/photo-1655176649153-8bd6a37e4383?w=1200&h=900&fit=crop&q=66&fm=jpg",
