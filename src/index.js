@@ -114,8 +114,9 @@ export default {
     if (pathname === "/api/order" && method === "POST") {
       const b = await body();
       const tables = await getTables(db);
-      const table = parseInt(b?.table, 10);
-      if (!(table >= 1 && table <= tables)) return json({ error: "table" }, 400);
+      // table numbers are optional for now: no table = 0
+      const table = b?.table == null || b?.table === "" ? 0 : parseInt(b.table, 10);
+      if (!(table === 0 || (table >= 1 && table <= tables))) return json({ error: "table" }, 400);
       const lines = priceLines(b?.lines, await getMenu(db));
       if (!lines) return json({ error: "lines" }, 400);
       const total = lines.reduce((s, l) => s + l.qty * l.price, 0);
