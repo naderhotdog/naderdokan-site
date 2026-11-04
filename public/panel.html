@@ -9,8 +9,9 @@
 <link rel="stylesheet" href="/app.css">
 <style>
   .hub{display:grid;gap:14px;max-width:520px;margin:10px auto}
-  .hub a{display:flex;gap:14px;align-items:center;text-decoration:none;background:var(--paper);border:2px solid var(--ink);border-radius:18px;box-shadow:5px 5px 0 var(--ink);padding:16px 18px}
-  .hub a .e{font-size:2.2rem}
+  .hub a{display:flex;gap:14px;align-items:center;text-decoration:none;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px 18px;transition:border-color .15s,box-shadow .15s}
+  .hub a:hover{border-color:#DDD5CF;box-shadow:var(--shadow)}
+  .hub a .e{font-size:1.6rem;width:52px;height:52px;border-radius:12px;background:var(--surface);display:flex;align-items:center;justify-content:center;flex:none}
   .hub a b{font-size:1.15rem;display:block}
   .hub a span{color:var(--muted);font-size:.9rem}
 </style>
