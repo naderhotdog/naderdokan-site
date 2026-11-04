@@ -54,7 +54,15 @@
   .hero .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
   .hero-art{position:relative;background:var(--red);border-radius:32px;aspect-ratio:1/0.86;overflow:hidden;display:flex;align-items:center;justify-content:center}
   .hero-art::before{content:"";position:absolute;width:78%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.09)}
-  .hero-art #heroDog{position:relative;width:88%}
+  .hero-art #heroDog{position:relative;width:88%;aspect-ratio:400/230}
+  .hero-art .slide{position:absolute;inset:0;transition:transform .6s cubic-bezier(.3,1.25,.5,1),opacity .45s}
+  .hero-art .slide.in{opacity:0;transform:translateX(-60%) rotate(-8deg) scale(.9)}
+  .hero-art .slide.out{opacity:0;transform:translateX(60%) rotate(8deg) scale(.9)}
+  .hero-art .tag{transition:opacity .25s}
+  .hero-art .tag.fade{opacity:0}
+  .hero-art .dots{position:absolute;top:18px;inset-inline-end:20px;display:flex;gap:6px;z-index:2}
+  .hero-art .dots button{width:9px;height:9px;padding:0;border:0;border-radius:99px;background:rgba(255,248,234,.45);cursor:pointer;transition:width .25s,background .25s}
+  .hero-art .dots button.on{width:22px;background:#FFF8EA}
   .hero-art svg{display:block;width:100%;transform:rotate(-14deg);filter:drop-shadow(0 18px 18px rgba(80,0,0,.28))}
   .hero-art .tag{position:absolute;bottom:20px;inset-inline-start:20px;background:#fff;border-radius:14px;padding:10px 14px;line-height:1.4;box-shadow:0 8px 24px rgba(80,0,0,.2)}
   .hero-art .tag small{display:block;color:var(--muted);font-size:.78rem}
@@ -176,9 +184,10 @@
         <a class="btn" href="/build">هات‌داگ خودتو بساز</a>
       </div>
     </div>
-    <div class="hero-art" aria-hidden="true">
-      <div id="heroDog"></div>
-      <div class="tag"><small>مانستر بایت</small><b id="heroPrice">با ۴۰ گرم گوشت چرخ‌کرده و دیپ چدار</b></div>
+    <div class="hero-art" id="heroArt">
+      <div class="dots" id="heroDots"></div>
+      <div id="heroDog"><div class="slide"></div></div>
+      <a class="tag" id="heroTag" href="/menu?view=1" style="text-decoration:none;color:inherit"><small id="heroName">مانستر بایت</small><b id="heroPrice">با ۴۰ گرم گوشت چرخ‌کرده و دیپ چدار</b></a>
     </div>
   </div>
 </section>
@@ -261,7 +270,7 @@
 (async function(){
   const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
   const D = DogArt;
-  document.getElementById('heroDog').innerHTML = D.svg(D.look('monsterbite'));
+  document.querySelector('#heroDog .slide').innerHTML = D.svg(D.look('monsterbite'));
 
   // header line + phone order button appear once the page is scrolled
   const hdr = document.getElementById('hdr'), mcta = document.getElementById('mcta');
@@ -330,7 +339,32 @@
       <h3>${d.name}</h3><div class="tops">${tops(d)}</div>
       <div class="price">${off ? 'فعلاً تموم شده' : d.price ? money(d.price) : ''}</div></a>`; };
   const of = c => menu.items.filter(i => i.cat === c);
-  const mb = menu.items.find(i => i.id === 'monsterbite'); if (mb && mb.price && mb.available !== false) document.getElementById('heroPrice').textContent = money(mb.price);
+  // ---- hero: rotate through the hotdogs ----
+  (function heroShow(){
+    const list = menu.items.filter(i => /^(special|classic|hotdog)$/.test(i.cat) && i.available !== false && i.price);
+    if (!list.length) return;
+    const art = document.getElementById('heroArt'), box = document.getElementById('heroDog'), dots = document.getElementById('heroDots');
+    const tag = document.getElementById('heroTag'), nm = document.getElementById('heroName'), pr = document.getElementById('heroPrice');
+    let k = Math.max(0, list.findIndex(i => i.id === 'monsterbite')), timer, paused = false;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const setTag = d => { nm.textContent = d.name; pr.textContent = money(d.price); tag.href = '/menu?view=1#c-' + d.cat; };
+    dots.innerHTML = list.map((d, i) => `<button aria-label="${d.name}" class="${i === k ? 'on' : ''}"></button>`).join('');
+    setTag(list[k]);
+    function go(n){
+      if (n === k) return;
+      const old = box.querySelector('.slide:not(.out)'), nw = document.createElement('div');
+      nw.className = 'slide' + (reduce ? '' : ' in'); nw.innerHTML = D.svg(D.look(list[n].id));
+      box.appendChild(nw); nw.getBoundingClientRect(); nw.classList.remove('in');
+      if (old) { old.classList.add('out'); setTimeout(() => old.remove(), 650); }
+      tag.classList.add('fade'); setTimeout(() => { setTag(list[n]); tag.classList.remove('fade'); }, 250);
+      k = n; [...dots.children].forEach((b, i) => b.classList.toggle('on', i === k));
+    }
+    const next = () => { if (!paused && !document.hidden) go((k + 1) % list.length); };
+    const start = () => { clearInterval(timer); timer = setInterval(next, 3200); };
+    dots.addEventListener('click', e => { const i = [...dots.children].indexOf(e.target); if (i >= 0) { go(i); start(); } });
+    art.addEventListener('mouseenter', () => paused = true); art.addEventListener('mouseleave', () => paused = false);
+    start();
+  })();
   const specials = of('special').length ? of('special') : menu.items.filter(i => i.cat === 'hotdog');
   document.getElementById('dogGrid').innerHTML = specials.map(card).join('');
   const classics = of('classic');
