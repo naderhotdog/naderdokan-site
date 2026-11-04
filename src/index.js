@@ -1,4 +1,5 @@
 import { MENU as DEFAULT_MENU, TABLES as DEFAULT_TABLES } from "./menu.js";
+import { PHOTOS } from "./photos.js";
 
 const json = (data, status = 200) =>
   new Response(JSON.stringify(data), {
@@ -96,11 +97,26 @@ function validMenu(m) {
     m.items.every((i) => i && typeof i.id === "string" && typeof i.name === "string" && (i.price == null || Number.isFinite(i.price)));
 }
 
+// Serve a homepage photo from our own domain (fetched once from Unsplash, then cached at the edge).
+async function photo(name, request, ctx) {
+  const src = PHOTOS[name];
+  if (!src) return new Response("not found", { status: 404 });
+  const cache = caches.default, key = new Request(new URL(request.url).origin + "/img/w/" + name);
+  let res = await cache.match(key);
+  if (res) return res;
+  const up = await fetch(src, { cf: { cacheTtl: 2592000, cacheEverything: true } });
+  if (!up.ok) return new Response("photo unavailable", { status: 502 });
+  res = new Response(up.body, { headers: { "content-type": up.headers.get("content-type") || "image/jpeg", "cache-control": "public, max-age=2592000, immutable" } });
+  ctx.waitUntil(cache.put(key, res.clone()));
+  return res;
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const { pathname } = url;
     const method = request.method;
+    if (pathname.startsWith("/img/w/")) return photo(pathname.slice(7), request, ctx);
     if (!pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
 
     const db = env.DB;
