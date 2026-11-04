@@ -138,14 +138,14 @@
   function accessTab(){
     const row = (r, label, min, hint) => `<div class="card" style="margin-bottom:12px"><h3 style="margin-bottom:6px">${label} ${auth[r] ? '<span class="pill paid">فعال</span>' : '<span class="pill new">تنظیم نشده</span>'}</h3>
       <p class="muted" style="margin-bottom:8px">${hint}</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="password" id="code_${r}" placeholder="کد جدید (حداقل ${fa(min)} کاراکتر)" autocomplete="new-password" style="flex:1;min-width:200px;font:inherit;border:2px solid var(--ink);border-radius:12px;padding:8px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="password" id="code_${r}" placeholder="کد جدید (حداقل ${fa(min)} کاراکتر)" autocomplete="new-password" style="flex:1;min-width:200px;font:inherit;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--surface);--x:var(--ink);border-radius:12px;padding:8px">
       <button class="btn red" data-code="${r}">ذخیره</button></div><p class="muted" id="msg_${r}" style="margin-top:6px"></p></div>`;
     const base = location.origin;
     return `${row('manager', '🧾 کد مدیر فروشگاه', 4, 'مدیر فروشگاه با این کد وارد <b>' + base + '/manager</b> میشه: سفارش‌های امروز، پرداخت، لغو و موجودی منو.')}
       ${row('kitchen', '👨‍🍳 کد آشپزخانه', 4, 'آشپزها با این کد وارد <b>' + base + '/kitchen</b> میشن: فقط سفارش‌هایی که باید پخته بشن، بدون مبلغ.')}
       ${row('owner', '👑 کد خودتون (مدیر کل)', 6, 'برای عوض کردن کد ورود به همین پنل.')}
       <div class="card" style="margin-bottom:12px"><h3 style="margin-bottom:6px">🪑 تعداد میزها</h3><p class="muted" style="margin-bottom:8px">بعد از تغییر، برگه‌ی QR رو دوباره چاپ کنید.</p>
-      <div style="display:flex;gap:8px"><input type="number" id="tables" min="1" max="60" value="${tables}" style="width:120px;font:inherit;border:2px solid var(--ink);border-radius:12px;padding:8px"><button class="btn red" id="saveTables">ذخیره</button><a class="btn" href="/qr" target="_blank">🖨️ برگه‌ی QR</a></div><p class="muted" id="msg_tables" style="margin-top:6px"></p></div>`;
+      <div style="display:flex;gap:8px"><input type="number" id="tables" min="1" max="60" value="${tables}" style="width:120px;font:inherit;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--surface);--x:var(--ink);border-radius:12px;padding:8px"><button class="btn red" id="saveTables">ذخیره</button><a class="btn" href="/qr" target="_blank">🖨️ برگه‌ی QR</a></div><p class="muted" id="msg_tables" style="margin-top:6px"></p></div>`;
   }
 
   function render(){
