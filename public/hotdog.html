@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<script src="/loader.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دکان هات‌داگ نادر | Nader Hotdog Shop — قم</title>
+<meta name="description" content="دکان هات‌داگ نادر، قم — اسموک داگ، چدار اسلم، مانستر بایت، لاوا داگ و هات‌داگ‌های دست‌ساز گوشت ۹۰٪. منو، قیمت‌ها و سفارش آنلاین؛ هر روز از ساعت ۱۴.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#FA3225;--red-d:#D9241A;--red-50:#FFE1D9;--ink:#141010;--ink-2:#4A3C33;--muted:#7A675B;--line:#E8D7B7;--surface:#F1E2C3;--bg:#F8EFDC;--paper:#FFF8EA;--green:#1F8A4C;--yellow:#FFC93C}
+  .checker{height:14px;background:repeating-conic-gradient(var(--red) 0 25%,var(--bg) 0 50%) 0 0/14px 14px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:80px}
+  body{font-family:"Vazirmatn",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:8px}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+  /* header */
+  header{position:sticky;top:0;z-index:30;background:rgba(248,239,220,.94);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+  header.scrolled{border-bottom-color:transparent}
+  header .checker{height:10px;background-size:10px 10px}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:1.08rem;white-space:nowrap}
+  .logo img{width:42px;height:42px;border-radius:50%}
+  nav{display:flex;gap:4px;align-items:center}
+  nav a{text-decoration:none;font-weight:600;font-size:.95rem;color:var(--ink-2);padding:8px 12px;border-radius:10px;white-space:nowrap}
+  nav a:hover{color:var(--red)}
+  nav .signin{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+  nav .signin svg{width:17px;height:17px}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:700;font-size:1rem;border-radius:12px;padding:12px 22px;min-height:48px;border:1px solid var(--line);background:var(--paper);color:var(--ink);transition:background .15s,border-color .15s,transform .1s;white-space:nowrap}
+  .btn:hover{background:var(--surface);border-color:var(--line)}
+  .btn:active{transform:scale(.98)}
+  .btn.fill{background:var(--red);border-color:var(--red);color:#fff}
+  .btn.fill:hover{background:var(--red-d);border-color:var(--red-d)}
+  nav .btn{min-height:40px;padding:8px 18px;font-size:.95rem;margin-inline-start:6px;color:#fff}
+  @media (max-width:860px){nav a.nl{display:none}}
+  @media (max-width:520px){nav .signin span{display:none} .logo{font-size:.98rem} .logo img{width:36px;height:36px} .wrap{padding:0 16px}}
+
+  /* hero */
+  .hero{padding:28px 0 72px}
+  .hero .wrap{display:grid;grid-template-columns:1fr 1.05fr;gap:48px;align-items:center}
+  .status{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem;color:var(--ink-2);background:var(--paper);border-radius:999px;padding:5px 14px 5px 12px}
+  .status i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+  .status.open i{background:var(--green);box-shadow:0 0 0 4px rgba(31,138,76,.15)}
+  .hero h1{font-size:clamp(2.3rem,5vw,3.9rem);font-weight:900;line-height:1.2;letter-spacing:-.02em;margin:18px 0 16px}
+  .hero p{font-size:1.1rem;color:var(--ink-2);max-width:31em}
+  .hero .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+  .hero-art{position:relative;background:var(--red);border-radius:32px;aspect-ratio:1/0.86;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .hero-art::before{content:"";position:absolute;width:78%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.09)}
+  .hero-art #heroDog{position:relative;width:88%;aspect-ratio:400/230}
+  .hero-art .slide{position:absolute;inset:0;transition:transform .6s cubic-bezier(.3,1.25,.5,1),opacity .45s}
+  .hero-art .slide.in{opacity:0;transform:translateX(-60%) rotate(-8deg) scale(.9)}
+  .hero-art .slide.out{opacity:0;transform:translateX(60%) rotate(8deg) scale(.9)}
+  .hero-art .tag{transition:opacity .25s}
+  .hero-art .tag.fade{opacity:0}
+  .hero-art .dots{position:absolute;top:18px;inset-inline-end:20px;display:flex;gap:6px;z-index:2}
+  .hero-art .dots button{width:9px;height:9px;padding:0;border:0;border-radius:99px;background:rgba(255,248,234,.45);cursor:pointer;transition:width .25s,background .25s}
+  .hero-art .dots button.on{width:22px;background:#FFF8EA}
+  .hero-art svg{display:block;width:100%;transform:rotate(-14deg);filter:drop-shadow(0 18px 18px rgba(80,0,0,.28))}
+  .hero-art .tag{position:absolute;bottom:20px;inset-inline-start:20px;background:#fff;border-radius:14px;padding:10px 14px;line-height:1.4;box-shadow:0 8px 24px rgba(80,0,0,.2)}
+  .hero-art .tag small{display:block;color:var(--muted);font-size:.78rem}
+  .hero-art .tag b{font-weight:800}
+  @media (max-width:860px){
+    .hero{padding-top:12px}
+    .hero .wrap{grid-template-columns:1fr;gap:28px}
+    .hero-art{order:-1;border-radius:24px;aspect-ratio:16/10;max-height:440px;width:100%}
+    .hero-art #heroDog{width:min(88%,560px)}
+    .hero .btns .btn{flex:1}
+  }
+
+  /* sections */
+  section{padding:72px 0}
+  .shead{display:flex;align-items:flex-end;justify-content:space-between;gap:8px 16px;margin-bottom:26px;flex-wrap:wrap}
+  .shead h2{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.01em;line-height:1.3}
+  .shead p{color:var(--muted);margin-top:4px}
+  .more{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;color:var(--red);white-space:nowrap;padding:6px 0}
+  .more:hover{text-decoration:underline}
+  .alt{background:var(--surface)}
+
+  .dogs{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  @media (max-width:1000px){.dogs{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:720px){.dogs{grid-template-columns:repeat(2,1fr);gap:12px}}
+  .dog{display:flex;flex-direction:column;text-decoration:none;background:var(--paper);border-radius:18px;padding:10px;border:1px solid var(--line);transition:border-color .15s,box-shadow .2s}
+  .dog:hover{border-color:var(--red);box-shadow:0 10px 30px rgba(28,23,22,.07)}
+  .alt .dog{border-color:transparent}
+  .pic{background:var(--surface);border-radius:12px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .alt .pic{background:var(--bg)}
+  .pic svg{width:112%;max-width:none;transform:rotate(-16deg)}
+  .dog h3{font-size:1.08rem;font-weight:800;margin:12px 4px 2px}
+  .dog .tops{color:var(--muted);font-size:.86rem;line-height:1.7;margin:0 4px;flex:1}
+  .dog .price{font-weight:700;margin:10px 4px 2px;font-size:.98rem}
+  .dog.soldout{opacity:.5}
+  .dog.soldout .price{color:var(--muted)}
+  @media (max-width:520px){.dog{padding:8px;border-radius:14px}.dog h3{font-size:.98rem}.dog .tops{font-size:.8rem}.dog .price{font-size:.9rem}}
+
+  /* build your own */
+  .builder{background:var(--red);color:var(--paper)}
+  .builder .lead{color:var(--paper)!important;opacity:.92}
+  .builder .tag{display:inline-block;background:var(--ink);color:var(--yellow);font-weight:800;border-radius:999px;padding:5px 16px;font-size:.92rem;margin-bottom:14px}
+  .builder .btn.fill{background:var(--paper);border-color:var(--paper);color:var(--red)}
+  .builder .btn.fill:hover{background:#fff;border-color:#fff}
+  .builder .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
+  .builder h2{font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:900;line-height:1.3;letter-spacing:-.01em}
+  .builder .lead{color:var(--ink-2);margin-top:12px;font-size:1.05rem}
+  .steps{list-style:none;display:grid;gap:14px;margin:26px 0 30px;counter-reset:s}
+  .steps li{display:flex;gap:14px;align-items:center;font-weight:600;counter-increment:s}
+  .steps li::before{content:counter(s,persian);flex:none;width:34px;height:34px;border-radius:50%;background:var(--paper);color:var(--red);font-weight:800;display:flex;align-items:center;justify-content:center}
+  .board{position:relative;background:radial-gradient(ellipse at 50% 55%,rgba(255,255,255,.85) 0,rgba(255,255,255,0) 60%),repeating-conic-gradient(var(--surface) 0 25%,var(--bg) 0 50%) 0 0/30px 30px;border-radius:24px;padding:28px 18px 18px;color:var(--ink)}
+  .board svg{width:100%;display:block}
+  .board .now{text-align:center;font-weight:700;font-size:.95rem;color:var(--ink-2);min-height:1.7em;margin-top:6px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px;min-height:64px;align-content:flex-start}
+  .chips span{background:var(--paper);border-radius:999px;padding:3px 12px;font-weight:600;font-size:.8rem;color:var(--ink-2);animation:pop .3s ease-out}
+  @keyframes pop{from{transform:translateY(4px);opacity:0}to{transform:none;opacity:1}}
+  .drop{animation:drop .45s cubic-bezier(.3,1.4,.5,1)}
+  @keyframes drop{0%{transform:translateY(-60px);opacity:0}100%{transform:none;opacity:1}}
+  .squeeze{stroke-dasharray:900;stroke-dashoffset:900;animation:sq .8s ease-out forwards}
+  @keyframes sq{to{stroke-dashoffset:0}}
+  @media (max-width:860px){.builder .wrap{grid-template-columns:1fr;gap:28px}.builder .b-stage{order:-1}.builder .btn{width:100%}}
+
+  /* visit */
+  .visit{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:860px){.visit{grid-template-columns:1fr}}
+  .visit > div{border:1px solid var(--line);border-radius:18px;padding:22px}
+  .visit h3{display:flex;align-items:center;gap:10px;font-size:1.02rem;font-weight:800;margin-bottom:10px}
+  .visit h3 svg{color:var(--red)}
+  .visit p{color:var(--ink-2)}
+  .visit table{border-collapse:collapse;width:100%;color:var(--ink-2)}
+  .visit td{padding:3px 0}
+  .visit td:last-child{text-align:left;font-weight:600;color:var(--ink)}
+  .visit tr.today td{color:var(--red-d);font-weight:700}
+  .visit a.l{color:var(--ink);font-weight:700;text-decoration:none;display:inline-block;padding:2px 0}
+  .visit a.l:hover{color:var(--red)}
+  .visit .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .visit .acts .btn{min-height:40px;padding:8px 14px;font-size:.9rem}
+
+  footer{padding:28px 0;color:var(--muted);font-size:.9rem}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  footer .logo{font-size:.95rem;color:var(--ink)}
+  footer .logo img{width:32px;height:32px}
+  footer nav a{font-size:.88rem;padding:4px 8px}
+
+  /* phone: always-visible order button */
+  .mobile-cta{display:none}
+  @media (max-width:860px){
+    .mobile-cta{display:flex;position:fixed;inset-inline:12px;bottom:12px;z-index:40;box-shadow:0 10px 30px rgba(120,20,10,.3);border-radius:14px;min-height:54px;font-size:1.05rem;transform:translateY(130%);transition:transform .25s}
+    .mobile-cta.show{transform:none}
+    body{padding-bottom:76px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.squeeze{stroke-dashoffset:0}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap">
+    <a class="logo" href="/hotdog"><img src="/img/logo.png" alt="">دکان هات‌داگ نادر</a>
+    <nav aria-label="منوی اصلی">
+      <a class="nl" href="/">دکان‌های نادر</a>
+      <a class="nl" href="#build">خودت بساز</a>
+      <a class="nl" href="#dogs">منو</a>
+      <a class="nl" href="#visit">ساعت و آدرس</a>
+      <a class="signin" href="/panel" title="ورود کارکنان"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>ورود</span></a>
+      <a class="btn fill" href="/menu">سفارش</a>
+    </nav>
+  </div>
+  <div class="checker"></div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="status" id="status"><i></i><span>ساعت کاری: هر روز از ۱۴ تا ۲۳:۴۵</span></span>
+      <h1>اونقدر خوشمزه‌ست که باورت نمیشه!</h1>
+      <p>هات‌داگ اسپشیال گوشت ۷۰٪ و هات‌داگ‌های دست‌ساز گوشت و مرغ ۹۰٪، با سس‌هایی که خودمون درست می‌کنیم.</p>
+      <div class="btns">
+        <a class="btn fill" href="/menu">سفارش آنلاین</a>
+        <a class="btn" href="/build">هات‌داگ خودتو بساز</a>
+      </div>
+    </div>
+    <div class="hero-art" id="heroArt">
+      <div class="dots" id="heroDots"></div>
+      <div id="heroDog"><div class="slide"></div></div>
+      <a class="tag" id="heroTag" href="/menu?view=1" style="text-decoration:none;color:inherit"><small id="heroName">مانستر بایت</small><b id="heroPrice">با ۴۰ گرم گوشت چرخ‌کرده و دیپ چدار</b></a>
+    </div>
+  </div>
+</section>
+
+<div class="checker"></div>
+<section class="builder" id="build">
+  <div class="wrap">
+    <div>
+      <span class="tag">برای اولین بار و اختصاصی از دکان نادر</span>
+      <h2>هات‌داگ خودتو بساز</h2>
+      <p class="lead">سوسیس، تاپینگ و سس رو خودت انتخاب کن و روی نون بچین. دستورت مستقیم میره آشپزخونه و دقیقاً همون رو برات درست می‌کنیم.</p>
+      <ol class="steps">
+        <li>سوسیس دلخواهت رو انتخاب کن</li>
+        <li>تاپینگ و سس‌ها رو بکش روی هات‌داگ</li>
+        <li>«تموم شد» رو بزن تا سفارشت بره آشپزخونه</li>
+      </ol>
+      <a class="btn fill" href="/build">شروع ساختن</a>
+    </div>
+    <div class="b-stage" aria-hidden="true">
+      <div class="board"><div id="liveDog"></div><div class="now" id="liveNow"></div><div class="chips" id="liveChips"></div></div>
+    </div>
+  </div>
+</section>
+<div class="checker"></div>
+
+<section class="alt" id="dogs">
+  <div class="wrap">
+    <div class="shead">
+      <div><h2>هات‌داگ‌های مخصوص</h2><p>همه با ۱۵۰ گرم سیب‌زمینی سرخ‌شده‌ی طعم‌دار</p></div>
+      <a class="more" href="/menu?view=1">منوی کامل</a>
+    </div>
+    <div class="dogs" id="dogGrid"></div>
+    <div class="shead" style="margin-top:56px">
+      <div><h2>کلاسیک‌ها</h2><p>هات‌داگ‌های دست‌ساز خودمون، ساده و اصیل</p></div>
+    </div>
+    <div class="dogs" id="classicGrid"></div>
+  </div>
+</section>
+<div class="checker"></div>
+
+<section id="visit">
+  <div class="wrap">
+    <div class="shead"><div><h2>ساعت کاری و آدرس</h2><p>سر میز سفارش بدید، تلفنی، یا با پیک از اسنپ‌فود.</p></div></div>
+    <div class="visit">
+      <div style="background:var(--paper)">
+        <h3><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>ساعت کاری</h3>
+        <table><tr data-d="sat-thu"><td>شنبه تا پنجشنبه</td><td>۱۴:۰۰ تا ۲۳:۴۵</td></tr><tr data-d="fri"><td>جمعه</td><td>۱۵:۰۰ تا ۲۳:۴۵</td></tr></table>
+      </div>
+      <div style="background:var(--paper)">
+        <h3><svg class="i" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>آدرس</h3>
+        <p>قم، زنبیل‌آباد (بلوار شهید صدوقی)، ۳۰متری قائم، بین کوچه ۵ و ۷، پلاک ۱۹۹</p>
+        <div class="acts"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=%D9%82%D9%85%D8%8C+%D8%A8%D9%84%D9%88%D8%A7%D8%B1+%D8%B4%D9%87%DB%8C%D8%AF+%D8%B5%D8%AF%D9%88%D9%82%DB%8C%D8%8C+%DB%B3%DB%B0%D9%85%D8%AA%D8%B1%DB%8C+%D9%82%D8%A7%D8%A6%D9%85" target="_blank" rel="noopener">مسیریابی</a></div>
+      </div>
+      <div style="background:var(--paper)">
+        <h3><svg class="i" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>تماس و سفارش</h3>
+        <a class="l" href="tel:02532903005" dir="ltr">025-3290-3005</a><br>
+        <a class="l" href="tel:09191549104" dir="ltr">0919-154-9104</a>
+        <div class="acts">
+          <a class="btn" href="https://snappfood.ir/restaurant/menu/%D9%87%D8%A7%D8%AA_%D8%AF%D8%A7%DA%AF_%D9%86%D8%A7%D8%AF%D8%B1-r-xdw1n2/" target="_blank" rel="noopener">سفارش با پیک (اسنپ‌فود)</a>
+          <a class="btn" href="https://instagram.com/naderhotdog" target="_blank" rel="noopener" dir="ltr">@naderhotdog</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="checker" style="margin:-28px 0 28px"></div>
+  <div class="wrap">
+    <a class="logo" href="/hotdog"><img src="/img/logo.png" alt="">دکان هات‌داگ نادر</a>
+    <span>© ۲۰۲۶ دکان هات‌داگ نادر، قم، <a href="/" style="color:inherit">دکان‌های نادر</a></span>
+  </div>
+</footer>
+
+<a class="btn fill mobile-cta" id="mcta" href="/menu">دیدن منو و سفارش</a>
+
+<script src="/dogart.js"></script>
+<script>
+(async function(){
+  const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  const D = DogArt;
+  document.querySelector('#heroDog .slide').innerHTML = D.svg(D.look('monsterbite'));
+
+  // header line + phone order button appear once the page is scrolled
+  const hdr = document.getElementById('hdr'), mcta = document.getElementById('mcta');
+  const onScroll = () => { hdr.classList.toggle('scrolled', scrollY > 8); mcta.classList.toggle('show', scrollY > 420); };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // open / closed right now (Qom time). Sat–Thu 14:00–23:45, Fri 15:00–23:45
+  (function(){
+    try {
+      const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tehran', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).map(x => [x.type, x.value]));
+      const fri = p.weekday === 'Fri', m = (+p.hour) * 60 + (+p.minute), open = fri ? 900 : 840, close = 1425;
+      const el = document.getElementById('status'), t = el.querySelector('span');
+      document.querySelector(`.visit tr[data-d="${fri ? 'fri' : 'sat-thu'}"]`).classList.add('today');
+      if (m >= open && m < close) { el.classList.add('open'); t.textContent = 'الان بازیم، تا ساعت ۲۳:۴۵'; }
+      else t.textContent = m < open ? `امروز از ساعت ${fa(fri ? 15 : 14)} باز می‌کنیم` : 'الان بسته‌ایم؛ فردا از ساعت ۱۴ (جمعه‌ها ۱۵)';
+    } catch(e) {}
+  })();
+
+  // ---- live "build your own" demo ----
+  (function live(){
+    const box = document.getElementById('liveDog'), now = document.getElementById('liveNow'), chips = document.getElementById('liveChips');
+    const NAMES = { plain: 'نان مخصوص هات‌داگ', regular: 'هات‌داگ اسپشیال ۷۰٪', beef: 'دست‌ساز گوسفندی ۹۰٪', chicken: 'مرغ دست‌ساز ۹۰٪', cheesy: 'مرغ پنیری',
+      bacon: 'بیکن', pepperoni: 'پپرونی', mince: 'گوشت چرخ‌کرده', mozzarella: 'موزارلا دودی', pizzacheese: 'پنیر پیتزا', caramelonion: 'پیاز کاراملی',
+      house: 'سس دست‌ساز', cheddar: 'دیپ چدار', bbq: 'سس باربیکیو', mustard: 'سس خردل', pickle: 'سس خیارشور', jalapeno: 'سس هالاپینو' };
+    const TOPS = ['bacon', 'pepperoni', 'mince', 'mozzarella', 'pizzacheese', 'caramelonion'], SAUCE = ['house', 'cheddar', 'bbq', 'mustard', 'pickle', 'jalapeno'];
+    const pickN = (arr, n) => arr.slice().sort(() => Math.random() - .5).slice(0, n);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let recipe, step, timer;
+    const newRecipe = () => ({ bun: 'plain', sausage: pickN(['regular', 'regular', 'beef', 'chicken', 'cheesy'], 1)[0],
+      layers: pickN(TOPS, 2 + (Math.random() * 2 | 0)).concat(pickN(SAUCE, 1 + (Math.random() * 2 | 0))) });
+    function draw(k){
+      const id = 'L', r = recipe;
+      let o = D.defs(r.bun, k < 0 ? 'regular' : r.sausage, id) + '<ellipse cx="200" cy="220" rx="170" ry="9" fill="#000" opacity=".1"/>' + D.bunBack(r.bun, id);
+      if (k >= 0) o += `<g class="${k === 0 ? 'drop' : ''}">${D.sausageArt(r.sausage, id)}</g>`;
+      const shown = r.layers.slice(0, Math.max(0, k));
+      D.layout(shown).forEach((p, i) => { const last = i === shown.length - 1, isS = D.SAUCES.has(p.id);
+        o += `<g class="${last && !isS ? 'drop' : ''}">${D.piece(p.id, p.x, p.y, i * 17 + 5, null, last && isS)}</g>`; });
+      o += D.bunFront(r.bun, id);
+      box.innerHTML = `<svg viewBox="0 40 400 192" xmlns="http://www.w3.org/2000/svg">${o}</svg>`;
+    }
+    function tick(){
+      if (step === -1) { recipe = newRecipe(); chips.innerHTML = ''; }
+      const total = recipe.layers.length;
+      draw(step);
+      const key = step === -1 ? recipe.bun : step === 0 ? recipe.sausage : recipe.layers[step - 1];
+      now.textContent = step > total ? 'آماده‌ست!' : NAMES[key];
+      if (step <= total) chips.insertAdjacentHTML('beforeend', `<span>${NAMES[key]}</span>`);
+      step = step > total ? -1 : step + 1;
+      timer = setTimeout(tick, step === -1 ? 2600 : 1000);
+    }
+    recipe = newRecipe();
+    if (reduce) { draw(recipe.layers.length); return; }
+    step = -1; tick();
+    document.addEventListener('visibilitychange', () => { clearTimeout(timer); if (!document.hidden) timer = setTimeout(tick, 600); });
+  })();
+
+  let menu;
+  try { menu = await (await fetch('/api/menu')).json(); } catch(e) { return; }
+  const money = p => fa(p.toLocaleString('en-US')).replace(/,/g, '٬') + ' ' + (menu.currency || 'تومان');
+  // Short topping list: drop what every sandwich has (bread, fries, the base hotdog).
+  const tops = d => (d.desc || '').split('،').map(x => x.trim().replace(/^[۰-۹0-9]+ ?گرم /, '').replace(/^یک عدد /, ''))
+    .filter(x => x && !/^(نان|سیب|هات[‌ ]?داگ اسپشیال|هات[‌ ]?داگ سرخ|سوسیس هات)/.test(x)).join('، ');
+  const card = d => { const off = d.available === false;
+    return `<a class="dog ${off ? 'soldout' : ''}" href="/menu?view=1#c-${d.cat}">
+      <div class="pic">${D.svg(D.look(d.id))}</div>
+      <h3>${d.name}</h3><div class="tops">${tops(d)}</div>
+      <div class="price">${off ? 'فعلاً تموم شده' : d.price ? money(d.price) : ''}</div></a>`; };
+  const of = c => menu.items.filter(i => i.cat === c);
+  // ---- hero: rotate through the hotdogs ----
+  (function heroShow(){
+    const list = menu.items.filter(i => /^(special|classic|hotdog)$/.test(i.cat) && i.available !== false && i.price);
+    if (!list.length) return;
+    const art = document.getElementById('heroArt'), box = document.getElementById('heroDog'), dots = document.getElementById('heroDots');
+    const tag = document.getElementById('heroTag'), nm = document.getElementById('heroName'), pr = document.getElementById('heroPrice');
+    let k = Math.max(0, list.findIndex(i => i.id === 'monsterbite')), timer, paused = false;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const setTag = d => { nm.textContent = d.name; pr.textContent = money(d.price); tag.href = '/menu?view=1#c-' + d.cat; };
+    dots.innerHTML = list.map((d, i) => `<button aria-label="${d.name}" class="${i === k ? 'on' : ''}"></button>`).join('');
+    setTag(list[k]);
+    function go(n){
+      if (n === k) return;
+      const old = box.querySelector('.slide:not(.out)'), nw = document.createElement('div');
+      nw.className = 'slide' + (reduce ? '' : ' in'); nw.innerHTML = D.svg(D.look(list[n].id));
+      box.appendChild(nw); nw.getBoundingClientRect(); nw.classList.remove('in');
+      if (old) { old.classList.add('out'); setTimeout(() => old.remove(), 650); }
+      tag.classList.add('fade'); setTimeout(() => { setTag(list[n]); tag.classList.remove('fade'); }, 250);
+      k = n; [...dots.children].forEach((b, i) => b.classList.toggle('on', i === k));
+    }
+    const next = () => { if (!paused && !document.hidden) go((k + 1) % list.length); };
+    const start = () => { clearInterval(timer); timer = setInterval(next, 3200); };
+    dots.addEventListener('click', e => { const i = [...dots.children].indexOf(e.target); if (i >= 0) { go(i); start(); } });
+    art.addEventListener('mouseenter', () => paused = true); art.addEventListener('mouseleave', () => paused = false);
+    start();
+  })();
+  const specials = of('special').length ? of('special') : menu.items.filter(i => i.cat === 'hotdog');
+  document.getElementById('dogGrid').innerHTML = specials.map(card).join('');
+  const classics = of('classic');
+  if (classics.length) document.getElementById('classicGrid').innerHTML = classics.map(card).join('');
+  else { document.getElementById('classicGrid').previousElementSibling.remove(); document.getElementById('classicGrid').remove(); }
+})();
+</script>
+</body>
+</html>
