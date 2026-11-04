@@ -5,221 +5,157 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>دکان هات‌داگ نادر | Nader Hotdog Shop — قم</title>
 <meta name="description" content="دکان هات‌داگ نادر، قم — اسموک داگ، چدار اسلم، مانستر بایت، لاوا داگ و هات‌داگ‌های دست‌ساز گوشت ۹۰٪. منو، قیمت‌ها و سفارش آنلاین؛ هر روز از ساعت ۱۴.">
-<meta name="theme-color" content="#140d09">
 <link rel="icon" href="/img/logo.png">
-<link rel="preload" as="image" href="/img/w/hero.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Rye&family=Vazirmatn:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;600;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --char:#140d09; --char-2:#1d130d; --wood:#3a2416; --wood-2:#4a2e1b; --leather:#6b3d1f;
-    --fire:#ff6a13; --amber:#ffb238; --mustard:#f2b632; --ketchup:#d7261e; --brand:#FA3225;
-    --parch:#f2e2c0; --parch-2:#e6cf9f; --ink:#24160d; --smoke:rgba(235,225,210,.9);
-    --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    --planks:repeating-linear-gradient(180deg,rgba(0,0,0,0) 0 118px,rgba(0,0,0,.55) 118px 121px,rgba(255,255,255,.04) 121px 122px),
-             repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 3px,rgba(0,0,0,.035) 3px 7px),
-             linear-gradient(180deg,#2c1b10,#22150d);
-    --rope:repeating-linear-gradient(-55deg,#c9a26a 0 5px,#8a6235 5px 8px,#b48a52 8px 12px);
+    --red:#FA3225; --red-d:#D9241A; --cream:#F8EFDC; --cream-2:#F1E2C3; --paper:#FFF8EA; --ink:#141010;
+    --checker: repeating-conic-gradient(var(--red) 0 25%, var(--cream) 0 50%) 0 0/22px 22px;
+    --spark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpath d='M22 8q2 12 12 14q-10 2-12 14q-2-12-12-14q10-2 12-14z' fill='%23F8EFDC' opacity='.35'/%3E%3Cpath d='M68 52q1.5 8 8 9.5q-6.5 1.5-8 9.5q-1.5-8-8-9.5q6.5-1.5 8-9.5z' fill='%23F8EFDC' opacity='.3'/%3E%3C/svg%3E");
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  html,body{overflow-x:clip}
-  body{font-family:"Vazirmatn",system-ui,sans-serif;background:var(--char);color:var(--parch);line-height:1.75}
+  body{font-family:"Vazirmatn",system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.7}
   a{color:inherit}
-  img{display:block;max-width:100%}
-  .display{font-family:"Lalezar","Vazirmatn",sans-serif;font-weight:400;line-height:1.15}
-  .west{font-family:"Rye",serif;font-weight:400;letter-spacing:.06em;direction:ltr;unicode-bidi:isolate}
-  .wrap{max-width:1140px;margin:0 auto;padding:0 20px}
-  .grain::after{content:"";position:absolute;inset:0;background:var(--grain);opacity:.18;mix-blend-mode:overlay;pointer-events:none}
-  .rope{height:7px;background:var(--rope);box-shadow:0 2px 0 rgba(0,0,0,.5)}
-  .fire-text{background:linear-gradient(180deg,#ffe08a 0%,#ffb238 38%,#ff6a13 72%,#d7261e 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(255,106,19,.45))}
-
-  /* ---------- buttons ---------- */
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-family:"Lalezar",sans-serif;font-size:1.22rem;border-radius:12px;padding:10px 26px;transition:transform .15s,box-shadow .15s,filter .15s;white-space:nowrap}
-  .btn:hover{transform:translateY(-2px)}
-  .btn-fire{color:#2a1205;background:linear-gradient(180deg,#ffd27a,#ffa22b 45%,#f2741a);border:2px solid #7a2e08;box-shadow:inset 0 2px 0 rgba(255,255,255,.55),inset 0 -3px 0 rgba(0,0,0,.25),0 6px 0 #5a2206,0 10px 26px rgba(255,106,19,.35)}
-  .btn-fire:hover{filter:brightness(1.07);box-shadow:inset 0 2px 0 rgba(255,255,255,.55),inset 0 -3px 0 rgba(0,0,0,.25),0 8px 0 #5a2206,0 14px 32px rgba(255,106,19,.5)}
-  .btn-rope{color:var(--parch);border:2px dashed rgba(242,226,192,.65);background:rgba(20,13,9,.35);backdrop-filter:blur(2px)}
-  .btn-rope:hover{border-style:solid;background:rgba(242,226,192,.1)}
+  .display{font-family:"Lalezar","Vazirmatn",sans-serif;font-weight:400;line-height:1.15;letter-spacing:0}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+  .eyebrow{display:block;color:var(--red);font-weight:900;font-size:.9rem;letter-spacing:.2em;margin-bottom:6px}
+  .checker{height:22px;background:var(--checker)}
 
   /* ---------- header ---------- */
-  header{position:sticky;top:0;z-index:30;background:rgba(20,13,9,.88);backdrop-filter:blur(8px)}
-  header .wrap{display:flex;align-items:center;justify-content:space-between;height:74px;gap:14px}
+  header{position:sticky;top:0;z-index:30;background:var(--cream)}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;height:78px;gap:14px}
+  header .checker{height:11px;background-size:11px 11px}
   .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-  .logo img{width:52px;height:52px;border-radius:50%;box-shadow:0 0 0 3px #b48a52,0 0 0 5px #3a2416}
-  .logo b{font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.5rem;color:var(--parch);white-space:nowrap}
+  .logo img{width:58px;height:58px;border-radius:50%;box-shadow:0 0 0 3px var(--red)}
+  .logo b{font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.55rem;color:var(--red)}
   nav{display:flex;gap:22px;align-items:center}
-  nav a{text-decoration:none;font-family:"Lalezar",sans-serif;font-size:1.12rem;color:#e9d5ae;white-space:nowrap;transition:color .15s}
-  nav a:hover,nav a.on{color:var(--amber)}
-  nav .cta{padding:5px 18px;font-size:1.05rem;border-radius:10px;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 3px 0 #5a2206}
-  nav .signin{padding:3px 13px;font-size:1rem;border-radius:10px}
-  @media (max-width:760px){nav{gap:8px} nav a:not(.cta):not(.signin){display:none} nav .signin{padding:4px 9px} nav .signin .t{display:none} .logo b{font-size:1.2rem} .logo img{width:44px;height:44px}}
-  @media (max-width:360px){.logo b{font-size:1.02rem}}
+  nav a{text-decoration:none;font-family:"Lalezar",sans-serif;font-size:1.15rem;color:var(--ink);transition:color .15s}
+  nav a:hover,nav a.on{color:var(--red)}
+  @media (max-width:760px){nav a:not(.cta):not(.signin){display:none}.logo b{font-size:1.25rem}}
 
-  .side-tab{position:fixed;left:0;top:160px;z-index:40;text-decoration:none;writing-mode:vertical-rl;font-family:"Lalezar",sans-serif;font-size:1.3rem;padding:20px 10px;color:var(--parch);
-    background:linear-gradient(90deg,#5a2f15,#7a4421);border-radius:0 12px 12px 0;border:2px dashed rgba(242,226,192,.45);border-left:0;box-shadow:0 0 0 3px #3a1f0e,4px 6px 16px rgba(0,0,0,.5)}
-  .side-tab:hover{padding-left:16px}
-  @media (max-width:760px){.side-tab{top:auto;bottom:16px;left:16px;right:16px;writing-mode:horizontal-tb;text-align:center;border-radius:12px;border:2px dashed rgba(242,226,192,.45);padding:9px;font-size:1.2rem}}
+  .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:"Lalezar",sans-serif;font-size:1.2rem;border-radius:999px;padding:9px 26px;border:3px solid var(--red);transition:transform .12s,box-shadow .12s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 4px 0 var(--ink)}
+  .btn.fill{background:var(--red);color:var(--cream)}
+  .btn.line{border-color:var(--ink);color:var(--ink)}
+  nav .cta{padding:5px 18px;font-size:1.05rem;color:var(--cream)}
+  nav .signin{padding:3px 14px;font-size:1rem;border-width:2px}
+  .logo b,nav a{white-space:nowrap}
+  @media (max-width:760px){nav{gap:8px} nav .signin{display:inline-flex;padding:4px 9px} nav .signin .t{display:none} .logo img{width:46px;height:46px}}
+  @media (max-width:360px){.logo b{font-size:1.05rem}}
+
+  /* side "menu" tab */
+  .side-tab{position:fixed;left:0;top:150px;z-index:40;background:var(--red);color:var(--cream);text-decoration:none;writing-mode:vertical-rl;font-family:"Lalezar",sans-serif;font-size:1.35rem;padding:22px 9px;border-radius:0 14px 14px 0;box-shadow:3px 3px 0 var(--ink)}
+  .side-tab:hover{padding-left:14px}
+  @media (max-width:760px){.side-tab{top:auto;bottom:18px;writing-mode:horizontal-tb;left:16px;right:16px;text-align:center;border-radius:999px;padding:10px;font-size:1.25rem}}
 
   /* ---------- hero ---------- */
-  .hero{position:relative;min-height:min(92vh,820px);display:flex;align-items:center;overflow:hidden;isolation:isolate}
-  .hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:35% 55%;z-index:-3;transform:scale(1.06);animation:slowzoom 22s ease-in-out infinite alternate}
-  @keyframes slowzoom{to{transform:scale(1.14) translate(-1.5%,-1%)}}
-  .hero::before{content:"";position:absolute;inset:0;z-index:-2;
-    background:linear-gradient(270deg,rgba(14,9,6,.96) 0%,rgba(14,9,6,.82) 34%,rgba(14,9,6,.35) 62%,rgba(14,9,6,.15) 100%),
-               linear-gradient(0deg,rgba(14,9,6,1) 0%,rgba(14,9,6,0) 28%),radial-gradient(ellipse at 30% 75%,rgba(255,106,19,.28),transparent 60%)}
-  .hero .wrap{width:100%;position:relative;z-index:2;padding-top:40px;padding-bottom:80px}
-  .hero-copy{max-width:600px}
-  .stamp{display:inline-flex;align-items:center;gap:10px;color:var(--amber);font-size:.85rem;border:1.5px solid rgba(255,178,56,.55);padding:5px 14px;border-radius:6px;background:rgba(20,13,9,.45)}
-  .hero h1{font-size:clamp(3rem,7.2vw,5.6rem);margin:18px 0 6px;color:var(--parch);text-shadow:0 4px 0 rgba(0,0,0,.45),0 0 40px rgba(0,0,0,.6)}
-  .hero h1 .fire-text{display:block;font-size:.86em}
-  .hero p{max-width:34em;color:#e9d9bb;font-size:1.05rem;margin:14px 0 26px;text-shadow:0 2px 6px rgba(0,0,0,.6)}
-  .hero .btns{display:flex;gap:14px;flex-wrap:wrap}
-  .sheriff{position:absolute;left:6%;bottom:12%;z-index:2;width:150px;height:150px;animation:spin 26s linear infinite;filter:drop-shadow(0 8px 14px rgba(0,0,0,.6))}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero{position:relative;overflow:hidden;min-height:440px;display:flex;align-items:center}
+  .hero .wrap{position:relative;display:grid;grid-template-columns:1fr 1.1fr;align-items:center;gap:24px;width:100%;padding-top:40px;padding-bottom:48px}
+  .hero h1{font-size:clamp(2.6rem,6.2vw,4.6rem);color:var(--ink)}
+  .hero h1 span{display:block;color:var(--red);font-size:.82em}
+  .hero p{max-width:30em;margin:12px 0 22px;color:#4a3c33}
+  .hero .btns{display:flex;gap:12px;flex-wrap:wrap}
+  .hero-art{position:relative;order:2;aspect-ratio:1/0.82;display:flex;align-items:center;justify-content:center}
+  .hero-art::before{content:"";position:absolute;inset:4% 8%;background:var(--red) var(--spark);border-radius:50%;
+    -webkit-mask:radial-gradient(circle at 50% 50%,#000 64%,transparent 64.5%),repeating-conic-gradient(#000 0 5deg,transparent 5deg 10deg);mask:radial-gradient(circle at 50% 50%,#000 64%,transparent 64.5%),repeating-conic-gradient(#000 0 5deg,transparent 5deg 10deg)}
+  .hero-art #heroDog{position:relative;width:100%}
+  .hero-art svg{width:100%;display:block;transform:rotate(-12deg);filter:drop-shadow(0 14px 0 rgba(20,16,16,.18))}
+  .hero-art .sp{position:absolute;color:var(--ink);font-size:2rem;line-height:1}
   @media (max-width:820px){
-    .hero{min-height:auto}
-    .hero .bg{object-position:30% 50%}
-    .hero::before{background:linear-gradient(0deg,rgba(14,9,6,1) 0%,rgba(14,9,6,.88) 42%,rgba(14,9,6,.35) 75%,rgba(14,9,6,.2) 100%)}
-    .hero .wrap{padding-top:260px;padding-bottom:56px;text-align:center}
-    .hero-copy{margin:0 auto}.hero p{margin-inline:auto}.hero .btns{justify-content:center}
-    .sheriff{width:104px;height:104px;left:16px;top:96px;bottom:auto}
+    .hero .wrap{grid-template-columns:1fr;text-align:center}
+    .hero-art{order:-1;max-width:460px;margin:0 auto;width:100%}
+    .hero p{margin-inline:auto}.hero .btns{justify-content:center}
   }
-  /* smoke & embers */
-  .smoke{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-  .smoke i{position:absolute;bottom:-30%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,var(--smoke) 0,rgba(235,225,210,.35) 32%,rgba(235,225,210,0) 68%);filter:blur(26px);opacity:0;animation:puff 16s linear infinite}
-  .smoke i:nth-child(1){left:-6%;animation-delay:0s}
-  .smoke i:nth-child(2){left:14%;animation-delay:-4s;width:420px;height:420px}
-  .smoke i:nth-child(3){left:30%;animation-delay:-8s}
-  .smoke i:nth-child(4){left:4%;animation-delay:-12s;width:380px;height:380px}
-  .smoke i:nth-child(5){left:42%;animation-delay:-6s;width:340px;height:340px}
-  @keyframes puff{0%{transform:translate(0,0) scale(.55);opacity:0}12%{opacity:.16}55%{opacity:.11}100%{transform:translate(90px,-120vh) scale(1.6);opacity:0}}
-  canvas.embers{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 
-  /* ---------- ticker ---------- */
-  .ticker{position:relative;z-index:3;background:var(--mustard);color:#2a1205;overflow:hidden;transform:rotate(-1.2deg);margin:-14px -10px 0;border-top:3px solid #2a1205;border-bottom:3px solid #2a1205;box-shadow:0 8px 20px rgba(0,0,0,.5)}
-  .ticker .track{display:flex;width:max-content;animation:tick 34s linear infinite}
-  .ticker span{font-size:1.25rem;padding:10px 0;white-space:nowrap}
-  .ticker .west{font-size:1.15rem}
-  .ticker b{font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.3rem;margin:0 18px}
-  @keyframes tick{to{transform:translateX(50%)}}
+  /* ---------- sections ---------- */
+  section{padding:72px 0}
+  .head{text-align:center;margin-bottom:34px}
+  .head h2{font-size:clamp(2rem,4.6vw,3rem);color:var(--ink)}
+  .head h2 em{font-style:normal;color:var(--red)}
+  .head p{max-width:40em;margin:10px auto 0;color:#4a3c33}
 
-  /* ---------- section titles ---------- */
-  section{position:relative;padding:76px 0}
-  .head{text-align:center;margin-bottom:38px}
-  .head .west{display:block;color:var(--amber);font-size:1rem;margin-bottom:4px}
-  .head h2{font-size:clamp(2.2rem,5vw,3.4rem);color:var(--parch)}
-  .head h2 em{font-style:normal}
-  .head p{color:#cdb894;margin-top:8px}
-  .divider{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--amber);margin:6px auto 0;max-width:340px}
-  .divider::before,.divider::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,transparent,rgba(255,178,56,.7),transparent)}
+  .tile{position:relative;background:var(--red) var(--spark);border-radius:22px;overflow:hidden;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink)}
+  .tile svg{width:118%;max-width:none;transform:rotate(-50deg) translateY(-8%);filter:drop-shadow(0 8px 0 rgba(20,16,16,.2))}
+  .tile .label{position:absolute;inset:auto 10px 12px 10px;z-index:2;text-align:center;font-family:"Lalezar",sans-serif;font-size:clamp(1.5rem,3vw,2rem);color:var(--cream);line-height:1.1;padding:6px 8px;background:var(--ink);border-radius:14px}
 
-  /* ---------- build-your-own ---------- */
-  .builder{padding:48px 0;overflow:hidden;isolation:isolate}
-  .builder .bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-  .builder::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(14,9,6,.92),rgba(14,9,6,.78) 50%,rgba(14,9,6,.9))}
-  .builder .wrap{display:grid;grid-template-columns:1.1fr 1fr;grid-template-areas:"copy stage" "steps stage";gap:10px 40px;align-items:center;max-width:1000px}
-  .b-copy{grid-area:copy}.b-stage{grid-area:stage;position:relative}.b-steps{grid-area:steps}
-  .builder .tag{display:inline-block;color:#2a1205;background:var(--mustard);font-weight:900;border-radius:4px;padding:2px 12px;font-size:.85rem;transform:rotate(-2deg);box-shadow:3px 3px 0 #2a1205}
-  .builder h2{font-size:clamp(2.2rem,4.6vw,3.3rem);margin:8px 0 6px}
-  .builder .lead{font-size:.98rem;color:#e6d4b0}
-  .stats{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-  .stats div{text-align:center;min-width:62px;padding:4px 10px;border-radius:8px;background:linear-gradient(180deg,#5a3720,#3c2414);border:1.5px solid #8a6235;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 4px 0 #1a0f08}
-  .stats b{display:block;font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.45rem;line-height:1.15;color:var(--amber)}
-  .stats span{font-weight:800;font-size:.78rem;color:#e6d4b0}
-  .board{position:relative;border-radius:18px;padding:16px 10px 40px;max-width:460px;margin:0 auto;transform:rotate(1.2deg);
-    background:radial-gradient(ellipse at 50% 60%,rgba(255,190,110,.22),transparent 65%),
-      repeating-linear-gradient(92deg,rgba(0,0,0,.08) 0 2px,rgba(0,0,0,0) 2px 9px),
-      repeating-linear-gradient(88deg,rgba(255,255,255,.05) 0 1px,rgba(0,0,0,0) 1px 14px),
-      linear-gradient(180deg,#a8713f,#8a5a30 55%,#74471f);
-    border:3px solid #3a1f0e;box-shadow:inset 0 0 0 6px rgba(58,31,14,.25),inset 0 0 40px rgba(40,18,6,.55),10px 12px 0 rgba(0,0,0,.45)}
-  .board::before{content:"";position:absolute;top:12px;left:50%;width:46px;height:12px;margin-left:-23px;border-radius:999px;background:#2a1205;box-shadow:inset 0 2px 3px rgba(0,0,0,.8)}
-  .board svg{width:100%;display:block;filter:drop-shadow(0 10px 8px rgba(40,18,6,.45))}
-  .board .now{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:#24160d;color:var(--amber);font-weight:900;border-radius:8px;padding:2px 14px;font-size:.92rem;white-space:nowrap;border:1.5px solid #8a6235}
-  .b-stage .smoke{z-index:2;inset:-20% -10% 30% -10%}
-  .b-stage .smoke i{width:240px;height:240px;bottom:-10%;animation-duration:9s}
-  .chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px;min-height:58px}
-  .chips span{background:linear-gradient(180deg,#f2e2c0,#e2c994);color:#2a1205;border-radius:6px;padding:1px 10px;font-weight:800;font-size:.8rem;box-shadow:0 3px 0 #6b3d1f;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:860px;margin:0 auto}
+  .pillars .tile{aspect-ratio:4/5.2}
+  @media (max-width:640px){.pillars{gap:10px}.pillars .tile{border-radius:14px;box-shadow:3px 3px 0 var(--ink);border-width:2px}.pillars .tile .label{font-size:1rem;inset:auto 5px 6px 5px;padding:3px 4px}}
+
+  .dogs{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1040px;margin:0 auto}
+  @media (max-width:1000px){.dogs{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:820px){.dogs{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:520px){.dogs{gap:14px}.dog .tops{font-size:.82rem}.tile .label{font-size:1.2rem}.dogs .tile{box-shadow:4px 4px 0 var(--ink)}}
+  .dog{text-align:center;text-decoration:none}
+  .dog:nth-child(even) .tile{background-color:var(--paper);background-image:none}
+  .dog:nth-child(even) .tile .label{background:var(--red)}
+  .dog .tops{color:var(--red);font-weight:800;margin-top:14px;font-size:.98rem;line-height:1.6}
+  .dog .price{display:inline-block;margin-top:6px;color:var(--ink);font-weight:900}
+  .dog.soldout{opacity:.45}
+  .dog.build .tile{background:var(--ink)}
+  .dog.build .tile .label{background:var(--red)}
+  .dog.build .tile .q{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Lalezar",sans-serif;font-size:7rem;color:var(--red);z-index:1}
+
+
+  .alt{background:var(--cream-2)}
+  .visit{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
+  @media (max-width:760px){.visit{grid-template-columns:1fr}}
+  .info{display:grid;gap:14px}
+  .info div{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border:2px solid var(--red);border-radius:16px;padding:14px 16px}
+  .info .ic{font-size:1.4rem}
+  .info b{display:block;font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.2rem;color:var(--red)}
+  .info a{text-decoration:none;font-weight:800}
+  .badge{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
+  .badge img{width:min(280px,64vw);border-radius:50%;box-shadow:0 0 0 6px var(--red),10px 12px 0 6px var(--ink)}
+
+  .cta-band{background:var(--red) var(--spark);text-align:center;padding:50px 0}
+  .cta-band h2{font-size:clamp(1.8rem,4.4vw,2.8rem);color:var(--cream)}
+  .cta-band .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .cta-band .btn.fill{background:var(--cream);color:var(--red);border-color:var(--cream)}
+  .cta-band .btn.line{border-color:var(--cream);color:var(--cream)}
+
+  footer{background:var(--cream);text-align:center;padding:0;color:#4a3c33;font-size:.92rem}
+  footer .mascot{width:120px;margin:34px auto 8px;display:block}
+  footer .en{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;letter-spacing:.14em;color:var(--red);direction:ltr;margin-bottom:6px}
+  @media (max-width:760px){body{padding-bottom:70px}}
+
+
+  /* ---------- "build your own" showcase ---------- */
+  .builder{background:var(--red) var(--spark);color:var(--cream);padding:38px 0;overflow:hidden}
+  .builder .wrap{display:grid;grid-template-columns:1.15fr 1fr;grid-template-areas:"copy stage" "steps stage";gap:10px 36px;align-items:center;max-width:980px}
+  .b-copy{grid-area:copy}.b-stage{grid-area:stage}.b-steps{grid-area:steps}
+  .builder .tag{display:inline-block;background:var(--ink);color:#FFC93C;font-weight:900;border-radius:999px;padding:4px 14px;font-size:.9rem;transform:rotate(-2deg)}
+  .builder h2{font-size:clamp(2rem,4.2vw,3rem);color:#FFC93C;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:3px 3px 0 var(--ink);margin:6px 0 4px;line-height:1.15}
+  .builder .lead{font-size:.95rem;line-height:1.8}
+  .stats{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .stats div{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:16px;box-shadow:3px 3px 0 var(--ink);padding:3px 10px;text-align:center;min-width:56px}
+  .stats b{display:block;font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.4rem;line-height:1.1;color:var(--red)}
+  .stats span{font-weight:800;font-size:.78rem}
+  .board{position:relative;background:radial-gradient(ellipse at 50% 65%,rgba(255,255,255,.9) 0,rgba(255,255,255,0) 62%),repeating-conic-gradient(#F1E2C3 0 25%,#F8EFDC 0 50%) 0 0/30px 30px;
+    border:3px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);padding:14px 8px 38px;transform:rotate(1.5deg);max-width:440px;margin:0 auto}
+  .board svg{width:100%;display:block}
+  .board .now{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-weight:900;border-radius:999px;padding:3px 16px;font-size:.95rem;white-space:nowrap;transition:opacity .2s}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px;min-height:60px}
+  .chips span{background:var(--cream);color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:2px 10px;font-weight:800;font-size:.8rem;box-shadow:2px 2px 0 var(--ink);animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
   @keyframes pop{0%{transform:scale(.4);opacity:0}100%{transform:none;opacity:1}}
   .drop{animation:drop .5s cubic-bezier(.3,1.6,.5,1)}
   @keyframes drop{0%{transform:translateY(-70px);opacity:0}100%{transform:none;opacity:1}}
   .squeeze{stroke-dasharray:900;stroke-dashoffset:900;animation:sq .8s ease-out forwards}
   @keyframes sq{to{stroke-dashoffset:0}}
-  .b-steps ol{list-style:none;display:grid;gap:7px;font-size:.93rem}
-  .b-steps li{display:flex;gap:12px;align-items:center;font-weight:800;color:#f2e2c0}
-  .b-steps li b{flex:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.1rem;color:#2a1205;background:radial-gradient(circle at 35% 30%,#ffe7a3,#d9a13b 60%,#9a6a1f);box-shadow:0 2px 0 #4a2a0c}
-  .b-steps .btn{margin-top:16px}
+  .b-steps ol{list-style:none;display:grid;gap:6px;font-size:.92rem}
+  .b-steps li{display:flex;gap:12px;align-items:center;font-weight:800}
+  .b-steps li b{flex:none;width:32px;height:32px;border-radius:50%;background:#FFC93C;color:var(--ink);border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.1rem}
+  .big-cta{margin-top:14px;background:#FFC93C;color:var(--ink);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);font-size:1.25rem;padding:8px 24px;animation:wiggle 2.6s ease-in-out infinite}
+  .big-cta:hover{box-shadow:6px 6px 0 var(--ink)}
+  @keyframes wiggle{0%,80%,100%{transform:none}84%{transform:rotate(-3deg) scale(1.04)}88%{transform:rotate(3deg) scale(1.04)}92%{transform:rotate(-2deg)}}
   @media (max-width:860px){
     .builder .wrap{grid-template-columns:1fr;grid-template-areas:"copy" "stage" "steps";text-align:center}
-    .stats{justify-content:center}.b-steps ol{max-width:360px;margin:0 auto;text-align:right}.board{transform:none}
-    .b-steps .btn{width:100%}
+    .stats,.b-steps{justify-content:center}.b-steps ol{max-width:360px;margin:0 auto;text-align:right}.board{transform:none;box-shadow:6px 6px 0 var(--ink)}
+    .big-cta{width:100%;justify-content:center}
   }
-
-  /* ---------- WANTED posters ---------- */
-  .saloon{background:var(--planks)}
-  .posters{display:grid;grid-template-columns:repeat(4,1fr);gap:30px 24px;max-width:1080px;margin:0 auto}
-  @media (max-width:1000px){.posters{grid-template-columns:repeat(3,1fr)}}
-  @media (max-width:760px){.posters{grid-template-columns:repeat(2,1fr);gap:22px 14px}}
-  .poster{position:relative;display:block;text-decoration:none;color:var(--ink);padding:14px 12px 16px;text-align:center;
-    background:radial-gradient(ellipse at 50% 40%,rgba(255,255,255,.35),rgba(255,255,255,0) 60%),linear-gradient(180deg,#f3e3c1,#e7cf9e);
-    box-shadow:inset 0 0 28px rgba(120,70,20,.45),inset 0 0 3px rgba(80,40,10,.6),0 14px 22px rgba(0,0,0,.55);
-    clip-path:polygon(0 1%,4% 0,18% 1.2%,32% .2%,52% 1%,70% 0,88% 1.2%,100% .3%,99.4% 22%,100% 48%,99.2% 76%,100% 99%,84% 100%,62% 99%,40% 100%,22% 99.2%,6% 100%,0 99%,.7% 74%,0 50%,.8% 24%);
-    transition:transform .25s,box-shadow .25s}
-  .poster:nth-child(odd){transform:rotate(-1.4deg)}.poster:nth-child(even){transform:rotate(1.2deg)}
-  .poster:hover{transform:rotate(0) translateY(-6px) scale(1.02)}
-  .poster::before{content:"";position:absolute;top:8px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#c9c9c9,#555 60%,#222);box-shadow:0 2px 2px rgba(0,0,0,.5);z-index:2}
-  .poster .grain-p{position:absolute;inset:0;background:var(--grain);opacity:.22;mix-blend-mode:multiply;pointer-events:none}
-  .poster .wanted{font-family:"Rye",serif;font-size:clamp(1.25rem,2.4vw,1.75rem);line-height:1;color:#3a1a08;letter-spacing:.08em;margin-top:6px}
-  .poster .sub{font-family:"Rye",serif;font-size:.62rem;letter-spacing:.2em;color:#6b3d1f;margin:2px 0 8px;direction:ltr}
-  .poster .photo{position:relative;aspect-ratio:4/3;overflow:hidden;border:3px solid #3a1a08;box-shadow:0 0 0 2px #e7cf9e,0 0 0 4px #6b3d1f;background:#2a1205}
-  .poster .photo img{width:100%;height:100%;object-fit:cover;filter:saturate(1.15) contrast(1.06);transition:transform .6s}
-  .poster:hover .photo img{transform:scale(1.08)}
-  .poster .photo::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(40,18,6,.45))}
-  .poster h3{font-family:"Lalezar",sans-serif;font-weight:400;font-size:clamp(1.35rem,2.4vw,1.8rem);line-height:1.2;margin:10px 0 2px;color:#2a1205}
-  .poster .tops{font-size:.8rem;font-weight:700;color:#6b3d1f;line-height:1.6;min-height:2.6em}
-  .poster .reward{margin-top:8px;border-top:2px dashed rgba(58,26,8,.4);padding-top:6px;display:flex;align-items:baseline;justify-content:center;gap:8px;flex-wrap:wrap}
-  .poster .reward .west{font-size:.7rem;color:#8a2a10;letter-spacing:.14em}
-  .poster .reward b{font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.35rem;color:#a3240f}
-  .poster.soldout{filter:grayscale(.8);opacity:.7}
-  .poster.build .photo{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 70%,#7a2e08,#2a1205 70%)}
-  .poster.build .photo .q{font-family:"Rye",serif;font-size:5rem;color:var(--amber);text-shadow:0 0 30px rgba(255,106,19,.8)}
-  @media (max-width:760px){.poster{padding:10px 8px 12px}.poster .tops{font-size:.72rem}.poster .reward b{font-size:1.12rem}}
-  .note{text-align:center;color:#9d8763;font-size:.78rem;margin-top:34px}
-
-  /* ---------- fire CTA ---------- */
-  .firecta{padding:80px 0;text-align:center;overflow:hidden;isolation:isolate}
-  .firecta .bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 70%;z-index:-2}
-  .firecta::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,9,6,.95),rgba(14,9,6,.55) 45%,rgba(14,9,6,.95))}
-  .firecta h2{font-size:clamp(2.2rem,5.4vw,3.8rem)}
-  .firecta p{color:#e6d4b0;margin:8px 0 22px}
-  .firecta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-
-  /* ---------- visit ---------- */
-  .visit-sec{background:var(--planks)}
-  .visit{display:grid;grid-template-columns:1.15fr 1fr;gap:34px;align-items:center}
-  @media (max-width:820px){.visit{grid-template-columns:1fr}}
-  .info{display:grid;gap:14px}
-  .info div{position:relative;display:flex;gap:12px;align-items:flex-start;color:var(--ink);padding:14px 16px;border-radius:4px;
-    background:linear-gradient(180deg,#f3e3c1,#e5cc98);box-shadow:inset 0 0 22px rgba(120,70,20,.35),0 8px 16px rgba(0,0,0,.45)}
-  .info div:nth-child(odd){transform:rotate(-.6deg)}.info div:nth-child(even){transform:rotate(.5deg)}
-  .info .ic{font-size:1.35rem}
-  .info b{display:block;font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.2rem;color:#a3240f}
-  .info a{text-decoration:none;font-weight:800}
-  .info .lnk{color:#a3240f}
-  .photo-stack{position:relative;height:420px}
-  .photo-stack figure{position:absolute;background:#f3e3c1;padding:10px 10px 34px;box-shadow:0 18px 30px rgba(0,0,0,.6)}
-  .photo-stack figure img{width:100%;height:100%;object-fit:cover}
-  .photo-stack figcaption{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-family:"Lalezar",sans-serif;color:#3a1a08;font-size:1.05rem}
-  .photo-stack .p1{width:62%;height:62%;top:2%;right:4%;transform:rotate(4deg)}
-  .photo-stack .p2{width:60%;height:58%;bottom:2%;left:2%;transform:rotate(-5deg)}
-  .photo-stack .logo-badge{position:absolute;left:50%;top:50%;width:132px;height:132px;margin:-66px 0 0 -66px;border-radius:50%;z-index:3;box-shadow:0 0 0 5px #b48a52,0 0 0 9px #3a2416,0 14px 30px rgba(0,0,0,.6)}
-  @media (max-width:820px){.photo-stack{height:340px}}
-
-  footer{background:#0d0806;text-align:center;color:#a8916c;font-size:.9rem;padding:34px 0 96px}
-  footer .mascot{width:96px;margin:0 auto 10px;filter:sepia(.4) saturate(1.3)}
-  footer .west{color:var(--amber);font-size:1.1rem;margin-bottom:6px}
-  footer small{display:block;margin-top:8px;color:#6f5d45}
-  @media (prefers-reduced-motion:reduce){.hero .bg,.sheriff,.smoke i,.ticker .track,.drop,.squeeze,.chips span{animation:none!important}.smoke{display:none}.squeeze{stroke-dashoffset:0}}
+  @media (prefers-reduced-motion:reduce){.drop,.squeeze,.chips span,.big-cta{animation:none}.squeeze{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
@@ -232,126 +168,103 @@
       <a href="#dogs">هات‌داگ‌ها</a>
       <a href="/build">خودت بساز</a>
       <a href="#visit">تماس و آدرس</a>
-      <a class="btn btn-fire cta" href="/menu">سفارش</a>
-      <a class="btn btn-rope signin" href="/panel" title="ورود به پنل‌های مدیریت">🔐<span class="t"> ورود</span></a>
+      <a class="btn fill cta" href="/menu">سفارش</a>
+      <a class="btn line signin" href="/panel" title="ورود به پنل‌های مدیریت">🔐<span class="t"> ورود</span></a>
     </nav>
   </div>
-  <div class="rope"></div>
+  <div class="checker"></div>
 </header>
 
 <a class="side-tab" href="/menu">🌭 دیدن منو</a>
 
 <section class="hero" style="padding:0">
-  <img class="bg" src="/img/w/hero.jpg" alt="" fetchpriority="high">
-  <div class="smoke" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-  <canvas class="embers" aria-hidden="true"></canvas>
-  <svg class="sheriff" viewBox="0 0 200 200" aria-hidden="true">
-    <defs><radialGradient id="brass" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="#ffe7a3"/><stop offset=".55" stop-color="#d9a13b"/><stop offset="1" stop-color="#8a5a12"/></radialGradient>
-      <path id="ring" d="M100 100 m-56 0 a56 56 0 1 1 112 0 a56 56 0 1 1 -112 0"/></defs>
-    <path d="M100 6 L124 62 L186 62 L136 98 L156 160 L100 124 L44 160 L64 98 L14 62 L76 62 Z" fill="url(#brass)" stroke="#5a3a0c" stroke-width="4" stroke-linejoin="round"/>
-    <g fill="#5a3a0c"><circle cx="100" cy="14" r="7"/><circle cx="180" cy="64" r="7"/><circle cx="152" cy="154" r="7"/><circle cx="48" cy="154" r="7"/><circle cx="20" cy="64" r="7"/></g>
-    <circle cx="100" cy="98" r="42" fill="none" stroke="#5a3a0c" stroke-width="3"/>
-    <text font-family="Rye,serif" font-size="13" fill="#3a2205" letter-spacing="2"><textPath href="#ring" startOffset="50%" text-anchor="middle">★ HANDMADE ★ SMOKED ★ LOADED</textPath></text>
-    <text x="100" y="98" text-anchor="middle" font-family="Lalezar,sans-serif" font-size="24" fill="#3a2205">دست‌ساز</text>
-    <text x="100" y="122" text-anchor="middle" font-family="Rye,serif" font-size="17" fill="#3a2205">90%</text>
-  </svg>
   <div class="wrap">
-    <div class="hero-copy">
-      <span class="stamp"><span class="west">★ NADER HOTDOG · SMOKEHOUSE ★</span></span>
-      <h1 class="display">اونقدر خوشمزه‌ست<span class="fire-text">که باورت نمیشه!</span></h1>
-      <p>هات‌داگ‌هایی که روی آتیش جون می‌گیرن: هات‌داگ اسپشیال گوشت ۷۰٪ و هات‌داگ‌های دست‌ساز گوشت و مرغ ۹۰٪، با پنیر آب‌شده، بیکن ترد و سس‌های دست‌ساز خودمون. هر روز از ساعت ۱۴ تا ۲۳:۴۵.</p>
+    <div class="hero-art" aria-hidden="true"><div id="heroDog"></div><span class="sp" style="top:6%;right:10%">✦</span><span class="sp" style="bottom:10%;left:8%;font-size:1.4rem">✦</span></div>
+    <div>
+      <span class="eyebrow">هات‌داگ دست‌ساز · سس دست‌ساز</span>
+      <h1 class="display">اونقدر خوشمزه‌ست<span>که باورت نمیشه!</span></h1>
+      <p>فقط یه هات‌داگ نیست؛ یه تجربه‌ست. هات‌داگ اسپشیال گوشت ۷۰٪ و هات‌داگ‌های دست‌ساز گوشت و مرغ ۹۰٪، با سس‌های دست‌ساز خودمون. هر روز از ساعت ۱۴ تا ۲۳:۴۵.</p>
       <div class="btns">
-        <a class="btn btn-fire" href="/menu">🔥 منو و سفارش آنلاین</a>
-        <a class="btn btn-rope" href="#build">👨‍🍳 هات‌داگ خودتو بساز</a>
+        <a class="btn fill" href="/menu">🌭 سفارش آنلاین</a>
+        <a class="btn line" href="#build">👨‍🍳 هات‌داگ خودتو بساز</a>
       </div>
     </div>
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true"><div class="track" id="ticker"></div></div>
-
+<div class="checker"></div>
 <section class="builder" id="build">
-  <img class="bgimg" src="/img/w/embers.jpg" alt="" loading="lazy">
   <div class="wrap">
     <div class="b-copy">
       <span class="tag">✦ فقط تو دکان نادر ✦</span>
-      <h2 class="display fire-text">آشپز خودت باش!</h2>
-      <p class="lead">هات‌داگ رویاهات رو خودت بساز: نون رو انتخاب کن، سوسیس رو بذار، مخلفات رو با دست بکش و بنداز روش و سس رو بریز. دستورت مستقیم میره آشپزخونه و آشپز دقیقاً همونو برات درست می‌کنه.</p>
+      <h2 class="display">آشپز خودت باش!</h2>
+      <p class="lead">هات‌داگ رویاهات رو خودت بساز: سوسیس رو انتخاب کن، تاپینگ رو با دست بکش و بنداز روش و سس رو بریز. دستورت مستقیم میره آشپزخونه و آشپز دقیقاً همونو برات درست می‌کنه.</p>
       <div class="stats">
-        <div><b>۲</b><span>نون</span></div><div><b>۴</b><span>سوسیس</span></div><div><b>۶</b><span>مخلفات</span></div><div><b>۶</b><span>سس</span></div>
+        <div><b>۴</b><span>سوسیس</span></div><div><b>۶</b><span>تاپینگ</span></div><div><b>۶</b><span>سس</span></div>
       </div>
     </div>
     <div class="b-stage">
-      <div class="smoke" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="board"><div id="liveDog"></div><div class="now" id="liveNow">نان مخصوص هات‌داگ</div></div>
       <div class="chips" id="liveChips"></div>
     </div>
     <div class="b-steps">
       <ol>
-        <li><b>۱</b><span>نون و سوسیس دلخواهت رو انتخاب کن</span></li>
-        <li><b>۲</b><span>مخلفات و سس‌ها رو بکش روی هات‌داگ</span></li>
+        <li><b>۱</b><span>سوسیس دلخواهت رو انتخاب کن</span></li>
+        <li><b>۲</b><span>تاپینگ و سس‌ها رو بکش روی هات‌داگ</span></li>
         <li><b>۳</b><span>«تموم شد» رو بزن؛ سفارشت میره آشپزخونه</span></li>
       </ol>
-      <a class="btn btn-fire" href="/build">👨‍🍳 همین الان بساز!</a>
+      <a class="btn big-cta" href="/build">👨‍🍳 همین الان بساز!</a>
     </div>
   </div>
 </section>
-<div class="rope"></div>
+<div class="checker"></div>
 
-<section class="saloon" id="dogs">
+<section class="alt" id="dogs">
   <div class="wrap">
     <div class="head">
-      <span class="west">★ MOST WANTED ★</span>
-      <h2 class="display">هات‌داگ‌های <em class="fire-text">مخصوص</em></h2>
-      <div class="divider">✦</div>
+      <span class="eyebrow">منوی ما</span>
+      <h2 class="display">هات‌داگ‌های <em>مخصوص</em></h2>
+      <p>یکی رو انتخاب کن، یا خودت از اول بسازش! 👨‍🍳</p>
     </div>
-    <div class="posters" id="dogGrid"></div>
-    <div class="head" style="margin-top:70px">
-      <span class="west">★ THE CLASSICS ★</span>
-      <h2 class="display">هات‌داگ‌های <em class="fire-text">کلاسیک</em></h2>
-      <div class="divider">✦</div>
+    <div class="dogs" id="dogGrid"></div>
+    <div class="head" style="margin-top:64px">
+      <h2 class="display">هات‌داگ‌های <em>کلاسیک</em></h2>
     </div>
-    <div class="posters" id="classicGrid"></div>
-    <p class="note">* همه‌ی ساندویچ‌ها با ۱۵۰ گرم سیب‌زمینی سرخ‌شده‌ی طعم‌دار سرو میشن · تصاویر جنبه‌ی تزئینی دارند</p>
+    <div class="dogs" id="classicGrid"></div>
   </div>
 </section>
-<div class="rope"></div>
 
-<section class="firecta">
-  <img class="bgimg" src="/img/w/flames.jpg" alt="" loading="lazy">
-  <canvas class="embers" aria-hidden="true"></canvas>
-  <div class="wrap" style="position:relative;z-index:2">
-    <span class="west" style="color:var(--amber)">★ THE GRILL IS HOT ★</span>
-    <h2 class="display">گرسنه‌ای؟ <span class="fire-text">آتیش روشنه!</span></h2>
-    <p>سفارش سر میز با QR، یا با پیک از اسنپ‌فود — داغِ داغ به دستت می‌رسه.</p>
+<div class="checker"></div>
+<div class="cta-band">
+  <div class="wrap">
+    <h2 class="display">گرسنه‌ای؟ همین الان سفارش بده!</h2>
     <div class="btns">
-      <a class="btn btn-fire" href="/menu">🌭 منو و سفارش آنلاین</a>
-      <a class="btn btn-rope" href="/build">👨‍🍳 هات‌داگ خودتو بساز</a>
-      <a class="btn btn-rope" href="https://snappfood.ir/restaurant/menu/%D9%87%D8%A7%D8%AA_%D8%AF%D8%A7%DA%AF_%D9%86%D8%A7%D8%AF%D8%B1-r-xdw1n2/" target="_blank" rel="noopener">🛵 سفارش با پیک</a>
+      <a class="btn fill" href="/menu">🌭 منو و سفارش آنلاین</a>
+      <a class="btn line" href="/build">👨‍🍳 هات‌داگ خودتو بساز</a>
+      <a class="btn line" href="https://snappfood.ir/restaurant/menu/%D9%87%D8%A7%D8%AA_%D8%AF%D8%A7%DA%AF_%D9%86%D8%A7%D8%AF%D8%B1-r-xdw1n2/" target="_blank" rel="noopener">🛵 سفارش با پیک (اسنپ‌فود)</a>
     </div>
   </div>
-</section>
-<div class="rope"></div>
+</div>
+<div class="checker"></div>
 
-<section class="visit-sec" id="visit">
+<section id="visit">
   <div class="wrap visit">
     <div>
-      <div class="head" style="text-align:right;margin-bottom:24px">
-        <span class="west" style="text-align:right">★ COME ON IN, PARTNER ★</span>
-        <h2 class="display">منتظرت <em class="fire-text">هستیم</em></h2>
+      <div class="head" style="text-align:right;margin-bottom:20px">
+        <span class="eyebrow">بیا پیش ما</span>
+        <h2 class="display">منتظرت <em>هستیم</em></h2>
       </div>
       <div class="info">
-        <div><span class="ic">⏰</span><span><b>ساعت کاری</b>شنبه تا پنجشنبه ۱۴:۰۰ تا ۲۳:۴۵ · جمعه‌ها ۱۵:۰۰ تا ۲۳:۴۵</span></div>
+        <div><span class="ic">⏰</span><span><b>ساعت کاری</b>شنبه تا پنجشنبه ۱۴:۰۰ تا ۲۳:۴۵<br>جمعه‌ها ۱۵:۰۰ تا ۲۳:۴۵</span></div>
         <div><span class="ic">☎️</span><span><b>سفارش تلفنی</b><a href="tel:02532903005" dir="ltr">025-3290-3005</a> · <a href="tel:09191549104" dir="ltr">0919-154-9104</a></span></div>
-        <div><span class="ic">📍</span><span><b>آدرس</b>قم، زنبیل‌آباد (بلوار شهید صدوقی)، ۳۰متری قائم، بین کوچه ۵ و ۷، پلاک ۱۹۹<br><a class="lnk" href="https://www.google.com/maps/search/?api=1&query=%D9%82%D9%85%D8%8C+%D8%A8%D9%84%D9%88%D8%A7%D8%B1+%D8%B4%D9%87%DB%8C%D8%AF+%D8%B5%D8%AF%D9%88%D9%82%DB%8C%D8%8C+%DB%B3%DB%B0%D9%85%D8%AA%D8%B1%DB%8C+%D9%82%D8%A7%D8%A6%D9%85" target="_blank" rel="noopener">مسیریابی روی نقشه ←</a></span></div>
-        <div><span class="ic">🛵</span><span><b>سفارش با پیک</b>اسنپ‌فود — ⭐ ۴٫۵ از ۵ با بیش از ۲۴۰ نظر · <a class="lnk" href="https://snappfood.ir/restaurant/menu/%D9%87%D8%A7%D8%AA_%D8%AF%D8%A7%DA%AF_%D9%86%D8%A7%D8%AF%D8%B1-r-xdw1n2/" target="_blank" rel="noopener">سفارش ←</a></span></div>
+        <div><span class="ic">📍</span><span><b>آدرس</b>قم، زنبیل‌آباد (بلوار شهید صدوقی)، ۳۰متری قائم، بین کوچه ۵ و ۷، پلاک ۱۹۹<br><a href="https://www.google.com/maps/search/?api=1&query=%D9%82%D9%85%D8%8C+%D8%A8%D9%84%D9%88%D8%A7%D8%B1+%D8%B4%D9%87%DB%8C%D8%AF+%D8%B5%D8%AF%D9%88%D9%82%DB%8C%D8%8C+%DB%B3%DB%B0%D9%85%D8%AA%D8%B1%DB%8C+%D9%82%D8%A7%D8%A6%D9%85" target="_blank" rel="noopener" style="color:var(--red)">مسیریابی روی نقشه ←</a></span></div>
         <div><span class="ic">📸</span><span><b>اینستاگرام</b><a href="https://instagram.com/naderhotdog" target="_blank" rel="noopener" dir="ltr">@naderhotdog</a></span></div>
+        <div><span class="ic">🛵</span><span><b>سفارش با پیک</b>ما رو توی اسنپ‌فود هم پیدا می‌کنید — ⭐ ۴٫۵ از ۵ با بیش از ۲۴۰ نظر<br><a href="https://snappfood.ir/restaurant/menu/%D9%87%D8%A7%D8%AA_%D8%AF%D8%A7%DA%AF_%D9%86%D8%A7%D8%AF%D8%B1-r-xdw1n2/" target="_blank" rel="noopener" style="color:var(--red)">سفارش از اسنپ‌فود ←</a></span></div>
       </div>
     </div>
-    <div class="photo-stack" aria-hidden="true">
-      <figure class="p1"><img src="/img/w/grill.jpg" alt="" loading="lazy"><figcaption>داغ از روی گریل</figcaption></figure>
-      <figure class="p2"><img src="/img/w/fries.jpg" alt="" loading="lazy"><figcaption>سیب‌زمینی طلایی</figcaption></figure>
-      <img class="logo-badge" src="/img/logo.png" alt="">
+    <div class="badge">
+      <img src="/img/logo.png" alt="">
+      <a class="btn fill" href="tel:02532903005">📞 تماس و سفارش</a>
     </div>
   </div>
 </section>
@@ -359,10 +272,10 @@
 <footer>
   <div class="wrap">
     <img class="mascot" src="/img/mascot.png" alt="">
-    <div class="west">NADER HOTDOG SHOP</div>
-    <div>© ۲۰۲۶ دکان هات‌داگ نادر · Not just a hot dog. An experience.</div>
-    <small>Photos: Unsplash</small>
+    <div class="en">NADER HOTDOG SHOP</div>
+    <div>© ۲۰۲۶ دکان هات‌داگ نادر · قم · Not just a hot dog. An experience.</div>
   </div>
+  <div class="checker" style="margin-top:26px"></div>
 </footer>
 
 <script src="/dogart.js"></script>
@@ -370,37 +283,8 @@
 (async function(){
   const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
   const D = DogArt;
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('heroDog').innerHTML = D.svg(D.look('monsterbite'));
 
-  // ---- ticker ----
-  (function(){ const t = document.getElementById('ticker');
-    const one = '<span><span class="west">SMOKED</span><b>★</b>هات‌داگ دست‌ساز<b>★</b><span class="west">GRILLED</span><b>★</b>سس دست‌ساز<b>★</b><span class="west">LOADED</span><b>★</b>پنیر آب‌شده<b>★</b><span class="west">LEGENDARY</span><b>★</b>آشپز خودت باش<b>★</b></span>';
-    t.innerHTML = one.repeat(4); })();
-
-  // ---- rising embers ----
-  document.querySelectorAll('canvas.embers').forEach(cv => {
-    if (reduce) return;
-    const ctx = cv.getContext('2d'); let W, H, parts = [], vis = true, raf;
-    const size = () => { const r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1); W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); };
-    const spawn = (y) => ({ x: Math.random() * W * (cv.closest('.hero') ? .65 : 1), y: y ?? H + 10, r: .8 + Math.random() * 2.2, vy: .4 + Math.random() * 1.1, vx: (Math.random() - .5) * .4, life: 0, max: 220 + Math.random() * 260, ph: Math.random() * 6 });
-    size(); addEventListener('resize', size);
-    const n = innerWidth < 700 ? 28 : 55; for (let i = 0; i < n; i++) parts.push(spawn(Math.random() * H));
-    new IntersectionObserver(e => { vis = e[0].isIntersecting; if (vis) loop(); }).observe(cv);
-    function loop(){
-      cancelAnimationFrame(raf); if (!vis || document.hidden) return;
-      ctx.clearRect(0, 0, W, H);
-      for (const p of parts) {
-        p.life++; p.y -= p.vy; p.x += p.vx + Math.sin((p.life + p.ph * 40) / 28) * .35;
-        const a = Math.max(0, 1 - p.life / p.max) * (.55 + .45 * Math.sin(p.life / 6 + p.ph));
-        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
-        g.addColorStop(0, `rgba(255,214,120,${a})`); g.addColorStop(.35, `rgba(255,120,30,${a * .7})`); g.addColorStop(1, 'rgba(255,80,0,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 4, 0, 7); ctx.fill();
-        if (p.life > p.max || p.y < -20) Object.assign(p, spawn());
-      }
-      raf = requestAnimationFrame(loop);
-    }
-    document.addEventListener('visibilitychange', loop); loop();
-  });
 
   // ---- live "build your own" demo: a hotdog builds itself, layer by layer, again and again ----
   (function live(){
@@ -411,14 +295,15 @@
       house: 'سس دست‌ساز', cheddar: 'دیپ چدار', bbq: 'سس باربیکیو', mustard: 'سس خردل', pickle: 'سس خیارشور', jalapeno: 'سس هالاپینو' };
     const TOPS = ['bacon', 'pepperoni', 'mince', 'mozzarella', 'pizzacheese', 'caramelonion'], SAUCE = ['house', 'cheddar', 'bbq', 'mustard', 'pickle', 'jalapeno'];
     const pickN = (arr, n) => arr.slice().sort(() => Math.random() - .5).slice(0, n);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     let recipe, step, timer;
     function newRecipe(){
-      const b = Math.random() < .7 ? 'plain' : 'baguette', s = pickN(['regular', 'regular', 'beef', 'chicken', 'cheesy'], 1)[0];
+      const b = 'plain', s = pickN(['regular', 'regular', 'beef', 'chicken', 'cheesy'], 1)[0];
       return { bun: b, sausage: s, layers: pickN(TOPS, 2 + (Math.random() * 2 | 0)).concat(pickN(SAUCE, 1 + (Math.random() * 2 | 0))) };
     }
-    function draw(k){
+    function draw(k){ // k = number of layers shown; -1 = bread only
       const id = 'L', r = recipe;
-      let o = D.defs(r.bun, k < 0 ? 'regular' : r.sausage, id) + '<ellipse cx="200" cy="220" rx="170" ry="9" fill="#000" opacity=".25"/>' + D.bunBack(r.bun, id);
+      let o = D.defs(r.bun, k < 0 ? 'regular' : r.sausage, id) + '<ellipse cx="200" cy="220" rx="170" ry="9" fill="#000" opacity=".18"/>' + D.bunBack(r.bun, id);
       if (k >= 0) o += `<g class="${k === 0 ? 'drop' : ''}">${D.sausageArt(r.sausage, id)}</g>`;
       const shown = r.layers.slice(0, Math.max(0, k));
       D.layout(shown).forEach((p, i) => { const last = i === shown.length - 1, isS = D.SAUCES.has(p.id);
@@ -441,44 +326,24 @@
     step = -1; tick();
     document.addEventListener('visibilitychange', () => { clearTimeout(timer); if (!document.hidden) timer = setTimeout(tick, 600); });
   })();
-
-  // ---- WANTED posters from the live menu ----
   let menu;
   try { menu = await (await fetch('/api/menu')).json(); } catch(e) { return; }
   const money = p => fa(p.toLocaleString('en-US')).replace(/,/g, '٬') + ' ' + (menu.currency || 'تومان');
-  const PHOTO = new Set(['smokedog', 'cheddarslam', 'monsterbite', 'lavadog', 'loadeddog', 'sausagedog', 'jizzdog', 'specialclassic', 'beefclassic', 'chickenclassic', 'cheeseclassic']);
+  // Short topping list: drop the parts every sandwich has (bun, fries, the base hotdog).
   const tops = d => (d.desc || '').split('،').map(x => x.trim().replace(/^[۰-۹0-9]+ ?گرم /, '').replace(/^یک عدد /, ''))
     .filter(x => x && !/^(نان|سیب|هات[‌ ]?داگ اسپشیال|هات[‌ ]?داگ سرخ|سوسیس هات)/.test(x)).join(' · ');
-  const pic = d => PHOTO.has(d.id) ? `<img src="/img/w/${d.id}.jpg" alt="${d.name}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{innerHTML:DogArt.svg(DogArt.look('${d.id}')),style:'padding:14%;background:#3a1a08'}))">`
-                                     : `<div style="padding:14%;background:#3a1a08">${D.svg(D.look(d.id))}</div>`;
-  const card = d => { const off = d.available === false;
-    return `<a class="poster ${off ? 'soldout' : ''}" href="${off ? '#dogs' : '/menu?view=1#c-' + d.cat}"><span class="grain-p"></span>
-      <div class="wanted">WANTED</div><div class="sub">— HOT, LOADED &amp; DELICIOUS —</div>
-      <div class="photo">${pic(d)}</div>
-      <h3>${d.name}</h3><div class="tops">${tops(d)}</div>
-      <div class="reward">${off ? '<b>فعلاً تموم شده</b>' : `<span class="west">REWARD</span><b>${d.price ? money(d.price) : 'قیمت در صندوق'}</b>`}</div></a>`; };
+  const card = (d) => { const off = d.available === false;
+    return `<a class="dog ${off ? 'soldout' : ''}" href="${off ? '#dogs' : '/menu?view=1#c-' + d.cat}">
+      <div class="tile">${D.svg(D.look(d.id))}<div class="label">${d.name}</div></div>
+      <div class="tops">${tops(d)}</div>
+      <div class="price">${off ? 'فعلاً تموم شده' : d.price ? money(d.price) : ''}</div></a>`; };
   const of = c => menu.items.filter(i => i.cat === c);
   const specials = of('special').length ? of('special') : menu.items.filter(i => i.cat === 'hotdog');
-  document.getElementById('dogGrid').innerHTML = specials.map(card).join('') +
-    `<a class="poster build" href="/build"><span class="grain-p"></span><div class="wanted">WANTED</div><div class="sub">— YOUR OWN RECIPE —</div>
-      <div class="photo"><span class="q">?</span></div><h3>خودت بسازش!</h3><div class="tops">نون، سوسیس، مخلفات و سس رو خودت انتخاب کن</div>
-      <div class="reward"><b>👨‍🍳 آشپز خودت باش!</b></div></a>`;
+  document.getElementById('dogGrid').innerHTML = specials.map(card).join('') + `<a class="dog build" href="/build"><div class="tile"><span class="q">?</span><div class="label">خودت بسازش!</div></div>
+      <div class="tops">سوسیس، تاپینگ و سس رو خودت انتخاب کن</div><div class="price">👨‍🍳 آشپز خودت باش!</div></a>`;
   const classics = of('classic');
   document.getElementById('classicGrid').innerHTML = classics.map(card).join('');
   if (!classics.length) document.getElementById('classicGrid').previousElementSibling.remove();
-})();
-// slow-connection guard: if a photo stalls, ask for it again (up to 3 times)
-(() => {
-  const ok = i => i.complete && i.naturalWidth > 0;
-  const watch = i => {
-    if (i.dataset.w) return; i.dataset.w = 1; let n = 0;
-    const tick = () => { if (!i.isConnected || ok(i)) return;
-      if (n++ < 3) { i.src = i.src.split('?')[0] + '?r=' + n + Date.now() % 1000; setTimeout(tick, 8000 + n * 3000); } };
-    setTimeout(tick, 8000);
-  };
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { watch(e.target); io.unobserve(e.target); } }), { rootMargin: '400px' });
-  const scan = () => document.querySelectorAll('img[src*="/img/w/"]').forEach(i => { if (!i.dataset.o) { i.dataset.o = 1; io.observe(i); } });
-  scan(); new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
 })();
 </script>
 </body>
