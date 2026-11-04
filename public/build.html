@@ -47,17 +47,16 @@
 
 <main class="wrap">
   <div class="stage" id="stage">
-    <div class="hint" id="hint">مخلفات رو بکش و بنداز روی هات‌داگ 👇</div>
+    <div class="hint" id="hint">تاپینگ رو بکش و بنداز روی هات‌داگ 👇</div>
     <svg id="dog" viewBox="0 44 400 182" aria-label="هات‌داگ شما"></svg>
     <div class="tools"><button id="undo">↶ برگردون</button><button id="clear">پاک کن</button></div>
     <div class="count" id="count"></div>
   </div>
 
-  <h2>🥖 نون</h2>
-  <div class="row" id="buns"></div>
+  <div class="row" id="buns" style="display:none"></div>
   <h2>🌭 سوسیس</h2>
   <div class="row" id="sausages"></div>
-  <h2>🥓 مخلفات <span class="muted" style="font-size:.85rem;font-weight:600">(بکش روی هات‌داگ یا بزن روش)</span></h2>
+  <h2>🥓 تاپینگ <span class="muted" style="font-size:.85rem;font-weight:600">(بکش روی هات‌داگ یا بزن روش)</span></h2>
   <div class="row" id="toppings"></div>
   <h2>🥫 سس‌ها</h2>
   <div class="row" id="sauces"></div>
@@ -189,7 +188,7 @@
       <div class="card sum" style="margin-top:12px"><ol>
         <li>${nm(C.buns, state.bun)}</li><li>${nm(C.sausages, state.sausage)}</li>
         ${state.layers.map(l => `<li>${ALL[l.id].name}</li>`).join('')}
-      </ol>${state.layers.length ? '' : '<p class="muted">بدون مخلفات</p>'}
+      </ol>${state.layers.length ? '' : '<p class="muted">بدون تاپینگ</p>'}
       ${(() => { const p = priceOf(); return p ? `<p style="font-weight:900;font-size:1.1rem;margin-top:6px">قیمت: ${priceTxt(p)}</p>${C.note ? `<p class="muted">${C.note}</p>` : ''}` : ''; })()}</div>
       <div class="finish"><button class="btn" id="edit">→ ویرایش</button><button class="btn red" id="add">اضافه به سفارش 🛒</button></div>`;
     sheet.classList.add('open');
