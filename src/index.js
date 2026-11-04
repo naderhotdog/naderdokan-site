@@ -13,6 +13,7 @@ async function ensureSchema(db) {
   if (schemaReady) return;
   await db.exec("CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, created INTEGER NOT NULL, table_no INTEGER NOT NULL, lines TEXT NOT NULL, note TEXT, status TEXT NOT NULL DEFAULT 'new')");
   await db.exec("CREATE TABLE IF NOT EXISTS settings (k TEXT PRIMARY KEY, v TEXT NOT NULL)");
+  await db.exec("CREATE TABLE IF NOT EXISTS photos (name TEXT PRIMARY KEY, type TEXT NOT NULL, data BLOB NOT NULL, saved INTEGER NOT NULL)");
   for (const col of ["total INTEGER", "done_at INTEGER", "paid_at INTEGER"]) {
     try { await db.exec("ALTER TABLE orders ADD COLUMN " + col); } catch (e) { /* already there */ }
   }
@@ -97,18 +98,34 @@ function validMenu(m) {
     m.items.every((i) => i && typeof i.id === "string" && typeof i.name === "string" && (i.price == null || Number.isFinite(i.price)));
 }
 
-// Serve a homepage photo from our own domain (fetched once from Unsplash, then cached at the edge).
-async function photo(name, request, ctx) {
+// Serve a homepage photo from our own domain. The first time, the Worker downloads it from Unsplash
+// and keeps a permanent copy in the database, so the site never depends on Unsplash after that.
+async function photo(name, request, env, ctx) {
   const src = PHOTOS[name];
   if (!src) return new Response("not found", { status: 404 });
+  const headers = (type) => ({ "content-type": type, "cache-control": "public, max-age=2592000, immutable" });
   const cache = caches.default, key = new Request(new URL(request.url).origin + "/img/w/" + name);
   let res = await cache.match(key);
   if (res) return res;
-  const up = await fetch(src, { cf: { cacheTtl: 2592000, cacheEverything: true } });
-  if (!up.ok) return new Response("photo unavailable", { status: 502 });
-  res = new Response(up.body, { headers: { "content-type": up.headers.get("content-type") || "image/jpeg", "cache-control": "public, max-age=2592000, immutable" } });
-  ctx.waitUntil(cache.put(key, res.clone()));
-  return res;
+  await ensureSchema(env.DB);
+  const row = await env.DB.prepare("SELECT type, data FROM photos WHERE name = ?").bind(name).first();
+  if (row) {
+    res = new Response(new Uint8Array(row.data), { headers: headers(row.type) });
+    ctx.waitUntil(cache.put(key, res.clone()));
+    return res;
+  }
+  try {
+    const up = await fetch(src, { headers: { "user-agent": "Mozilla/5.0 (compatible; NaderHotdogSite/1.0)", accept: "image/avif,image/webp,image/jpeg,*/*" }, signal: AbortSignal.timeout(9000) });
+    const type = up.headers.get("content-type") || "";
+    if (!up.ok || !type.startsWith("image/")) throw new Error("bad " + up.status + " " + type);
+    const buf = await up.arrayBuffer();
+    ctx.waitUntil(env.DB.prepare("INSERT OR REPLACE INTO photos (name, type, data, saved) VALUES (?, ?, ?, ?)").bind(name, type, buf, Date.now()).run());
+    res = new Response(buf, { headers: headers(type) });
+    ctx.waitUntil(cache.put(key, res.clone()));
+    return res;
+  } catch (e) {
+    return new Response("photo not ready", { status: 503, headers: { "cache-control": "no-store", "retry-after": "30" } });
+  }
 }
 
 export default {
@@ -116,7 +133,7 @@ export default {
     const url = new URL(request.url);
     const { pathname } = url;
     const method = request.method;
-    if (pathname.startsWith("/img/w/")) return photo(pathname.slice(7), request, ctx);
+    if (pathname.startsWith("/img/w/")) return photo(pathname.slice(7), request, env, ctx);
     if (!pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
 
     const db = env.DB;
