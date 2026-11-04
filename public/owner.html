@@ -94,7 +94,7 @@
         <div class="card chart"><h3>${anyRev ? 'فروش روزانه (' + currency + ')' : 'تعداد سفارش روزانه'}</h3>${vbars(anyRev ? dayPts : dayPts.map(p => ({ ...p, v: p.n })), anyRev ? money : n)}</div>
         <div class="card chart"><h3>شلوغ‌ترین ساعت‌ها (تعداد سفارش)</h3>${vbars(hourPts, n)}</div>
         <div class="card chart"><h3>پرفروش‌ترین‌ها (تعداد)</h3>${hbars(sorted(items).slice(0, 10), n)}</div>
-        <div class="card chart"><h3>محبوب‌ترین مخلفات در هات‌داگ سفارشی</h3>${hbars(sorted(tops).slice(0, 10), n)}</div>
+        <div class="card chart"><h3>محبوب‌ترین تاپینگ در هات‌داگ سفارشی</h3>${hbars(sorted(tops).slice(0, 10), n)}</div>
         <div class="card chart"><h3>سفارش به تفکیک میز</h3>${hbars(sorted(tabs), n)}</div>
       </div>
       ${valid.some(o => !o.total) ? '<p class="muted" style="margin-top:14px">⚠️ برای بعضی سفارش‌ها قیمت ثبت نشده بود (قیمت‌ها هنوز تنظیم نشده). از تب «منو و قیمت‌ها» قیمت‌ها رو وارد کنید تا گزارش فروش کامل بشه.</p>' : ''}`;
@@ -128,7 +128,7 @@
       <button class="btn" id="addItem">➕ آیتم جدید</button>
       <h2>👨‍🍳 هات‌داگ سفارشی</h2>
       <div class="field" style="max-width:320px">قیمت پایه (نون + سوسیس اسپشیال + سیب‌زمینی)<input id="basePrice" type="number" min="0" step="1000" value="${C.basePrice ?? ''}"></div>
-      <h3 style="margin:14px 0 8px">مخلفات <small class="muted">(قیمت اضافه برای هر کدوم)</small></h3><div class="toggles">${extra(C.toppings, 'toppings')}</div>
+      <h3 style="margin:14px 0 8px">تاپینگ <small class="muted">(قیمت اضافه برای هر کدوم)</small></h3><div class="toggles">${extra(C.toppings, 'toppings')}</div>
       <h3 style="margin:14px 0 8px">سس‌ها</h3><div class="toggles">${extra(C.sauces, 'sauces')}</div>
       <h3 style="margin:14px 0 8px">نون‌ها <small class="muted">(قیمت اضافه)</small></h3><div class="toggles">${extra(C.buns, 'buns')}</div>
       <h3 style="margin:14px 0 8px">سوسیس‌ها <small class="muted">(قیمت اضافه نسبت به اسپشیال)</small></h3><div class="toggles">${extra(C.sausages, 'sausages')}</div>
