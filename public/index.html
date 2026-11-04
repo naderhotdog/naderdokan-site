@@ -467,6 +467,19 @@
   document.getElementById('classicGrid').innerHTML = classics.map(card).join('');
   if (!classics.length) document.getElementById('classicGrid').previousElementSibling.remove();
 })();
+// slow-connection guard: if a photo stalls, ask for it again (up to 3 times)
+(() => {
+  const ok = i => i.complete && i.naturalWidth > 0;
+  const watch = i => {
+    if (i.dataset.w) return; i.dataset.w = 1; let n = 0;
+    const tick = () => { if (!i.isConnected || ok(i)) return;
+      if (n++ < 3) { i.src = i.src.split('?')[0] + '?r=' + n + Date.now() % 1000; setTimeout(tick, 8000 + n * 3000); } };
+    setTimeout(tick, 8000);
+  };
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { watch(e.target); io.unobserve(e.target); } }), { rootMargin: '400px' });
+  const scan = () => document.querySelectorAll('img[src*="/img/w/"]').forEach(i => { if (!i.dataset.o) { i.dataset.o = 1; io.observe(i); } });
+  scan(); new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+})();
 </script>
 </body>
 </html>
