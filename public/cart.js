@@ -8,8 +8,8 @@
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) { mem[k] = v; } },
     del(k) { try { localStorage.removeItem(k); } catch (e) { delete mem[k]; } },
   };
-  if (!(table >= 1)) table = parseInt(store.get("nd_table"), 10) || null;
-  if (table) store.set("nd_table", String(table));
+  // Table numbers are switched off for now: every order is a plain order.
+  table = null; store.del("nd_table");
 
   const key = () => "nd_cart_" + (table || 0);
   const read = () => { try { return JSON.parse(store.get(key()) || "[]"); } catch (e) { return []; } };
