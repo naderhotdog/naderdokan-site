@@ -1,7 +1,7 @@
 // Nader Hotdog menu — taken from the shop's Snappfood page (Nov 2026). Prices in Toman.
 // Used until the head manager saves a menu in the owner panel (after that the saved copy is used).
 export const MENU = {
-  v: 2,
+  v: 3,
   currency: "تومان",
   cats: [
     { id: "special", name: "ساندویچ‌های هات‌داگ مخصوص", short: "مخصوص‌ها", emoji: "⭐" },
@@ -20,9 +20,9 @@ export const MENU = {
     { id: "jizzdog",    cat: "special", emoji: "🌶️", name: "جیز داگ",     desc: "هات‌داگ اسپشیال گوشت ۷۰٪ سرخ‌شده، نان مخصوص هات‌داگ، ۳۰ گرم سس هالاپینو تند، ۴۰ گرم پپرونی گوشت گوساله ۹۰٪، ۴۰ گرم پنیر پیتزا، ۱۵۰ گرم سیب‌زمینی سرخ‌شده‌ی طعم‌دار", price: 639000, available: true },
     // --- classic hotdogs
     { id: "specialclassic", cat: "classic", emoji: "🌭", name: "هات‌داگ اسپشیال",          desc: "یک عدد سوسیس هات‌داگ گوشت ۷۰٪، ۱۵۰ گرم سیب‌زمینی سرخ‌کرده، سس دست‌ساز خیارشور، سس خردل", price: 520000, available: true },
-    { id: "beefclassic",    cat: "classic", emoji: "🥖", name: "بیف هات‌داگ دست‌ساز",     desc: "نان باگت، یک عدد هات‌داگ دست‌ساز گوشت گوسفندی ۹۰٪، سس دست‌ساز، ۱۵۰ گرم سیب‌زمینی سرخ‌شده", price: 659000, available: true },
-    { id: "chickenclassic", cat: "classic", emoji: "🐔", name: "چیکن هات‌داگ دست‌ساز",    desc: "نان باگت، یک عدد هات‌داگ مرغ دست‌ساز ۹۰٪، سس دست‌ساز، ۱۵۰ گرم سیب‌زمینی سرخ‌شده", price: 548000, available: true },
-    { id: "cheeseclassic",  cat: "classic", emoji: "🧀", name: "چیز هات‌داگ دست‌ساز",     desc: "نان باگت، یک عدد هات‌داگ مرغ پنیری دست‌ساز ۷۰٪، سس دست‌ساز، ۱۵۰ گرم سیب‌زمینی سرخ‌شده", price: 559000, available: true },
+    { id: "beefclassic",    cat: "classic", emoji: "🥖", name: "بیف هات‌داگ دست‌ساز",     desc: "نان مخصوص هات‌داگ، یک عدد هات‌داگ دست‌ساز گوشت گوسفندی ۹۰٪، سس دست‌ساز، ۱۵۰ گرم سیب‌زمینی سرخ‌شده", price: 659000, available: true },
+    { id: "chickenclassic", cat: "classic", emoji: "🐔", name: "چیکن هات‌داگ دست‌ساز",    desc: "نان مخصوص هات‌داگ، یک عدد هات‌داگ مرغ دست‌ساز ۹۰٪، سس دست‌ساز، ۱۵۰ گرم سیب‌زمینی سرخ‌شده", price: 548000, available: true },
+    { id: "cheeseclassic",  cat: "classic", emoji: "🧀", name: "چیز هات‌داگ دست‌ساز",     desc: "نان مخصوص هات‌داگ، یک عدد هات‌داگ مرغ پنیری دست‌ساز ۷۰٪، سس دست‌ساز، ۱۵۰ گرم سیب‌زمینی سرخ‌شده", price: 559000, available: true },
     // --- fries
     { id: "frieslarge", cat: "fries", emoji: "🍟", name: "سیب‌زمینی سرخ‌شده بزرگ (۳۰۰ گرم)", desc: "سیب‌زمینی سرخ‌شده با ادویه‌ی مخصوص و سس دست‌ساز", price: 239000, available: true },
     { id: "friesmini",  cat: "fries", emoji: "🍟", name: "سیب‌زمینی سرخ‌شده مینی",           desc: "سیب‌زمینی سرخ‌شده با ادویه‌ی مخصوص و سس دست‌ساز", price: 189000, available: true },
@@ -42,8 +42,7 @@ export const MENU = {
     basePrice: 520000,
     note: "همراه ۱۵۰ گرم سیب‌زمینی سرخ‌شده",
     buns: [
-      { id: "plain",    name: "نان مخصوص هات‌داگ", price: 0, available: true },
-      { id: "baguette", name: "نان باگت",          price: 0, available: true }
+      { id: "plain",    name: "نان مخصوص هات‌داگ", price: 0, available: true }
     ],
     sausages: [
       { id: "regular", name: "اسپشیال گوشت ۷۰٪",           price: 0,      available: true },
