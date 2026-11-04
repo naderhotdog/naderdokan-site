@@ -21,31 +21,27 @@
   .head{text-align:center;margin-bottom:36px}
   .head h1{font-size:clamp(2.4rem,6vw,3.6rem);font-weight:900;letter-spacing:-.02em;line-height:1.2}
   .head p{color:var(--ink-2);font-size:1.1rem;margin-top:8px}
-  .shops{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-  @media (max-width:760px){.shops{grid-template-columns:1fr;gap:16px} main{padding-top:32px}}
-  .shop{position:relative;display:flex;flex-direction:column;text-decoration:none;border-radius:28px;overflow:hidden;min-height:440px;transition:transform .2s,box-shadow .2s}
-  .shop:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,16,16,.16)}
-  .shop .art{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:220px;overflow:hidden}
+  .shops{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;margin:0 auto}
+  @media (max-width:640px){.shops{grid-template-columns:1fr;gap:12px;max-width:340px} main{padding-top:32px}}
+  .shop{position:relative;display:flex;flex-direction:column;text-decoration:none;border-radius:20px;overflow:hidden;min-height:308px;transition:transform .2s,box-shadow .2s}
+  .shop:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(20,16,16,.16)}
+  .shop .art{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:154px;overflow:hidden}
   .shop .art::before{content:"";position:absolute;width:74%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.1)}
-  .shop .body{padding:22px 24px 24px}
-  .shop h2{font-size:1.6rem;font-weight:900;line-height:1.35}
-  .shop p{margin-top:4px;font-size:.98rem}
-  .shop .go{display:flex;align-items:center;justify-content:center;margin-top:18px;min-height:52px;border-radius:14px;font-weight:800;font-size:1.05rem}
-  .shop .badge{position:absolute;top:18px;inset-inline-start:18px;z-index:2;border-radius:999px;padding:4px 14px;font-weight:800;font-size:.85rem}
-  .shop .logo{position:absolute;top:16px;inset-inline-end:16px;z-index:2;width:58px;height:58px;border-radius:50%;box-shadow:0 0 0 3px var(--paper)}
+  .shop .body{padding:15px 17px 17px}
+  .shop h2{font-size:1.15rem;font-weight:900;line-height:1.35}
+  .shop p{margin-top:3px;font-size:.8rem;line-height:1.7}
+  .shop .go{display:flex;align-items:center;justify-content:center;margin-top:13px;min-height:40px;border-radius:11px;font-weight:800;font-size:.88rem}
+  .shop .badge{position:absolute;top:12px;inset-inline-start:12px;z-index:2;border-radius:999px;padding:2px 10px;font-weight:800;font-size:.72rem}
+  .shop .logo{position:absolute;top:11px;inset-inline-end:11px;z-index:2;width:40px;height:40px;border-radius:50%;box-shadow:0 0 0 2px var(--paper)}
 
-  .hot{background:var(--red);color:var(--paper)}
-  .hot .art svg{position:relative;width:82%;transform:rotate(-14deg);filter:drop-shadow(0 16px 16px rgba(80,0,0,.3))}
-  .hot p{opacity:.92}
-  .hot .go{background:var(--paper);color:var(--red)}
-  .hot .badge{background:var(--ink);color:var(--yellow)}
-
-  .mazeh{background:var(--olive);color:var(--paper)}
-  .mazeh .art{background:radial-gradient(circle at 50% 55%,rgba(255,201,60,.18),transparent 60%)}
-  .mazeh .mono{position:relative;width:150px;height:150px;border-radius:50%;background:var(--paper);color:var(--olive);display:flex;align-items:center;justify-content:center;font-size:5.2rem;font-weight:900;line-height:1;box-shadow:0 0 0 8px rgba(255,248,234,.18)}
-  .mazeh p{opacity:.85}
-  .mazeh .go{background:transparent;color:var(--paper);border:1.5px solid rgba(255,248,234,.5)}
-  .mazeh .badge{background:var(--yellow);color:var(--ink)}
+  .shop{background:var(--red);color:var(--paper)}
+  .shop p{opacity:.92}
+  .shop .go{background:var(--paper);color:var(--red)}
+  .shop .badge{background:var(--ink);color:var(--yellow)}
+  .hot .art svg{position:relative;width:82%;transform:rotate(-14deg);filter:drop-shadow(0 12px 12px rgba(80,0,0,.3))}
+  .mazeh .soon{position:relative;text-align:center;line-height:1.05;direction:ltr}
+  .mazeh .soon b{display:block;font-family:system-ui,"Segoe UI",Arial,sans-serif;font-weight:900;font-size:2rem;letter-spacing:.06em;color:var(--paper)}
+  .mazeh .soon span{display:inline-block;margin-top:8px;background:var(--paper);color:var(--red);border-radius:999px;padding:2px 12px;font-weight:800;font-size:.8rem;direction:rtl}
 
   footer{text-align:center;padding:22px 20px 28px;color:var(--muted);font-size:.9rem}
   footer a{text-decoration:none;font-weight:700;color:var(--ink-2)}
@@ -71,12 +67,12 @@
       </div>
     </a>
     <a class="shop mazeh" href="/mazeh">
-      <span class="badge">به‌زودی</span>
-      <div class="art" aria-hidden="true"><div class="mono">م</div></div>
+      <span class="badge">دکان تازه</span>
+      <div class="art"><div class="soon"><b>COMING<br>SOON</b><span>به‌زودی</span></div></div>
       <div class="body">
         <h2>دکان مزه نادر</h2>
         <p>دکان تازه‌ی خانواده‌ی نادر؛ به‌زودی منو و سفارش آنلاین همین‌جاست.</p>
-        <span class="go">ورود به دکان مزه</span>
+        <span class="go">ورود به دکان مزه نادر</span>
       </div>
     </a>
   </div>
