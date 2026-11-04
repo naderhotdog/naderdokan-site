@@ -10,7 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{--red:#E62A1E;--red-d:#C71F14;--red-50:#FDEEEC;--ink:#1C1716;--ink-2:#4F4744;--muted:#7A706C;--line:#ECE7E3;--surface:#F6F3F0;--bg:#fff;--green:#1F8A4C}
+  :root{--red:#FA3225;--red-d:#D9241A;--red-50:#FFE1D9;--ink:#141010;--ink-2:#4A3C33;--muted:#7A675B;--line:#E8D7B7;--surface:#F1E2C3;--bg:#F8EFDC;--paper:#FFF8EA;--green:#1F8A4C;--yellow:#FFC93C}
+  .checker{height:14px;background:repeating-conic-gradient(var(--red) 0 25%,var(--bg) 0 50%) 0 0/14px 14px}
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;scroll-padding-top:80px}
   body{font-family:"Vazirmatn",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:clip}
@@ -20,19 +21,20 @@
   svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
   /* header */
-  header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
-  header.scrolled{border-bottom-color:var(--line)}
+  header{position:sticky;top:0;z-index:30;background:rgba(248,239,220,.94);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+  header.scrolled{border-bottom-color:transparent}
+  header .checker{height:10px;background-size:10px 10px}
   header .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
   .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:1.08rem;white-space:nowrap}
   .logo img{width:42px;height:42px;border-radius:50%}
   nav{display:flex;gap:4px;align-items:center}
   nav a{text-decoration:none;font-weight:600;font-size:.95rem;color:var(--ink-2);padding:8px 12px;border-radius:10px;white-space:nowrap}
-  nav a:hover{color:var(--ink);background:var(--surface)}
+  nav a:hover{color:var(--red)}
   nav .signin{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
   nav .signin svg{width:17px;height:17px}
 
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:700;font-size:1rem;border-radius:12px;padding:12px 22px;min-height:48px;border:1px solid var(--line);background:var(--bg);color:var(--ink);transition:background .15s,border-color .15s,transform .1s;white-space:nowrap}
-  .btn:hover{background:var(--surface);border-color:#DDD5CF}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:700;font-size:1rem;border-radius:12px;padding:12px 22px;min-height:48px;border:1px solid var(--line);background:var(--paper);color:var(--ink);transition:background .15s,border-color .15s,transform .1s;white-space:nowrap}
+  .btn:hover{background:var(--surface);border-color:var(--line)}
   .btn:active{transform:scale(.98)}
   .btn.fill{background:var(--red);border-color:var(--red);color:#fff}
   .btn.fill:hover{background:var(--red-d);border-color:var(--red-d)}
@@ -43,7 +45,7 @@
   /* hero */
   .hero{padding:28px 0 72px}
   .hero .wrap{display:grid;grid-template-columns:1fr 1.05fr;gap:48px;align-items:center}
-  .status{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem;color:var(--ink-2);background:var(--surface);border-radius:999px;padding:5px 14px 5px 12px}
+  .status{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem;color:var(--ink-2);background:var(--paper);border-radius:999px;padding:5px 14px 5px 12px}
   .status i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
   .status.open i{background:var(--green);box-shadow:0 0 0 4px rgba(31,138,76,.15)}
   .hero h1{font-size:clamp(2.3rem,5vw,3.9rem);font-weight:900;line-height:1.2;letter-spacing:-.02em;margin:18px 0 16px}
@@ -76,11 +78,11 @@
   .dogs{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
   @media (max-width:1000px){.dogs{grid-template-columns:repeat(3,1fr)}}
   @media (max-width:720px){.dogs{grid-template-columns:repeat(2,1fr);gap:12px}}
-  .dog{display:flex;flex-direction:column;text-decoration:none;background:var(--bg);border-radius:18px;padding:10px;border:1px solid var(--line);transition:border-color .15s,box-shadow .2s}
-  .dog:hover{border-color:#DDD5CF;box-shadow:0 10px 30px rgba(28,23,22,.07)}
+  .dog{display:flex;flex-direction:column;text-decoration:none;background:var(--paper);border-radius:18px;padding:10px;border:1px solid var(--line);transition:border-color .15s,box-shadow .2s}
+  .dog:hover{border-color:var(--red);box-shadow:0 10px 30px rgba(28,23,22,.07)}
   .alt .dog{border-color:transparent}
   .pic{background:var(--surface);border-radius:12px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .alt .pic{background:#FBF1EF}
+  .alt .pic{background:var(--bg)}
   .pic svg{width:112%;max-width:none;transform:rotate(-16deg)}
   .dog h3{font-size:1.08rem;font-weight:800;margin:12px 4px 2px}
   .dog .tops{color:var(--muted);font-size:.86rem;line-height:1.7;margin:0 4px;flex:1}
@@ -90,17 +92,22 @@
   @media (max-width:520px){.dog{padding:8px;border-radius:14px}.dog h3{font-size:.98rem}.dog .tops{font-size:.8rem}.dog .price{font-size:.9rem}}
 
   /* build your own */
+  .builder{background:var(--red);color:var(--paper)}
+  .builder .lead{color:var(--paper)!important;opacity:.92}
+  .builder .tag{display:inline-block;background:var(--ink);color:var(--yellow);font-weight:800;border-radius:999px;padding:5px 16px;font-size:.92rem;margin-bottom:14px}
+  .builder .btn.fill{background:var(--paper);border-color:var(--paper);color:var(--red)}
+  .builder .btn.fill:hover{background:#fff;border-color:#fff}
   .builder .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
   .builder h2{font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:900;line-height:1.3;letter-spacing:-.01em}
   .builder .lead{color:var(--ink-2);margin-top:12px;font-size:1.05rem}
   .steps{list-style:none;display:grid;gap:14px;margin:26px 0 30px;counter-reset:s}
   .steps li{display:flex;gap:14px;align-items:center;font-weight:600;counter-increment:s}
-  .steps li::before{content:counter(s,persian);flex:none;width:34px;height:34px;border-radius:50%;background:var(--red-50);color:var(--red-d);font-weight:800;display:flex;align-items:center;justify-content:center}
-  .board{position:relative;background:var(--surface);border-radius:24px;padding:28px 18px 18px}
+  .steps li::before{content:counter(s,persian);flex:none;width:34px;height:34px;border-radius:50%;background:var(--paper);color:var(--red);font-weight:800;display:flex;align-items:center;justify-content:center}
+  .board{position:relative;background:radial-gradient(ellipse at 50% 55%,rgba(255,255,255,.85) 0,rgba(255,255,255,0) 60%),repeating-conic-gradient(var(--surface) 0 25%,var(--bg) 0 50%) 0 0/30px 30px;border-radius:24px;padding:28px 18px 18px;color:var(--ink)}
   .board svg{width:100%;display:block}
   .board .now{text-align:center;font-weight:700;font-size:.95rem;color:var(--ink-2);min-height:1.7em;margin-top:6px}
   .chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px;min-height:64px;align-content:flex-start}
-  .chips span{background:var(--bg);border-radius:999px;padding:3px 12px;font-weight:600;font-size:.8rem;color:var(--ink-2);animation:pop .3s ease-out}
+  .chips span{background:var(--paper);border-radius:999px;padding:3px 12px;font-weight:600;font-size:.8rem;color:var(--ink-2);animation:pop .3s ease-out}
   @keyframes pop{from{transform:translateY(4px);opacity:0}to{transform:none;opacity:1}}
   .drop{animation:drop .45s cubic-bezier(.3,1.4,.5,1)}
   @keyframes drop{0%{transform:translateY(-60px);opacity:0}100%{transform:none;opacity:1}}
@@ -124,7 +131,7 @@
   .visit .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
   .visit .acts .btn{min-height:40px;padding:8px 14px;font-size:.9rem}
 
-  footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:.9rem}
+  footer{padding:28px 0;color:var(--muted);font-size:.9rem}
   footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
   footer .logo{font-size:.95rem;color:var(--ink)}
   footer .logo img{width:32px;height:32px}
@@ -133,7 +140,7 @@
   /* phone: always-visible order button */
   .mobile-cta{display:none}
   @media (max-width:860px){
-    .mobile-cta{display:flex;position:fixed;inset-inline:12px;bottom:12px;z-index:40;box-shadow:0 10px 30px rgba(198,31,20,.3);border-radius:14px;min-height:54px;font-size:1.05rem;transform:translateY(130%);transition:transform .25s}
+    .mobile-cta{display:flex;position:fixed;inset-inline:12px;bottom:12px;z-index:40;box-shadow:0 10px 30px rgba(120,20,10,.3);border-radius:14px;min-height:54px;font-size:1.05rem;transform:translateY(130%);transition:transform .25s}
     .mobile-cta.show{transform:none}
     body{padding-bottom:76px}
   }
@@ -146,13 +153,14 @@
   <div class="wrap">
     <a class="logo" href="/"><img src="/img/logo.png" alt="">دکان هات‌داگ نادر</a>
     <nav aria-label="منوی اصلی">
-      <a class="nl" href="#dogs">منو</a>
       <a class="nl" href="#build">خودت بساز</a>
+      <a class="nl" href="#dogs">منو</a>
       <a class="nl" href="#visit">ساعت و آدرس</a>
       <a class="signin" href="/panel" title="ورود کارکنان"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>ورود</span></a>
       <a class="btn fill" href="/menu">سفارش</a>
     </nav>
   </div>
+  <div class="checker"></div>
 </header>
 
 <main>
@@ -174,23 +182,11 @@
   </div>
 </section>
 
-<section class="alt" id="dogs">
-  <div class="wrap">
-    <div class="shead">
-      <div><h2>هات‌داگ‌های مخصوص</h2><p>همه با ۱۵۰ گرم سیب‌زمینی سرخ‌شده‌ی طعم‌دار</p></div>
-      <a class="more" href="/menu?view=1">منوی کامل</a>
-    </div>
-    <div class="dogs" id="dogGrid"></div>
-    <div class="shead" style="margin-top:56px">
-      <div><h2>کلاسیک‌ها</h2><p>هات‌داگ‌های دست‌ساز خودمون، ساده و اصیل</p></div>
-    </div>
-    <div class="dogs" id="classicGrid"></div>
-  </div>
-</section>
-
+<div class="checker"></div>
 <section class="builder" id="build">
   <div class="wrap">
     <div>
+      <span class="tag">برای اولین بار و اختصاصی از دکان نادر</span>
       <h2>هات‌داگ خودتو بساز</h2>
       <p class="lead">سوسیس، تاپینگ و سس رو خودت انتخاب کن و روی نون بچین. دستورت مستقیم میره آشپزخونه و دقیقاً همون رو برات درست می‌کنیم.</p>
       <ol class="steps">
@@ -205,21 +201,37 @@
     </div>
   </div>
 </section>
+<div class="checker"></div>
 
-<section class="alt" id="visit">
+<section class="alt" id="dogs">
+  <div class="wrap">
+    <div class="shead">
+      <div><h2>هات‌داگ‌های مخصوص</h2><p>همه با ۱۵۰ گرم سیب‌زمینی سرخ‌شده‌ی طعم‌دار</p></div>
+      <a class="more" href="/menu?view=1">منوی کامل</a>
+    </div>
+    <div class="dogs" id="dogGrid"></div>
+    <div class="shead" style="margin-top:56px">
+      <div><h2>کلاسیک‌ها</h2><p>هات‌داگ‌های دست‌ساز خودمون، ساده و اصیل</p></div>
+    </div>
+    <div class="dogs" id="classicGrid"></div>
+  </div>
+</section>
+<div class="checker"></div>
+
+<section id="visit">
   <div class="wrap">
     <div class="shead"><div><h2>ساعت کاری و آدرس</h2><p>سر میز سفارش بدید، تلفنی، یا با پیک از اسنپ‌فود.</p></div></div>
     <div class="visit">
-      <div style="background:#fff">
+      <div style="background:var(--paper)">
         <h3><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>ساعت کاری</h3>
         <table><tr data-d="sat-thu"><td>شنبه تا پنجشنبه</td><td>۱۴:۰۰ تا ۲۳:۴۵</td></tr><tr data-d="fri"><td>جمعه</td><td>۱۵:۰۰ تا ۲۳:۴۵</td></tr></table>
       </div>
-      <div style="background:#fff">
+      <div style="background:var(--paper)">
         <h3><svg class="i" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>آدرس</h3>
         <p>قم، زنبیل‌آباد (بلوار شهید صدوقی)، ۳۰متری قائم، بین کوچه ۵ و ۷، پلاک ۱۹۹</p>
         <div class="acts"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=%D9%82%D9%85%D8%8C+%D8%A8%D9%84%D9%88%D8%A7%D8%B1+%D8%B4%D9%87%DB%8C%D8%AF+%D8%B5%D8%AF%D9%88%D9%82%DB%8C%D8%8C+%DB%B3%DB%B0%D9%85%D8%AA%D8%B1%DB%8C+%D9%82%D8%A7%D8%A6%D9%85" target="_blank" rel="noopener">مسیریابی</a></div>
       </div>
-      <div style="background:#fff">
+      <div style="background:var(--paper)">
         <h3><svg class="i" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>تماس و سفارش</h3>
         <a class="l" href="tel:02532903005" dir="ltr">025-3290-3005</a><br>
         <a class="l" href="tel:09191549104" dir="ltr">0919-154-9104</a>
@@ -234,6 +246,7 @@
 </main>
 
 <footer>
+  <div class="checker" style="margin:-28px 0 28px"></div>
   <div class="wrap">
     <a class="logo" href="/"><img src="/img/logo.png" alt="">دکان هات‌داگ نادر</a>
     <span>© ۲۰۲۶ دکان هات‌داگ نادر، قم</span>
