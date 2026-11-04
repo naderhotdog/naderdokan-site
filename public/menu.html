@@ -7,36 +7,38 @@
 <link rel="icon" href="/img/logo.png">
 <link rel="stylesheet" href="/app.css">
 <style>
-  .hero-build{display:flex;align-items:center;gap:14px;background:var(--red) ;color:var(--cream);text-decoration:none;margin-top:6px}
-  .hero-build .big{font-size:3rem;line-height:1}
-  .hero-build b{font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.45rem;display:block;line-height:1.3}
-  .catnav{position:sticky;top:75px;z-index:15;display:flex;gap:8px;overflow-x:auto;padding:12px 0 8px;margin:0 -16px;padding-inline:16px;background:var(--cream);scrollbar-width:none}
+  .hero-build{display:flex;align-items:center;gap:14px;background:var(--surface);border:0;text-decoration:none;margin-top:4px;padding:14px 16px}
+  .hero-build .big{width:52px;height:52px;border-radius:12px;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;font-size:1.6rem}
+  .hero-build b{font-weight:800;font-size:1.05rem;display:block;line-height:1.5}
+  .hero-build span:last-child{color:var(--muted);font-size:.9rem}
+  .hero-build::after{content:"";width:9px;height:9px;border-top:2px solid var(--muted);border-left:2px solid var(--muted);transform:rotate(-45deg);margin-inline-start:auto;flex:none}
+  .catnav{position:sticky;top:62px;z-index:15;display:flex;gap:6px;overflow-x:auto;padding:12px 16px 10px;margin:0 -16px;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);scrollbar-width:none;border-bottom:1px solid var(--line)}
   .catnav::-webkit-scrollbar{display:none}
-  .catnav a{flex:none;text-decoration:none;border:2px solid var(--ink);border-radius:999px;padding:4px 14px;font-weight:800;background:var(--paper);font-size:.92rem}
-  .catnav a.on{background:var(--red);color:var(--cream)}
-  .items{display:grid;gap:14px}
-  .item{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center}
-  .item .pic{background:var(--red);border:2px solid var(--ink);border-radius:14px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .item .pic svg{width:135%;max-width:none;transform:rotate(-28deg)}
-  .item .pic.em{background:var(--mustard);font-size:3.2rem}
-  .item:nth-child(even) .pic:not(.em){background:var(--mustard)}
+  .catnav a{flex:none;text-decoration:none;border-radius:999px;padding:6px 16px;font-weight:600;background:var(--surface);color:var(--ink-2);font-size:.9rem}
+  .catnav a.on{background:var(--ink);color:#fff}
+  .items{display:grid;gap:0}
+  .item{display:grid;grid-template-columns:1fr 104px;gap:14px;align-items:center;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:16px 0}
+  .item .pic{order:2;background:var(--surface);border-radius:14px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .item .pic svg{width:135%;max-width:none;transform:rotate(-24deg)}
+  .item .pic.em{font-size:2.8rem}
   .item .info{min-width:0}
-  .item h3{font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.35rem;line-height:1.3}
-  .item p{font-size:.84rem;line-height:1.7}
-  .item .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;flex-wrap:wrap}
-  .item .price{color:var(--red);font-weight:900}
+  .item h3{font-weight:800;font-size:1.05rem;line-height:1.5}
+  .item p{font-size:.85rem;line-height:1.75;margin-top:2px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .item .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .item .price{font-weight:700}
   .item.off{opacity:.5}
-  @media (max-width:420px){.item{grid-template-columns:86px 1fr}.item h3{font-size:1.2rem}}
-  .tables{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:12px;margin-top:16px}
-  .tables .btn{font-size:1.4rem;padding:18px 0;font-family:"Lalezar",sans-serif;font-weight:400}
+  @media (max-width:420px){.item{grid-template-columns:1fr 88px}}
+  .tables{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px;margin-top:18px}
+  .tables .btn{font-size:1.5rem;font-weight:800;padding:22px 0;border-radius:16px}
   .alt{display:grid;gap:10px;margin-top:26px}
-  .note{background:var(--paper);border:2px dashed var(--red);border-radius:14px;padding:10px 14px;margin-top:12px;font-size:.92rem}
-  .line{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed rgba(29,20,16,.25)}
+  .note{background:var(--surface);border-radius:14px;padding:12px 16px;margin-top:4px;font-size:.92rem;color:var(--ink-2)}
+  .line{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
   .line .info{flex:1}
   .line small{display:block;color:var(--muted)}
-  .done-box{text-align:center;padding:30px 10px}
-  .done-box .big{font-size:4rem}
-  .num{font-family:"Lalezar",sans-serif;font-size:3rem;color:var(--red)}
+  .done-box{text-align:center;padding:36px 16px;border:0;background:var(--surface)}
+  .done-box .big{width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+  .num{font-size:3rem;font-weight:900;color:var(--red);line-height:1.3}
+  h2{scroll-margin-top:130px}
 </style>
 </head>
 <body>
@@ -81,17 +83,16 @@
     .filter(c => MENU.items.some(i => i.cat === c.id));
   const isDog = i => /^(special|classic|hotdog)$/.test(i.cat) || DogArt.LOOKS[i.id];
   const view = new URLSearchParams(location.search).get('view') === '1';
-  const foot = `<footer class="site-foot"><div class="checker" style="margin:0 -16px 18px"></div><img class="mascot" src="/img/mascot.png" alt="">
-      <div class="en">NADER HOTDOG SHOP</div>
-      <p>⏰ هر روز ۱۴:۰۰ تا ۲۳:۴۵ (جمعه‌ها از ۱۵:۰۰) · ☎️ <a href="tel:02532903005" dir="ltr">025-3290-3005</a></p>
-      <p>📍 قم، زنبیل‌آباد، ۳۰متری قائم، بین کوچه ۵ و ۷، پلاک ۱۹۹</p>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px"><a class="btn" href="https://instagram.com/naderhotdog" target="_blank" rel="noopener">📸 naderhotdog@</a><a class="btn snapp" href="${SNAPP}" target="_blank" rel="noopener">🛵 اسنپ‌فود</a></div></footer>`;
+  const foot = `<footer class="site-foot"><div class="en">دکان هات‌داگ نادر</div>
+      <p>شنبه تا پنجشنبه ۱۴:۰۰ تا ۲۳:۴۵، جمعه ۱۵:۰۰ تا ۲۳:۴۵</p>
+      <p>قم، زنبیل‌آباد، ۳۰متری قائم، بین کوچه ۵ و ۷، پلاک ۱۹۹</p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px"><a class="btn" href="tel:02532903005" dir="ltr">025-3290-3005</a><a class="btn" href="https://instagram.com/naderhotdog" target="_blank" rel="noopener" dir="ltr">@naderhotdog</a><a class="btn snapp" href="${SNAPP}" target="_blank" rel="noopener">اسنپ‌فود</a></div></footer>`;
 
   // No table in the link? Let the customer pick (or just look at the menu / order delivery).
   if (!Cart.table && !view) {
     app.innerHTML = '<h2 style="text-align:center">شماره‌ی میزتون رو انتخاب کنید</h2><p class="muted" style="text-align:center">شماره روی کد QR میز نوشته شده</p><div class="tables">' +
       Array.from({length: MENU.tables}, (_, i) => `<a class="btn yellow" href="/menu?t=${i+1}">${fa(i+1)}</a>`).join('') + '</div>' +
-      `<div class="alt"><a class="btn" href="/menu?view=1">📖 فقط می‌خوام منو رو ببینم</a><a class="btn snapp" href="${SNAPP}" target="_blank" rel="noopener">🛵 سفارش با پیک از اسنپ‌فود</a></div>` + foot;
+      `<div class="alt"><a class="btn" href="/menu?view=1">فقط می‌خوام منو رو ببینم</a><a class="btn snapp" href="${SNAPP}" target="_blank" rel="noopener">سفارش با پیک از اسنپ‌فود</a></div>` + foot;
     return;
   }
   if (Cart.table) { const chip = document.getElementById('tableChip'); chip.textContent = 'میز ' + fa(Cart.table); chip.hidden = false; }
@@ -99,14 +100,14 @@
   const pic = i => isDog(i) ? `<div class="pic">${DogArt.svg(DogArt.look(i.id))}</div>` : `<div class="pic em">${i.emoji || '🍽️'}</div>`;
   function render(){
     app.innerHTML =
-      (view ? `<div class="note">📖 این منوی ماست. برای سفارش سر میز، کد QR روی میز رو اسکن کنید؛ برای سفارش با پیک: <a href="${SNAPP}" target="_blank" rel="noopener"><b>اسنپ‌فود</b></a></div>`
-            : `<a class="card hero-build" href="${Cart.tableLink('/build')}"><span class="big">👨‍🍳</span><span><b>هات‌داگ خودتو بساز!</b>سوسیس، تاپینگ و سس رو خودت انتخاب کن</span></a>`) +
-      `<nav class="catnav">${cats.map((c, k) => `<a href="#c-${c.id}" class="${k ? '' : 'on'}">${c.emoji || ''} ${c.short || c.name}</a>`).join('')}</nav>` +
+      (view ? `<div class="note">این منوی ماست. برای سفارش سر میز، کد QR روی میز رو اسکن کنید؛ برای سفارش با پیک: <a href="${SNAPP}" target="_blank" rel="noopener"><b>اسنپ‌فود</b></a></div>`
+            : `<a class="card hero-build" href="${Cart.tableLink('/build')}"><span class="big">+</span><span><b>هات‌داگ خودتو بساز!</b>سوسیس، تاپینگ و سس رو خودت انتخاب کن</span></a>`) +
+      `<nav class="catnav">${cats.map((c, k) => `<a href="#c-${c.id}" class="${k ? '' : 'on'}">${c.short || c.name}</a>`).join('')}</nav>` +
       cats.map(c => {
         const list = MENU.items.filter(i => i.cat === c.id);
-        return `<h2 id="c-${c.id}" style="scroll-margin-top:130px">${c.emoji || ''} ${c.name}</h2><div class="items">` + list.map(i => {
+        return `<h2 id="c-${c.id}">${c.name}</h2><div class="items">` + list.map(i => {
           const q = Cart.qtyOf(i.id), off = i.available === false;
-          const ctl = off ? '<span class="price">تموم شد 😔</span>' : view ? '' :
+          const ctl = off ? '<span class="price muted">تموم شده</span>' : view ? '' :
             `<div class="qty">${q ? `<button data-add="${i.id}" data-d="-1" aria-label="کم کردن">−</button><span>${fa(q)}</span>` : ''}<button data-add="${i.id}" data-d="1" aria-label="اضافه کردن">+</button></div>`;
           return `<div class="card item ${off ? 'off' : ''}">${pic(i)}<div class="info"><h3>${i.name}</h3>${i.desc ? `<p class="muted">${i.desc}</p>` : ''}
             <div class="foot"><span class="price">${off ? '' : money(i.price)}</span>${ctl}</div></div></div>`;
@@ -127,7 +128,7 @@
     const n = Cart.count();
     bar.hidden = n === 0 || view;
     const t = cartTotal();
-    document.getElementById('barText').textContent = fa(n) + ' مورد' + (t ? ' · ' + money(t) : ' در سفارش');
+    document.getElementById('barText').textContent = fa(n) + ' مورد' + (t ? '، ' + money(t) : ' در سفارش');
   }
 
   const sheet = document.getElementById('sheet'), panel = document.getElementById('panel');
@@ -141,7 +142,7 @@
         let title, sub = '';
         if (l.type === 'item') title = nameOf(l.id);
         else {
-          title = '👨‍🍳 هات‌داگ سفارشی';
+          title = 'هات‌داگ سفارشی';
           const C = MENU.custom;
           sub = [findName(C.buns, l.bun), findName(C.sausages, l.sausage)]
             .concat(l.layers.map(id => findName(C.toppings.concat(C.sauces), id))).join('، ');
@@ -151,7 +152,7 @@
       }).join('') +
       `<h2>توضیحات (اختیاری)</h2><textarea id="note" rows="2" maxlength="200" placeholder="مثلاً: بدون پیاز، سس جدا"></textarea>
        ${cartTotal() ? `<div class="line" style="font-size:1.1rem"><b class="info">جمع</b><b>${money(cartTotal())}</b></div>` : ''}
-       <p class="muted" style="margin:12px 0">💳 پرداخت در صندوق انجام میشه.</p>
+       <p class="muted" style="margin:12px 0">پرداخت در صندوق انجام میشه.</p>
        <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn red" id="send" style="flex:1">ثبت سفارش</button><button class="btn" id="close">ادامه‌ی انتخاب</button></div>`;
   }
   document.getElementById('openCart').onclick = () => { renderCart(); sheet.classList.add('open'); };
@@ -176,15 +177,15 @@
   });
 
   function showDone(id){
-    app.innerHTML = `<div class="card done-box"><div class="big">✅</div><h2>سفارش‌تون به آشپزخونه رسید!</h2>
+    app.innerHTML = `<div class="card done-box"><div class="big">✓</div><h2>سفارش‌تون به آشپزخونه رسید!</h2>
       <p>شماره‌ی سفارش</p><div class="num">${fa(id)}</div>
-      <p id="st" class="muted" style="margin-top:10px">⏳ در حال آماده‌سازی…</p>
-      <p class="muted" style="margin-top:6px">💳 لطفاً در صندوق پرداخت کنید.</p>
+      <p id="st" class="muted" style="margin-top:10px">در حال آماده‌سازی…</p>
+      <p class="muted" style="margin-top:6px">لطفاً در صندوق پرداخت کنید.</p>
       <a class="btn yellow" style="margin-top:18px" href="${Cart.tableLink('/menu')}">سفارش جدید</a></div>`;
     const poll = setInterval(async () => {
       try {
         const s = await (await fetch('/api/order/' + id)).json();
-        if (s.status === 'done') { document.getElementById('st').innerHTML = '🎉 <b>سفارش‌تون آماده‌ست!</b>'; clearInterval(poll); }
+        if (s.status === 'done') { document.getElementById('st').innerHTML = '<b style="color:var(--green)">سفارش‌تون آماده‌ست!</b>'; clearInterval(poll); }
       } catch(e) {}
     }, 6000);
   }
