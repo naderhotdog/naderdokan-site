@@ -94,5 +94,5 @@
   };
   const look = (itemId) => LOOKS[itemId] || LOOKS._default;
 
-  window.DogArt = { svg, LOOKS, look, piece, defs, bunBack, sausageArt, bunFront, BUN, SAUSAGE, COLOR, SAUCES, OUT };
+  window.DogArt = { svg, LOOKS, look, piece, defs, bunBack, sausageArt, bunFront, layout, BUN, SAUSAGE, COLOR, SAUCES, OUT };
 })();

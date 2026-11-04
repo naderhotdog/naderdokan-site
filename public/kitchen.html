@@ -45,7 +45,7 @@
 
   const lines = o => o.lines.map(l => l.type === 'item'
     ? `<div class="ln"><b>${fa(l.qty)} × ${esc(l.name)}</b></div>`
-    : `<div class="ln" style="display:block"><b>${fa(l.qty)} × 🎮 هات‌داگ سفارشی</b><ol><li>${esc(l.bun)}</li><li>${esc(l.sausage)}</li>${l.layers.map(x => `<li>${esc(x)}</li>`).join('')}</ol></div>`
+    : `<div class="ln" style="display:block"><b>${fa(l.qty)} × 👨‍🍳 هات‌داگ سفارشی</b><ol><li>${esc(l.bun)}</li><li>${esc(l.sausage)}</li>${l.layers.map(x => `<li>${esc(x)}</li>`).join('')}</ol></div>`
   ).join('') + (o.note ? `<div class="note">📝 ${esc(o.note)}</div>` : '');
 
   function render(fresh = []){

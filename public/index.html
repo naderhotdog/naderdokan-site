@@ -120,6 +120,48 @@
   footer .mascot{width:120px;margin:34px auto 8px;display:block}
   footer .en{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;letter-spacing:.14em;color:var(--red);direction:ltr;margin-bottom:6px}
   @media (max-width:760px){body{padding-bottom:70px}}
+
+  /* big نادر wordmark (same Lalezar display face as the headline) */
+  .brandword{font-family:"Lalezar",sans-serif;font-size:clamp(6.5rem,17vw,11rem);line-height:.9;color:#FFC93C;
+    -webkit-text-stroke:3px var(--ink);paint-order:stroke fill;text-shadow:6px 6px 0 var(--red);margin:6px 0 12px;letter-spacing:0}
+  @media (max-width:820px){.brandword{margin-inline:auto}}
+
+  /* ---------- "build your own" showcase ---------- */
+  .builder{background:var(--red) var(--spark);color:var(--cream);padding:64px 0;overflow:hidden}
+  .builder .wrap{display:grid;grid-template-columns:1fr 1.25fr;grid-template-areas:"copy stage" "steps stage";gap:18px 40px;align-items:center}
+  .b-copy{grid-area:copy}.b-stage{grid-area:stage}.b-steps{grid-area:steps}
+  .builder .tag{display:inline-block;background:var(--ink);color:#FFC93C;font-weight:900;border-radius:999px;padding:4px 14px;font-size:.9rem;transform:rotate(-2deg)}
+  .builder h2{font-size:clamp(2.6rem,6vw,4.4rem);color:#FFC93C;-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:4px 4px 0 var(--ink);margin:10px 0 8px;line-height:1.1}
+  .builder .lead{font-size:1.05rem;line-height:1.9}
+  .builder .lead b{background:var(--ink);color:#FFC93C;padding:0 6px;border-radius:6px}
+  .stats{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .stats div{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--ink);padding:6px 14px;text-align:center;min-width:70px}
+  .stats b{display:block;font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.9rem;line-height:1.1;color:var(--red)}
+  .stats span{font-weight:800;font-size:.85rem}
+  .combos{margin-top:12px;font-weight:800;font-size:1.1rem}.combos b{font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.6rem;color:#FFC93C}
+  .board{position:relative;background:radial-gradient(ellipse at 50% 65%,rgba(255,255,255,.9) 0,rgba(255,255,255,0) 62%),repeating-conic-gradient(#F1E2C3 0 25%,#F8EFDC 0 50%) 0 0/30px 30px;
+    border:4px solid var(--ink);border-radius:28px;box-shadow:10px 10px 0 var(--ink);padding:26px 10px 46px;transform:rotate(1.5deg)}
+  .board svg{width:100%;display:block}
+  .board .now{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);font-weight:900;border-radius:999px;padding:3px 16px;font-size:.95rem;white-space:nowrap;transition:opacity .2s}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px;min-height:76px}
+  .chips span{background:var(--cream);color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:3px 12px;font-weight:800;font-size:.88rem;box-shadow:2px 2px 0 var(--ink);animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pop{0%{transform:scale(.4);opacity:0}100%{transform:none;opacity:1}}
+  .drop{animation:drop .5s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes drop{0%{transform:translateY(-70px);opacity:0}100%{transform:none;opacity:1}}
+  .squeeze{stroke-dasharray:900;stroke-dashoffset:900;animation:sq .8s ease-out forwards}
+  @keyframes sq{to{stroke-dashoffset:0}}
+  .b-steps ol{list-style:none;display:grid;gap:10px}
+  .b-steps li{display:flex;gap:12px;align-items:center;font-weight:800}
+  .b-steps li b{flex:none;width:40px;height:40px;border-radius:50%;background:#FFC93C;color:var(--ink);border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:"Lalezar",sans-serif;font-weight:400;font-size:1.3rem}
+  .big-cta{margin-top:20px;background:#FFC93C;color:var(--ink);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);font-size:1.5rem;padding:12px 30px;animation:wiggle 2.6s ease-in-out infinite}
+  .big-cta:hover{box-shadow:8px 8px 0 var(--ink)}
+  @keyframes wiggle{0%,80%,100%{transform:none}84%{transform:rotate(-3deg) scale(1.04)}88%{transform:rotate(3deg) scale(1.04)}92%{transform:rotate(-2deg)}}
+  @media (max-width:860px){
+    .builder .wrap{grid-template-columns:1fr;grid-template-areas:"copy" "stage" "steps";text-align:center}
+    .stats,.b-steps{justify-content:center}.b-steps ol{max-width:360px;margin:0 auto;text-align:right}.board{transform:none;box-shadow:6px 6px 0 var(--ink)}
+    .big-cta{width:100%;justify-content:center}
+  }
+  @media (prefers-reduced-motion:reduce){.drop,.squeeze,.chips span,.big-cta{animation:none}.squeeze{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
@@ -146,15 +188,44 @@
     <div class="hero-art" aria-hidden="true"><div id="heroDog"></div><span class="sp" style="top:6%;right:10%">✦</span><span class="sp" style="bottom:10%;left:8%;font-size:1.4rem">✦</span></div>
     <div>
       <span class="eyebrow">هات‌داگ دست‌ساز · سس دست‌ساز</span>
+      <div class="brandword" aria-hidden="true">نادر</div>
       <h1 class="display">اونقدر خوشمزه‌ست<span>که باورت نمیشه!</span></h1>
       <p>فقط یه هات‌داگ نیست؛ یه تجربه‌ست. هات‌داگ اسپشیال گوشت ۷۰٪ و هات‌داگ‌های دست‌ساز گوشت و مرغ ۹۰٪، با سس‌های دست‌ساز خودمون. هر روز از ساعت ۱۴ تا ۲۳:۴۵.</p>
       <div class="btns">
         <a class="btn fill" href="/menu">🌭 سفارش آنلاین</a>
-        <a class="btn line" href="#visit">📍 آدرس ما</a>
+        <a class="btn line" href="#build">👨‍🍳 هات‌داگ خودتو بساز</a>
       </div>
     </div>
   </div>
 </section>
+
+<div class="checker"></div>
+<section class="builder" id="build">
+  <div class="wrap">
+    <div class="b-copy">
+      <span class="tag">✦ فقط تو دکان نادر ✦</span>
+      <h2 class="display">آشپز خودت باش!</h2>
+      <p class="lead">هات‌داگ رویاهات رو خودت بساز: نون رو انتخاب کن، سوسیس رو بذار، مخلفات رو با دست <b>بکش و بنداز</b> روش و سس رو بریز. دستورت مستقیم میره آشپزخونه و آشپز دقیقاً همونو برات درست می‌کنه.</p>
+      <div class="stats">
+        <div><b>۲</b><span>نون</span></div><div><b>۴</b><span>سوسیس</span></div><div><b>۶</b><span>مخلفات</span></div><div><b>۶</b><span>سس</span></div>
+      </div>
+      <p class="combos">= بیش از <b>۱۰٬۰۰۰</b> ترکیب مختلف!</p>
+    </div>
+    <div class="b-stage">
+      <div class="board"><div id="liveDog"></div><div class="now" id="liveNow">نان مخصوص هات‌داگ</div></div>
+      <div class="chips" id="liveChips"></div>
+    </div>
+    <div class="b-steps">
+      <ol>
+        <li><b>۱</b><span>نون و سوسیس دلخواهت رو انتخاب کن</span></li>
+        <li><b>۲</b><span>مخلفات و سس‌ها رو بکش روی هات‌داگ</span></li>
+        <li><b>۳</b><span>«تموم شد» رو بزن؛ سفارشت میره آشپزخونه</span></li>
+      </ol>
+      <a class="btn big-cta" href="/build">👨‍🍳 همین الان بساز!</a>
+    </div>
+  </div>
+</section>
+<div class="checker"></div>
 
 <section>
   <div class="wrap">
@@ -176,7 +247,7 @@
     <div class="head">
       <span class="eyebrow">منوی ما</span>
       <h2 class="display">هات‌داگ‌های <em>مخصوص</em></h2>
-      <p>یکی رو انتخاب کن، یا خودت از اول بسازش! 🎮</p>
+      <p>یکی رو انتخاب کن، یا خودت از اول بسازش! 👨‍🍳</p>
     </div>
     <div class="dogs" id="dogGrid"></div>
     <div class="head" style="margin-top:64px">
@@ -192,7 +263,7 @@
     <h2 class="display">گرسنه‌ای؟ همین الان سفارش بده!</h2>
     <div class="btns">
       <a class="btn fill" href="/menu">🌭 منو و سفارش آنلاین</a>
-      <a class="btn line" href="/build">🎮 هات‌داگ خودتو بساز</a>
+      <a class="btn line" href="/build">👨‍🍳 هات‌داگ خودتو بساز</a>
       <a class="btn line" href="https://snappfood.ir/restaurant/menu/%D9%87%D8%A7%D8%AA_%D8%AF%D8%A7%DA%AF_%D9%86%D8%A7%D8%AF%D8%B1-r-xdw1n2/" target="_blank" rel="noopener">🛵 سفارش با پیک (اسنپ‌فود)</a>
     </div>
   </div>
@@ -242,6 +313,47 @@
   document.getElementById('p2').insertAdjacentHTML('afterbegin', D.svg({ bun: 'plain', sausage: 'beef', layers: [] }));
   document.getElementById('p3').insertAdjacentHTML('afterbegin', D.svg({ bun: 'plain', sausage: 'regular', layers: ['house', 'cheddar', 'bbq'] }));
 
+
+  // ---- live "build your own" demo: a hotdog builds itself, layer by layer, again and again ----
+  (function live(){
+    const box = document.getElementById('liveDog'), now = document.getElementById('liveNow'), chips = document.getElementById('liveChips');
+    if (!box) return;
+    const NAMES = { plain: 'نان مخصوص هات‌داگ', baguette: 'نان باگت', regular: 'هات‌داگ اسپشیال ۷۰٪', beef: 'دست‌ساز گوسفندی ۹۰٪', chicken: 'مرغ دست‌ساز ۹۰٪', cheesy: 'مرغ پنیری',
+      bacon: 'بیکن', pepperoni: 'پپرونی', mince: 'گوشت چرخ‌کرده', mozzarella: 'موزارلا دودی', pizzacheese: 'پنیر پیتزا', caramelonion: 'پیاز کاراملی',
+      house: 'سس دست‌ساز', cheddar: 'دیپ چدار', bbq: 'سس باربیکیو', mustard: 'سس خردل', pickle: 'سس خیارشور', jalapeno: 'سس هالاپینو' };
+    const TOPS = ['bacon', 'pepperoni', 'mince', 'mozzarella', 'pizzacheese', 'caramelonion'], SAUCE = ['house', 'cheddar', 'bbq', 'mustard', 'pickle', 'jalapeno'];
+    const pickN = (arr, n) => arr.slice().sort(() => Math.random() - .5).slice(0, n);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let recipe, step, timer;
+    function newRecipe(){
+      const b = Math.random() < .7 ? 'plain' : 'baguette', s = pickN(['regular', 'regular', 'beef', 'chicken', 'cheesy'], 1)[0];
+      return { bun: b, sausage: s, layers: pickN(TOPS, 2 + (Math.random() * 2 | 0)).concat(pickN(SAUCE, 1 + (Math.random() * 2 | 0))) };
+    }
+    function draw(k){ // k = number of layers shown; -1 = bread only
+      const id = 'L', r = recipe;
+      let o = D.defs(r.bun, k < 0 ? 'regular' : r.sausage, id) + '<ellipse cx="200" cy="220" rx="170" ry="9" fill="#000" opacity=".18"/>' + D.bunBack(r.bun, id);
+      if (k >= 0) o += `<g class="${k === 0 ? 'drop' : ''}">${D.sausageArt(r.sausage, id)}</g>`;
+      const shown = r.layers.slice(0, Math.max(0, k));
+      D.layout(shown).forEach((p, i) => { const last = i === shown.length - 1, isS = D.SAUCES.has(p.id);
+        o += `<g class="${last && !isS ? 'drop' : ''}">${D.piece(p.id, p.x, p.y, i * 17 + 5, null, last && isS)}</g>`; });
+      o += D.bunFront(r.bun, id);
+      box.innerHTML = `<svg viewBox="0 40 400 192" xmlns="http://www.w3.org/2000/svg">${o}</svg>`;
+    }
+    function tick(){
+      if (step === -1) { recipe = newRecipe(); chips.innerHTML = ''; }
+      const total = recipe.layers.length;
+      draw(step);
+      const name = step === -1 ? NAMES[recipe.bun] : step === 0 ? NAMES[recipe.sausage] : step <= total ? NAMES[recipe.layers[step - 1]] : 'آماده‌ست! 😋';
+      now.textContent = step > total ? name : '+ ' + name;
+      if (step <= total) chips.insertAdjacentHTML('beforeend', `<span>${NAMES[step === -1 ? recipe.bun : step === 0 ? recipe.sausage : recipe.layers[step - 1]]}</span>`);
+      step = step > total ? -1 : step + 1;
+      timer = setTimeout(tick, step === -1 ? 2600 : 1000);
+    }
+    recipe = newRecipe();
+    if (reduce) { draw(recipe.layers.length); now.textContent = 'هات‌داگ خودت رو بساز!'; return; }
+    step = -1; tick();
+    document.addEventListener('visibilitychange', () => { clearTimeout(timer); if (!document.hidden) timer = setTimeout(tick, 600); });
+  })();
   let menu;
   try { menu = await (await fetch('/api/menu')).json(); } catch(e) { return; }
   const money = p => fa(p.toLocaleString('en-US')).replace(/,/g, '٬') + ' ' + (menu.currency || 'تومان');
@@ -256,7 +368,7 @@
   const of = c => menu.items.filter(i => i.cat === c);
   const specials = of('special').length ? of('special') : menu.items.filter(i => i.cat === 'hotdog');
   document.getElementById('dogGrid').innerHTML = specials.map(card).join('') + `<a class="dog build" href="/build"><div class="tile"><span class="q">?</span><div class="label">خودت بسازش!</div></div>
-      <div class="tops">نون، سوسیس، مخلفات و سس رو خودت انتخاب کن</div><div class="price">🎮 بازی ساخت هات‌داگ</div></a>`;
+      <div class="tops">نون، سوسیس، مخلفات و سس رو خودت انتخاب کن</div><div class="price">👨‍🍳 آشپز خودت باش!</div></a>`;
   const classics = of('classic');
   document.getElementById('classicGrid').innerHTML = classics.map(card).join('');
   if (!classics.length) document.getElementById('classicGrid').previousElementSibling.remove();

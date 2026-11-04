@@ -23,7 +23,7 @@
   const ST = { new: 'در حال پخت', done: 'آماده، پرداخت نشده', paid: 'پرداخت‌شده', cancelled: 'لغو شده' };
   let tab = 'orders', filter = 'open', orders = [], menu = null, lastMax = 0, currency = 'تومان';
 
-  const lineText = l => l.type === 'item' ? esc(l.name) : `🎮 هات‌داگ سفارشی <small class="muted">(${esc([l.bun, l.sausage, ...l.layers].join('، '))})</small>`;
+  const lineText = l => l.type === 'item' ? esc(l.name) : `👨‍🍳 هات‌داگ سفارشی <small class="muted">(${esc([l.bun, l.sausage, ...l.layers].join('، '))})</small>`;
   const amount = n => n ? money(n) + ' ' + currency : '—';
 
   function ordersTab(){

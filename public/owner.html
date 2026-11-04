@@ -77,7 +77,7 @@
     for (const o of valid) {
       tabs['میز ' + fa(o.table_no)] = (tabs['میز ' + fa(o.table_no)] || 0) + 1;
       for (const l of o.lines) {
-        const k = l.type === 'item' ? l.name : '🎮 هات‌داگ سفارشی'; items[k] = (items[k] || 0) + l.qty;
+        const k = l.type === 'item' ? l.name : '👨‍🍳 هات‌داگ سفارشی'; items[k] = (items[k] || 0) + l.qty;
         if (l.type === 'custom') for (const t of [l.bun, l.sausage, ...l.layers]) tops[t] = (tops[t] || 0) + l.qty;
       }
     }
@@ -88,7 +88,7 @@
         <div class="kpi"><div class="l">سفارش‌ها</div><div class="v">${fa(valid.length)}</div><div class="s">${fa(units)} آیتم · ${fa(orders.length - valid.length)} لغو</div></div>
         <div class="kpi"><div class="l">میانگین هر سفارش</div><div class="v">${valid.length ? money(sum(valid) / valid.length) : '—'}</div><div class="s">${currency}</div></div>
         <div class="kpi"><div class="l">پرداخت نشده (باز)</div><div class="v">${money(sum(open))}</div><div class="s">${currency} · ${fa(open.length)} سفارش</div></div>
-        <div class="kpi"><div class="l">هات‌داگ سفارشی 🎮</div><div class="v">${fa(custom)}</div><div class="s">${units ? fa(Math.round(custom / units * 100)) + '٪ از همه‌ی آیتم‌ها' : ''}</div></div>
+        <div class="kpi"><div class="l">هات‌داگ سفارشی 👨‍🍳</div><div class="v">${fa(custom)}</div><div class="s">${units ? fa(Math.round(custom / units * 100)) + '٪ از همه‌ی آیتم‌ها' : ''}</div></div>
       </div>
       <div class="charts">
         <div class="card chart"><h3>${anyRev ? 'فروش روزانه (' + currency + ')' : 'تعداد سفارش روزانه'}</h3>${vbars(anyRev ? dayPts : dayPts.map(p => ({ ...p, v: p.n })), anyRev ? money : n)}</div>
@@ -126,7 +126,7 @@
     return `<p class="muted">قیمت‌ها به ${currency}. قیمت خالی یعنی «قیمت در صندوق». بعد از تغییر، «ذخیره» رو بزنید تا روی سایت اعمال بشه.</p>
       <h2>🍽️ آیتم‌های منو</h2><div id="items">${menu.items.map(item).join('')}</div>
       <button class="btn" id="addItem">➕ آیتم جدید</button>
-      <h2>🎮 هات‌داگ سفارشی</h2>
+      <h2>👨‍🍳 هات‌داگ سفارشی</h2>
       <div class="field" style="max-width:320px">قیمت پایه (نون + سوسیس اسپشیال + سیب‌زمینی)<input id="basePrice" type="number" min="0" step="1000" value="${C.basePrice ?? ''}"></div>
       <h3 style="margin:14px 0 8px">مخلفات <small class="muted">(قیمت اضافه برای هر کدوم)</small></h3><div class="toggles">${extra(C.toppings, 'toppings')}</div>
       <h3 style="margin:14px 0 8px">سس‌ها</h3><div class="toggles">${extra(C.sauces, 'sauces')}</div>

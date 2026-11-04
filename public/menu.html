@@ -100,7 +100,7 @@
   function render(){
     app.innerHTML =
       (view ? `<div class="note">📖 این منوی ماست. برای سفارش سر میز، کد QR روی میز رو اسکن کنید؛ برای سفارش با پیک: <a href="${SNAPP}" target="_blank" rel="noopener"><b>اسنپ‌فود</b></a></div>`
-            : `<a class="card hero-build" href="${Cart.tableLink('/build')}"><span class="big">🎮</span><span><b>هات‌داگ خودتو بساز!</b>نون، سوسیس، مخلفات و سس رو خودت انتخاب کن</span></a>`) +
+            : `<a class="card hero-build" href="${Cart.tableLink('/build')}"><span class="big">👨‍🍳</span><span><b>هات‌داگ خودتو بساز!</b>نون، سوسیس، مخلفات و سس رو خودت انتخاب کن</span></a>`) +
       `<nav class="catnav">${cats.map((c, k) => `<a href="#c-${c.id}" class="${k ? '' : 'on'}">${c.emoji || ''} ${c.short || c.name}</a>`).join('')}</nav>` +
       cats.map(c => {
         const list = MENU.items.filter(i => i.cat === c.id);
@@ -141,7 +141,7 @@
         let title, sub = '';
         if (l.type === 'item') title = nameOf(l.id);
         else {
-          title = '🎮 هات‌داگ سفارشی';
+          title = '👨‍🍳 هات‌داگ سفارشی';
           const C = MENU.custom;
           sub = [findName(C.buns, l.bun), findName(C.sausages, l.sausage)]
             .concat(l.layers.map(id => findName(C.toppings.concat(C.sauces), id))).join('، ');
