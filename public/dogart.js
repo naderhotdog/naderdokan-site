@@ -87,9 +87,9 @@
     sausagedog:  { bun: 'plain', sausage: 'regular', layers: ['mince', 'house', 'cheddar'] },
     jizzdog:     { bun: 'plain', sausage: 'regular', layers: ['pepperoni', 'pizzacheese', 'jalapeno'] },
     specialclassic: { bun: 'plain', sausage: 'regular', layers: ['pickle', 'mustard'] },
-    beefclassic:    { bun: 'baguette', sausage: 'beef', layers: ['house'] },
-    chickenclassic: { bun: 'baguette', sausage: 'chicken', layers: ['house'] },
-    cheeseclassic:  { bun: 'baguette', sausage: 'cheesy', layers: ['house'] },
+    beefclassic:    { bun: 'plain', sausage: 'beef', layers: ['house'] },
+    chickenclassic: { bun: 'plain', sausage: 'chicken', layers: ['house'] },
+    cheeseclassic:  { bun: 'plain', sausage: 'cheesy', layers: ['house'] },
     _default:       { bun: 'plain', sausage: 'regular', layers: ['house', 'mustard'] }
   };
   const look = (itemId) => LOOKS[itemId] || LOOKS._default;
